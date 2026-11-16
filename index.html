@@ -46,12 +46,13 @@
       <span id="g-logo-name" class="text-lg font-bold tracking-tight text-zinc-800">waiwit.chan</span>
     </a>
 
+    <!-- NAVBAR (แก้ไขให้ใช้ onclick สลับหน้าภายในตัว ไม่รีโหลดเว็บ แถบสีเทาจะไม่โผล่มาอีก) -->
     <nav class="hidden md:flex items-center space-x-8 text-[11px] font-bold tracking-widest uppercase text-zinc-500">
-      <a href="#home" id="nav-home" class="nav-link text-zinc-900 border-b-2 border-zinc-900 pb-1">HOME</a>
-      <a href="#cv" id="nav-cv" class="nav-link hover:text-zinc-900 transition">ABOUT ME & CV</a>
-      <a href="#books" id="nav-books" class="nav-link hover:text-zinc-900 transition">BOOKS (MEB)</a>
-      <a href="#projects" id="nav-projects" class="nav-link hover:text-zinc-900 transition">PROJECTS & KM</a>
-      <a href="#contact" id="nav-contact" class="nav-link hover:text-zinc-900 transition">CONTACT</a>
+      <a href="#home" onclick="location.hash='home'; return false;" id="nav-home" class="nav-link text-zinc-900 border-b-2 border-zinc-900 pb-1">HOME</a>
+      <a href="#cv" onclick="location.hash='cv'; return false;" id="nav-cv" class="nav-link hover:text-zinc-900 transition">ABOUT ME & CV</a>
+      <a href="#books" onclick="location.hash='books'; return false;" id="nav-books" class="nav-link hover:text-zinc-900 transition">BOOKS (MEB)</a>
+      <a href="#projects" onclick="location.hash='projects'; return false;" id="nav-projects" class="nav-link hover:text-zinc-900 transition">PROJECTS & KM</a>
+      <a href="#contact" onclick="location.hash='contact'; return false;" id="nav-contact" class="nav-link hover:text-zinc-900 transition">CONTACT</a>
     </nav>
 
     <a href="#contact" class="px-4 py-2 rounded-full border border-zinc-400/80 bg-white/60 hover:bg-zinc-900 hover:text-white text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 transition">
@@ -60,12 +61,13 @@
   </header>
 
   <!-- เมนูสำหรับมือถือ -->
+ <!-- เมนูสำหรับมือถือ (ปรับให้คลิกสลับหน้าแบบไม่รีโหลด) -->
   <div class="flex md:hidden justify-center gap-2 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-600 flex-wrap">
-    <a href="#home" class="nav-link-m px-3 py-1 rounded-full bg-zinc-900 text-white" data-target="home">HOME</a>
-    <a href="#cv" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="cv">CV</a>
-    <a href="#books" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="books">BOOKS</a>
-    <a href="#projects" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="projects">PROJECTS</a>
-    <a href="#contact" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="contact">CONTACT</a>
+    <a href="#home" onclick="location.hash='home'; return false;" class="nav-link-m px-3 py-1 rounded-full bg-zinc-900 text-white" data-target="home">HOME</a>
+    <a href="#cv" onclick="location.hash='cv'; return false;" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="cv">CV</a>
+    <a href="#books" onclick="location.hash='books'; return false;" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="books">BOOKS</a>
+    <a href="#projects" onclick="location.hash='projects'; return false;" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="projects">PROJECTS</a>
+    <a href="#contact" onclick="location.hash='contact'; return false;" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="contact">CONTACT</a>
   </div>
 
   <!-- ======================================================================= -->
