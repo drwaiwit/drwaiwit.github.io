@@ -1,3 +1,7 @@
+<!--   
+https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec
+-->
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -46,13 +50,12 @@
       <span id="g-logo-name" class="text-lg font-bold tracking-tight text-zinc-800">waiwit.chan</span>
     </a>
 
-    <!-- NAVBAR (แก้ไขให้ใช้ onclick สลับหน้าภายในตัว ไม่รีโหลดเว็บ แถบสีเทาจะไม่โผล่มาอีก) -->
     <nav class="hidden md:flex items-center space-x-8 text-[11px] font-bold tracking-widest uppercase text-zinc-500">
-      <a href="#home" onclick="location.hash='home'; return false;" id="nav-home" class="nav-link text-zinc-900 border-b-2 border-zinc-900 pb-1">HOME</a>
-      <a href="#cv" onclick="location.hash='cv'; return false;" id="nav-cv" class="nav-link hover:text-zinc-900 transition">ABOUT ME & CV</a>
-      <a href="#books" onclick="location.hash='books'; return false;" id="nav-books" class="nav-link hover:text-zinc-900 transition">BOOKS (MEB)</a>
-      <a href="#projects" onclick="location.hash='projects'; return false;" id="nav-projects" class="nav-link hover:text-zinc-900 transition">PROJECTS & KM</a>
-      <a href="#contact" onclick="location.hash='contact'; return false;" id="nav-contact" class="nav-link hover:text-zinc-900 transition">CONTACT</a>
+      <a href="#home" id="nav-home" class="nav-link text-zinc-900 border-b-2 border-zinc-900 pb-1">HOME</a>
+      <a href="#cv" id="nav-cv" class="nav-link hover:text-zinc-900 transition">ABOUT ME & CV</a>
+      <a href="#books" id="nav-books" class="nav-link hover:text-zinc-900 transition">BOOKS (MEB)</a>
+      <a href="#projects" id="nav-projects" class="nav-link hover:text-zinc-900 transition">PROJECTS & KM</a>
+      <a href="#contact" id="nav-contact" class="nav-link hover:text-zinc-900 transition">CONTACT</a>
     </nav>
 
     <a href="#contact" class="px-4 py-2 rounded-full border border-zinc-400/80 bg-white/60 hover:bg-zinc-900 hover:text-white text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 transition">
@@ -61,13 +64,12 @@
   </header>
 
   <!-- เมนูสำหรับมือถือ -->
- <!-- เมนูสำหรับมือถือ (ปรับให้คลิกสลับหน้าแบบไม่รีโหลด) -->
   <div class="flex md:hidden justify-center gap-2 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-600 flex-wrap">
-    <a href="#home" onclick="location.hash='home'; return false;" class="nav-link-m px-3 py-1 rounded-full bg-zinc-900 text-white" data-target="home">HOME</a>
-    <a href="#cv" onclick="location.hash='cv'; return false;" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="cv">CV</a>
-    <a href="#books" onclick="location.hash='books'; return false;" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="books">BOOKS</a>
-    <a href="#projects" onclick="location.hash='projects'; return false;" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="projects">PROJECTS</a>
-    <a href="#contact" onclick="location.hash='contact'; return false;" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="contact">CONTACT</a>
+    <a href="#home" class="nav-link-m px-3 py-1 rounded-full bg-zinc-900 text-white" data-target="home">HOME</a>
+    <a href="#cv" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="cv">CV</a>
+    <a href="#books" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="books">BOOKS</a>
+    <a href="#projects" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="projects">PROJECTS</a>
+    <a href="#contact" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="contact">CONTACT</a>
   </div>
 
   <!-- ======================================================================= -->
@@ -351,14 +353,64 @@
 
   <!-- ================= SCRIPT เชื่อมต่อฐานข้อมูล GOOGLE SHEETS ================= -->
   <script>
-    // 📌 นำลิงก์ Web App URL (ที่ลงท้ายด้วย /exec) จาก Google Apps Script มาวางในเครื่องหมายคำพูดด้านล่างนี้ครับ:
-    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
-
     lucide.createIcons();
     let slideTimer = null;
 
-    // ข้อมูลเริ่มต้น (แสดงผลทันทีใน 0 วินาทีแรก และจะถูกอัปเดตทับจาก Google Sheets อัตโนมัติ)
+    // ข้อมูลเริ่มต้นของอาจารย์ (แสดงผลทันที ทำงานได้สมบูรณ์ 100% บน GitHub)
     const defaultData = {
+      global: {
+        logo_mark: 'WW/C',
+        logo_name: 'waiwit.chan',
+        menu_1: 'HOME',
+        menu_2: 'ABOUT ME & CV',
+        menu_3: 'BOOKS (MEB)',
+        menu_4: 'PROJECTS & KM',
+        menu_5: 'CONTACT',
+        nav_cta_btn: 'CONTACT US',
+        footer_left: 'Rangsit University • Pathum Thani, Thailand',
+        footer_right: '2026 all rights reserved waiwit.chan',
+        footer_giant_text: 'WW/C waiwit.chan',
+        contact_badge: 'ACADEMIC COLLABORATION',
+        contact_title_1: "Let's Connect",
+        contact_title_2: '& Collaborate',
+        contact_desc: 'ติดต่อประสานงานด้านวิชาการ งานวิจัย การออกแบบ UX/UI และการพัฒนาระบบสารสนเทศเพื่อการศึกษา',
+        contact_email: 'waiwit.c@rsu.ac.th',
+        contact_affiliation: 'สาขาวิชาเทคโนโลยีสารสนเทศ มหาวิทยาลัยรังสิต (Rangsit University)',
+        contact_location: 'เมืองเอก ต.หลักหก อ.เมือง จ.ปทุมธานี',
+        meb_store_url: 'https://www.mebmarket.com'
+      },
+      home: {
+        hero_title_1: 'Academic',
+        hero_title_2: 'Innovation Path',
+        hero_title_3: 'With waiwit',
+        hero_bio: 'ผู้ช่วยศาสตราจารย์ประจำสาขาวิชาเทคโนโลยีสารสนเทศ มหาวิทยาลัยรังสิต เชี่ยวชาญด้านการออกแบบ UX/UI, Human-Computer Interaction (HCI), การบูรณาการ AI และระบบสารสนเทศเพื่อการศึกษา',
+        hero_btn_text: 'EXPLORE WORK',
+        hero_channel_label: 'Academic & Digital Channels',
+        stat_1_num: '15+',
+        stat_1_desc: 'Years in IT, UX/UI & Higher Education',
+        stat_2_num: '30+',
+        stat_2_desc: 'Digital Books, Systems & KM Projects',
+        profile_img_1: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=80',
+        circle_top_text: 'Core Focus',
+        circle_mid_text: 'UX/UI • HCI • AI',
+        circle_bot_text: 'Rangsit University',
+        float_tag_1: 'UX',
+        float_tag_2: 'AI',
+        float_tag_3: 'KM',
+        float_name: 'Asst.Prof.Dr.Waiwit Chanwimalueng',
+        float_role: 'IT Lecturer & Author • RSU',
+        bento_left_img: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80',
+        bento_img_label: 'Featured Textbook',
+        bento_img_title: 'UX Design for AI (MEB)',
+        bento_badge: 'ACADEMIC & INNOVATION HIGHLIGHTS',
+        bento_desc: 'บูรณาการองค์ความรู้ด้านการออกแบบประสบการณ์ผู้ใช้ (UX/UI) เข้ากับเทคโนโลยีปัญญาประดิษฐ์ (AI) และการพัฒนาระบบสารสนเทศ Low-Code เพื่อยกระดับการเรียนรู้ในระดับอุดมศึกษา',
+        card_1_title: 'Academic CV',
+        card_1_sub: 'ประวัติและงานสอน ม.รังสิต',
+        card_2_title: 'MEB Books',
+        card_2_sub: 'ตำราวิชาการและอีบุ๊ก',
+        card_3_title: 'KM Systems',
+        card_3_sub: 'ระบบจัดการเรียนการสอน'
+      },
       cvList: [
         { no: '01', title: 'assistant professor in information technology', desc: 'ผู้ช่วยศาสตราจารย์ประจำสาขาวิชาเทคโนโลยีสารสนเทศ มหาวิทยาลัยรังสิต (Rangsit University) เชี่ยวชาญด้าน UX/UI, HCI และการบูรณาการ AI', tag: 'Current Role' },
         { no: '02', title: 'ux/ui prototyping & usability courses', desc: 'รับผิดชอบการสอนรายวิชา IS 164, RSU 164, DAI103, Heuristic Usability Evaluation และปฏิบัติการ Figma, FlutterFlow, Locofy.ai, GAS', tag: 'Teaching & Labs' },
@@ -378,7 +430,7 @@
       ]
     };
 
-    // ระบบสลับหน้าอิสระตาม Hash URL (#home, #cv, #books, #projects, #contact)
+    // ระบบสลับหน้าอิสระตาม Hash URL (#home, #cv, #books, #projects, #contact) โดยไม่เปลี่ยนหน้าเว็บ
     function handleRoute() {
       const hash = window.location.hash.replace('#', '') || 'home';
       const validPages = ['home', 'cv', 'books', 'projects', 'contact'];
@@ -399,7 +451,6 @@
         btn.className = isAct ? 'nav-link-m px-3 py-1 rounded-full bg-zinc-900 text-white' : 'nav-link-m px-3 py-1 rounded-full bg-white/70';
       });
 
-      // แสดงตัวอักษรใหญ่ท้ายเว็บเฉพาะหน้าแรกเหมือนดีไซน์ต้นแบบ
       document.getElementById('footer-giant-wrap').classList.toggle('hidden', target !== 'home');
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -409,100 +460,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       handleRoute();
       renderLists(defaultData);
-
-      // ดึงข้อมูลสดจาก Google Sheets ผ่าน GAS JSON API
-      if (GAS_API_URL && GAS_API_URL.startsWith('http')) {
-        fetch(GAS_API_URL)
-          .then(res => res.json())
-          .then(data => applySheetData(data))
-          .catch(err => console.warn('ใช้ข้อมูลตั้งต้น (ตรวจสอบการตั้งค่า GAS_API_URL):', err));
-      }
     });
-
-    function applySheetData(data) {
-      if (!data) return;
-      const g = data.global || {};
-      const h = data.home || {};
-
-      // 1. อัปเดต Global Settings
-      setText('g-logo-mark', g.logo_mark);
-      setText('g-logo-name', g.logo_name);
-      setText('nav-home', g.menu_1);
-      setText('nav-cv', g.menu_2);
-      setText('nav-books', g.menu_3);
-      setText('nav-projects', g.menu_4);
-      setText('nav-contact', g.menu_5);
-      setText('g-nav-cta', g.nav_cta_btn);
-      setText('g-footer-left', g.footer_left);
-      setText('g-footer-right', g.footer_right);
-      setText('g-footer-giant', g.footer_giant_text);
-
-      // อัปเดตหน้า Contact
-      setText('c-badge', g.contact_badge);
-      setText('c-title-1', g.contact_title_1);
-      setText('c-title-2', g.contact_title_2);
-      setText('c-desc', g.contact_desc);
-      setText('c-email', g.contact_email);
-      setText('c-affiliation', g.contact_affiliation);
-      setText('c-location', g.contact_location);
-      if (g.contact_email) document.getElementById('c-mailto-btn').href = 'mailto:' + g.contact_email;
-      if (g.meb_store_url) document.getElementById('meb-store-btn').href = g.meb_store_url;
-
-      // 2. อัปเดตหน้าแรก (Home)
-      setText('h-title-1', h.hero_title_1);
-      setText('h-title-2', h.hero_title_2);
-      setText('h-title-3', h.hero_title_3);
-      setText('h-bio', h.hero_bio);
-      setText('h-btn-text', h.hero_btn_text);
-      setText('h-channel-lbl', h.hero_channel_label);
-      setText('h-stat1-num', h.stat_1_num);
-      setText('h-stat1-desc', h.stat_1_desc);
-      setText('h-stat2-num', h.stat_2_num);
-      setText('h-stat2-desc', h.stat_2_desc);
-      setText('h-circle-top', h.circle_top_text);
-      setText('h-circle-mid', h.circle_mid_text);
-      setText('h-circle-bot', h.circle_bot_text);
-      setText('h-tag-1', h.float_tag_1);
-      setText('h-tag-2', h.float_tag_2);
-      setText('h-tag-3', h.float_tag_3);
-      setText('h-float-name', h.float_name);
-      setText('c-card-name', h.float_name);
-      setText('h-float-role', h.float_role);
-      setText('h-bento-lbl', h.bento_img_label);
-      setText('h-bento-title', h.bento_img_title);
-      setText('h-bento-badge', h.bento_badge);
-      setText('h-bento-desc', h.bento_desc);
-      setText('h-c1-title', h.card_1_title);
-      setText('h-c1-sub', h.card_1_sub);
-      setText('h-c2-title', h.card_2_title);
-      setText('h-c2-sub', h.card_2_sub);
-      setText('h-c3-title', h.card_3_title);
-      setText('h-c3-sub', h.card_3_sub);
-
-      if (h.bento_left_img) document.getElementById('h-bento-img').src = h.bento_left_img;
-
-      // สไลด์รูปโปรไฟล์ 3 รูป
-      const profImgs = [h.profile_img_1, h.profile_img_2, h.profile_img_3].filter(Boolean);
-      if (profImgs.length > 0) {
-        const slider = document.getElementById('profile-slider');
-        slider.innerHTML = profImgs.map((url, i) => `
-          <img src="${url}" class="prof-slide fade-slide absolute inset-0 w-full h-full object-cover object-top ${i === 0 ? 'opacity-100' : 'opacity-0'}" alt="Profile">
-        `).join('');
-        if (slideTimer) clearInterval(slideTimer);
-        if (profImgs.length > 1) {
-          let cur = 0;
-          const slides = slider.querySelectorAll('.prof-slide');
-          slideTimer = setInterval(() => {
-            slides[cur].classList.replace('opacity-100', 'opacity-0');
-            cur = (cur + 1) % slides.length;
-            slides[cur].classList.replace('opacity-0', 'opacity-100');
-          }, 4500);
-        }
-      }
-
-      // 3. อัปเดตตาราง CV, Books, Projects
-      renderLists(data);
-    }
 
     function renderLists(data) {
       if (data.cvList && data.cvList.length) {
@@ -560,17 +518,6 @@
       }
       lucide.createIcons();
     }
-
-    function setText(id, val) {
-      if (val !== undefined && val !== '') {
-        const el = document.getElementById(id);
-        if (el) el.textContent = val;
-      }
-    }
   </script>
 </body>
 </html>
-  <!-- นำ URL ของ Google Web App (ลงท้ายด้วย /exec) 
-<iframe src="https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec"></iframe>  
--->
-
