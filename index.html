@@ -8,19 +8,25 @@
     body, html {
       margin: 0;
       padding: 0;
-      height: 100%;
-      overflow: hidden;
-      font-family: sans-serif;
-    }
-    iframe {
       width: 100%;
       height: 100%;
+      overflow: hidden; /* ล็อกไม่ให้มีแถบเลื่อนซ้อนกัน */
+    }
+    iframe {
+      position: fixed;
+      top: -42px; /* ดันขอบบนของ iframe ทะลุขึ้นไปซ่อนแถบแจ้งเตือนสีเทาของ Google */
+      left: 0;
+      width: 100%;
+      height: calc(100% + 42px); /* ชดเชยความสูงด้านล่างให้เต็มหน้าจอพอดี */
       border: none;
     }
   </style>
 </head>
 <body>
-  <!-- นำ URL ของ Google Web App (ลงท้ายด้วย /exec) มาวางแทนที่ในช่อง src ด้านล่างนี้ -->
-  <iframe src="https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec"></iframe>
+  <iframe src="https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec"></iframe>  
 </body>
 </html>
+  <!-- นำ URL ของ Google Web App (ลงท้ายด้วย /exec) 
+<iframe src="https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec"></iframe>  
+-->
+
