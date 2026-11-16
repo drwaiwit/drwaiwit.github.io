@@ -1,4 +1,4 @@
-<!--   
+<!--   356
 https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec
 -->
 
@@ -34,7 +34,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
     }
     .fade-slide { transition: opacity 1.2s ease-in-out; }
-    .page-section { animation: fadeInPage 0.3s ease-out; }
+    .page-section { animation: fadeInPage 0.25s ease-out; }
     @keyframes fadeInPage {
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
@@ -43,40 +43,39 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-zinc-900 selection:text-white">
 
-  <!-- ================= NAVBAR (ไม่โดนตัดขอบบนอีกต่อไป เพราะรันตรงบน GitHub) ================= -->
+  <!-- ================= NAVBAR (คลิกสลับหน้าทันทีด้วย switchPage ไม่รีโหลดเว็บ) ================= -->
   <header class="max-w-6xl w-full mx-auto px-6 pt-8 pb-4 flex items-center justify-between relative z-30">
-    <a href="#home" class="flex items-center gap-2.5 text-left group">
+    <button onclick="switchPage('home')" class="flex items-center gap-2.5 text-left group cursor-pointer focus:outline-none">
       <span id="g-logo-mark" class="text-2xl font-extrabold italic tracking-tighter text-zinc-900 group-hover:opacity-75 transition">WW/C</span>
       <span id="g-logo-name" class="text-lg font-bold tracking-tight text-zinc-800">waiwit.chan</span>
-    </a>
+    </button>
 
     <nav class="hidden md:flex items-center space-x-8 text-[11px] font-bold tracking-widest uppercase text-zinc-500">
-      <a href="#home" id="nav-home" class="nav-link text-zinc-900 border-b-2 border-zinc-900 pb-1">HOME</a>
-      <a href="#cv" id="nav-cv" class="nav-link hover:text-zinc-900 transition">ABOUT ME & CV</a>
-      <a href="#books" id="nav-books" class="nav-link hover:text-zinc-900 transition">BOOKS (MEB)</a>
-      <a href="#projects" id="nav-projects" class="nav-link hover:text-zinc-900 transition">PROJECTS & KM</a>
-      <a href="#contact" id="nav-contact" class="nav-link hover:text-zinc-900 transition">CONTACT</a>
+      <button onclick="switchPage('home')" id="nav-home" class="nav-link text-zinc-900 border-b-2 border-zinc-900 pb-1 uppercase">HOME</button>
+      <button onclick="switchPage('cv')" id="nav-cv" class="nav-link hover:text-zinc-900 transition uppercase">ABOUT ME & CV</button>
+      <button onclick="switchPage('books')" id="nav-books" class="nav-link hover:text-zinc-900 transition uppercase">BOOKS (MEB)</button>
+      <button onclick="switchPage('projects')" id="nav-projects" class="nav-link hover:text-zinc-900 transition uppercase">PROJECTS & KM</button>
+      <button onclick="switchPage('contact')" id="nav-contact" class="nav-link hover:text-zinc-900 transition uppercase">CONTACT</button>
     </nav>
 
-    <a href="#contact" class="px-4 py-2 rounded-full border border-zinc-400/80 bg-white/60 hover:bg-zinc-900 hover:text-white text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 transition">
+    <button onclick="switchPage('contact')" class="px-4 py-2 rounded-full border border-zinc-400/80 bg-white/60 hover:bg-zinc-900 hover:text-white text-[11px] font-bold uppercase tracking-wider flex items-center gap-1.5 transition">
       <i data-lucide="globe" class="w-3.5 h-3.5"></i> <span id="g-nav-cta">CONTACT US</span>
-    </a>
+    </button>
   </header>
 
   <!-- เมนูสำหรับมือถือ -->
   <div class="flex md:hidden justify-center gap-2 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-600 flex-wrap">
-    <a href="#home" class="nav-link-m px-3 py-1 rounded-full bg-zinc-900 text-white" data-target="home">HOME</a>
-    <a href="#cv" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="cv">CV</a>
-    <a href="#books" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="books">BOOKS</a>
-    <a href="#projects" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="projects">PROJECTS</a>
-    <a href="#contact" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="contact">CONTACT</a>
+    <button onclick="switchPage('home')" class="nav-link-m px-3 py-1 rounded-full bg-zinc-900 text-white" data-target="home">HOME</button>
+    <button onclick="switchPage('cv')" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="cv">CV</button>
+    <button onclick="switchPage('books')" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="books">BOOKS</button>
+    <button onclick="switchPage('projects')" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="projects">PROJECTS</button>
+    <button onclick="switchPage('contact')" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="contact">CONTACT</button>
   </div>
 
   <!-- ======================================================================= -->
-  <!-- 1. หน้าแรก (HOME PAGE - แยกอิสระ) -->
+  <!-- 1. หน้าแรก (HOME PAGE) -->
   <!-- ======================================================================= -->
   <main id="page-home" class="page-section max-w-6xl w-full mx-auto px-6 py-8 space-y-16 relative z-10 flex-1">
-    
     <section class="grid md:grid-cols-12 gap-8 items-center relative">
       <div class="md:col-span-6 space-y-6 relative z-20">
         <div class="relative inline-block">
@@ -100,15 +99,15 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         </p>
 
         <div class="flex flex-wrap items-center gap-6 pt-1">
-          <a href="#projects" id="h-btn-text" class="px-7 py-3.5 rounded-full bg-white hover:bg-zinc-900 text-zinc-900 hover:text-white text-xs font-extrabold uppercase tracking-wider shadow-md border border-zinc-200 transition">
+          <button onclick="switchPage('projects')" id="h-btn-text" class="px-7 py-3.5 rounded-full bg-white hover:bg-zinc-900 text-zinc-900 hover:text-white text-xs font-extrabold uppercase tracking-wider shadow-md border border-zinc-200 transition">
             EXPLORE WORK
-          </a>
+          </button>
           <div>
             <p id="h-channel-lbl" class="text-[10px] font-bold text-zinc-500 mb-1">Academic & Digital Channels</p>
             <div class="flex items-center gap-2.5 text-zinc-800">
-              <a href="#books" class="hover:scale-110 transition"><i data-lucide="book-open" class="w-4 h-4"></i></a>
-              <a href="#cv" class="hover:scale-110 transition"><i data-lucide="graduation-cap" class="w-4 h-4"></i></a>
-              <a href="#projects" class="hover:scale-110 transition"><i data-lucide="cpu" class="w-4 h-4"></i></a>
+              <button onclick="switchPage('books')" class="hover:scale-110 transition"><i data-lucide="book-open" class="w-4 h-4"></i></button>
+              <button onclick="switchPage('cv')" class="hover:scale-110 transition"><i data-lucide="graduation-cap" class="w-4 h-4"></i></button>
+              <button onclick="switchPage('projects')" class="hover:scale-110 transition"><i data-lucide="cpu" class="w-4 h-4"></i></button>
             </div>
           </div>
         </div>
@@ -168,9 +167,9 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
             <p id="h-bento-lbl" class="text-[10px] font-bold uppercase text-zinc-500">Featured Textbook</p>
             <p id="h-bento-title" class="text-xs font-extrabold text-zinc-900">UX Design for AI (MEB)</p>
           </div>
-          <a href="#books" class="w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center shrink-0">
+          <button onclick="switchPage('books')" class="w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center shrink-0">
             <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-          </a>
+          </button>
         </div>
       </div>
 
@@ -183,7 +182,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         </p>
 
         <div class="grid sm:grid-cols-3 gap-4 pt-2">
-          <a href="#cv" class="bg-white/70 hover:bg-white rounded-3xl p-4 border border-white transition flex flex-col justify-between h-44 group">
+          <div onclick="switchPage('cv')" class="cursor-pointer bg-white/70 hover:bg-white rounded-3xl p-4 border border-white transition flex flex-col justify-between h-44 group">
             <div class="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center text-zinc-800 group-hover:scale-110 transition">
               <i data-lucide="graduation-cap" class="w-5 h-5"></i>
             </div>
@@ -194,9 +193,9 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
             <div class="flex justify-end">
               <span class="w-6 h-6 rounded-full bg-zinc-900 text-white flex items-center justify-center"><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></span>
             </div>
-          </a>
+          </div>
 
-          <a href="#books" class="bg-white/95 rounded-3xl p-4 border border-white shadow-md transition flex flex-col justify-between h-44 group">
+          <div onclick="switchPage('books')" class="cursor-pointer bg-white/95 rounded-3xl p-4 border border-white shadow-md transition flex flex-col justify-between h-44 group">
             <div class="w-10 h-10 rounded-2xl bg-rose-500/10 flex items-center justify-center text-rose-600 group-hover:scale-110 transition">
               <i data-lucide="book-open" class="w-5 h-5"></i>
             </div>
@@ -207,9 +206,9 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
             <div class="flex justify-end">
               <span class="w-6 h-6 rounded-full bg-zinc-900 text-white flex items-center justify-center"><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></span>
             </div>
-          </a>
+          </div>
 
-          <a href="#projects" class="bg-white/70 hover:bg-white rounded-3xl p-4 border border-white transition flex flex-col justify-between h-44 group">
+          <div onclick="switchPage('projects')" class="cursor-pointer bg-white/70 hover:bg-white rounded-3xl p-4 border border-white transition flex flex-col justify-between h-44 group">
             <div class="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center text-zinc-800 group-hover:scale-110 transition">
               <i data-lucide="layers" class="w-5 h-5"></i>
             </div>
@@ -220,14 +219,14 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
             <div class="flex justify-end">
               <span class="w-6 h-6 rounded-full bg-zinc-900 text-white flex items-center justify-center"><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></span>
             </div>
-          </a>
+          </div>
         </div>
       </div>
     </section>
   </main>
 
   <!-- ======================================================================= -->
-  <!-- 2. หน้าประวัติและผลงานวิชาการ (CV PAGE - แยกอิสระ) -->
+  <!-- 2. หน้าประวัติและผลงานวิชาการ (CV PAGE) -->
   <!-- ======================================================================= -->
   <main id="page-cv" class="page-section hidden w-full flex-1">
     <div class="w-full overflow-hidden py-8 border-y border-zinc-300/80 my-4 bg-white/30">
@@ -246,7 +245,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
   </main>
 
   <!-- ======================================================================= -->
-  <!-- 3. หน้าหนังสือและอีบุ๊กบน MEB (BOOKS PAGE - แยกอิสระ) -->
+  <!-- 3. หน้าหนังสือและอีบุ๊กบน MEB (BOOKS PAGE) -->
   <!-- ======================================================================= -->
   <main id="page-books" class="page-section hidden max-w-6xl w-full mx-auto px-6 py-10 space-y-10 flex-1">
     <div class="grid md:grid-cols-12 gap-6 items-end">
@@ -269,7 +268,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
   </main>
 
   <!-- ======================================================================= -->
-  <!-- 4. หน้าระบบสารสนเทศและ KM (PROJECTS PAGE - แยกอิสระ) -->
+  <!-- 4. หน้าระบบสารสนเทศและ KM (PROJECTS PAGE) -->
   <!-- ======================================================================= -->
   <main id="page-projects" class="page-section hidden max-w-6xl w-full mx-auto px-6 py-10 space-y-10 flex-1">
     <div class="space-y-3">
@@ -285,7 +284,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
   </main>
 
   <!-- ======================================================================= -->
-  <!-- 5. หน้าติดต่อประสานงาน (CONTACT PAGE - แยกอิสระ) -->
+  <!-- 5. หน้าติดต่อประสานงาน (CONTACT PAGE) -->
   <!-- ======================================================================= -->
   <main id="page-contact" class="page-section hidden max-w-4xl w-full mx-auto px-6 py-12 flex-1 flex items-center">
     <div class="bento-card rounded-[36px] p-8 sm:p-12 w-full grid md:grid-cols-12 gap-8 items-center">
@@ -351,66 +350,16 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
     </div>
   </footer>
 
-  <!-- ================= SCRIPT เชื่อมต่อฐานข้อมูล GOOGLE SHEETS ================= -->
+  <!-- ================= SCRIPT ดึงข้อมูลจาก GOOGLE SHEETS อัตโนมัติ ================= -->
   <script>
+    // 📌 วางลิงก์ Web App URL (ที่ลงท้ายด้วย /exec) จาก Google Apps Script ตรงนี้จุดเดียวครับ:
+    const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
+
     lucide.createIcons();
     let slideTimer = null;
 
-    // ข้อมูลเริ่มต้นของอาจารย์ (แสดงผลทันที ทำงานได้สมบูรณ์ 100% บน GitHub)
+    // ข้อมูลสำรองเริ่มต้น (แสดงผลทันทีระหว่างดึงข้อมูลสดจาก Google Sheets)
     const defaultData = {
-      global: {
-        logo_mark: 'WW/C',
-        logo_name: 'waiwit.chan',
-        menu_1: 'HOME',
-        menu_2: 'ABOUT ME & CV',
-        menu_3: 'BOOKS (MEB)',
-        menu_4: 'PROJECTS & KM',
-        menu_5: 'CONTACT',
-        nav_cta_btn: 'CONTACT US',
-        footer_left: 'Rangsit University • Pathum Thani, Thailand',
-        footer_right: '2026 all rights reserved waiwit.chan',
-        footer_giant_text: 'WW/C waiwit.chan',
-        contact_badge: 'ACADEMIC COLLABORATION',
-        contact_title_1: "Let's Connect",
-        contact_title_2: '& Collaborate',
-        contact_desc: 'ติดต่อประสานงานด้านวิชาการ งานวิจัย การออกแบบ UX/UI และการพัฒนาระบบสารสนเทศเพื่อการศึกษา',
-        contact_email: 'waiwit.c@rsu.ac.th',
-        contact_affiliation: 'สาขาวิชาเทคโนโลยีสารสนเทศ มหาวิทยาลัยรังสิต (Rangsit University)',
-        contact_location: 'เมืองเอก ต.หลักหก อ.เมือง จ.ปทุมธานี',
-        meb_store_url: 'https://www.mebmarket.com'
-      },
-      home: {
-        hero_title_1: 'Academic',
-        hero_title_2: 'Innovation Path',
-        hero_title_3: 'With waiwit',
-        hero_bio: 'ผู้ช่วยศาสตราจารย์ประจำสาขาวิชาเทคโนโลยีสารสนเทศ มหาวิทยาลัยรังสิต เชี่ยวชาญด้านการออกแบบ UX/UI, Human-Computer Interaction (HCI), การบูรณาการ AI และระบบสารสนเทศเพื่อการศึกษา',
-        hero_btn_text: 'EXPLORE WORK',
-        hero_channel_label: 'Academic & Digital Channels',
-        stat_1_num: '15+',
-        stat_1_desc: 'Years in IT, UX/UI & Higher Education',
-        stat_2_num: '30+',
-        stat_2_desc: 'Digital Books, Systems & KM Projects',
-        profile_img_1: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=900&q=80',
-        circle_top_text: 'Core Focus',
-        circle_mid_text: 'UX/UI • HCI • AI',
-        circle_bot_text: 'Rangsit University',
-        float_tag_1: 'UX',
-        float_tag_2: 'AI',
-        float_tag_3: 'KM',
-        float_name: 'Asst.Prof.Dr.Waiwit Chanwimalueng',
-        float_role: 'IT Lecturer & Author • RSU',
-        bento_left_img: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=800&q=80',
-        bento_img_label: 'Featured Textbook',
-        bento_img_title: 'UX Design for AI (MEB)',
-        bento_badge: 'ACADEMIC & INNOVATION HIGHLIGHTS',
-        bento_desc: 'บูรณาการองค์ความรู้ด้านการออกแบบประสบการณ์ผู้ใช้ (UX/UI) เข้ากับเทคโนโลยีปัญญาประดิษฐ์ (AI) และการพัฒนาระบบสารสนเทศ Low-Code เพื่อยกระดับการเรียนรู้ในระดับอุดมศึกษา',
-        card_1_title: 'Academic CV',
-        card_1_sub: 'ประวัติและงานสอน ม.รังสิต',
-        card_2_title: 'MEB Books',
-        card_2_sub: 'ตำราวิชาการและอีบุ๊ก',
-        card_3_title: 'KM Systems',
-        card_3_sub: 'ระบบจัดการเรียนการสอน'
-      },
       cvList: [
         { no: '01', title: 'assistant professor in information technology', desc: 'ผู้ช่วยศาสตราจารย์ประจำสาขาวิชาเทคโนโลยีสารสนเทศ มหาวิทยาลัยรังสิต (Rangsit University) เชี่ยวชาญด้าน UX/UI, HCI และการบูรณาการ AI', tag: 'Current Role' },
         { no: '02', title: 'ux/ui prototyping & usability courses', desc: 'รับผิดชอบการสอนรายวิชา IS 164, RSU 164, DAI103, Heuristic Usability Evaluation และปฏิบัติการ Figma, FlutterFlow, Locofy.ai, GAS', tag: 'Teaching & Labs' },
@@ -430,19 +379,18 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       ]
     };
 
-    // ระบบสลับหน้าอิสระตาม Hash URL (#home, #cv, #books, #projects, #contact) โดยไม่เปลี่ยนหน้าเว็บ
-    function handleRoute() {
-      const hash = window.location.hash.replace('#', '') || 'home';
+    // ฟังก์ชันสลับหน้าโดยตรง ไม่กระโดดไปลิงก์ภายนอกเด็ดขาด
+    function switchPage(pageId) {
       const validPages = ['home', 'cv', 'books', 'projects', 'contact'];
-      const target = validPages.includes(hash) ? hash : 'home';
+      const target = validPages.includes(pageId) ? pageId : 'home';
 
       validPages.forEach(p => {
         document.getElementById('page-' + p).classList.toggle('hidden', p !== target);
         const navEl = document.getElementById('nav-' + p);
         if (navEl) {
           navEl.className = (p === target)
-            ? 'nav-link text-zinc-900 border-b-2 border-zinc-900 pb-1'
-            : 'nav-link hover:text-zinc-900 transition';
+            ? 'nav-link text-zinc-900 border-b-2 border-zinc-900 pb-1 uppercase'
+            : 'nav-link hover:text-zinc-900 transition uppercase';
         }
       });
 
@@ -452,15 +400,108 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       });
 
       document.getElementById('footer-giant-wrap').classList.toggle('hidden', target !== 'home');
+      try { history.replaceState(null, null, '#' + target); } catch (e) {}
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    window.addEventListener('hashchange', handleRoute);
-
     window.addEventListener('DOMContentLoaded', () => {
-      handleRoute();
+      const initialHash = window.location.hash.replace('#', '') || 'home';
+      switchPage(initialHash);
       renderLists(defaultData);
+
+      // ดึงข้อมูล JSON สดๆ จาก Google Sheets มาอัปเดตทุกหน้าอัตโนมัติ
+      if (GAS_API_URL && GAS_API_URL.startsWith('http')) {
+        fetch(GAS_API_URL + '?t=' + new Date().getTime(), { redirect: 'follow' })
+          .then(res => res.json())
+          .then(data => applySheetData(data))
+          .catch(err => console.warn('ไม่สามารถดึงข้อมูลจาก Sheet ได้ กรุณาเช็กลิงก์ GAS_API_URL:', err));
+      }
     });
+
+    function applySheetData(data) {
+      if (!data) return;
+      const g = data.global || {};
+      const h = data.home || {};
+
+      // 1. อัปเดต Global Settings
+      setText('g-logo-mark', g.logo_mark);
+      setText('g-logo-name', g.logo_name);
+      setText('nav-home', g.menu_1);
+      setText('nav-cv', g.menu_2);
+      setText('nav-books', g.menu_3);
+      setText('nav-projects', g.menu_4);
+      setText('nav-contact', g.menu_5);
+      setText('g-nav-cta', g.nav_cta_btn);
+      setText('g-footer-left', g.footer_left);
+      setText('g-footer-right', g.footer_right);
+      setText('g-footer-giant', g.footer_giant_text);
+
+      // อัปเดตหน้า Contact
+      setText('c-badge', g.contact_badge);
+      setText('c-title-1', g.contact_title_1);
+      setText('c-title-2', g.contact_title_2);
+      setText('c-desc', g.contact_desc);
+      setText('c-email', g.contact_email);
+      setText('c-affiliation', g.contact_affiliation);
+      setText('c-location', g.contact_location);
+      if (g.contact_email) document.getElementById('c-mailto-btn').href = 'mailto:' + g.contact_email;
+      if (g.meb_store_url) document.getElementById('meb-store-btn').href = g.meb_store_url;
+
+      // 2. อัปเดตหน้าแรก (Home)
+      setText('h-title-1', h.hero_title_1);
+      setText('h-title-2', h.hero_title_2);
+      setText('h-title-3', h.hero_title_3);
+      setText('h-bio', h.hero_bio);
+      setText('h-btn-text', h.hero_btn_text);
+      setText('h-channel-lbl', h.hero_channel_label);
+      setText('h-stat1-num', h.stat_1_num);
+      setText('h-stat1-desc', h.stat_1_desc);
+      setText('h-stat2-num', h.stat_2_num);
+      setText('h-stat2-desc', h.stat_2_desc);
+      setText('h-circle-top', h.circle_top_text);
+      setText('h-circle-mid', h.circle_mid_text);
+      setText('h-circle-bot', h.circle_bot_text);
+      setText('h-tag-1', h.float_tag_1);
+      setText('h-tag-2', h.float_tag_2);
+      setText('h-tag-3', h.float_tag_3);
+      setText('h-float-name', h.float_name);
+      setText('c-card-name', h.float_name);
+      setText('h-float-role', h.float_role);
+      setText('h-bento-lbl', h.bento_img_label);
+      setText('h-bento-title', h.bento_img_title);
+      setText('h-bento-badge', h.bento_badge);
+      setText('h-bento-desc', h.bento_desc);
+      setText('h-c1-title', h.card_1_title);
+      setText('h-c1-sub', h.card_1_sub);
+      setText('h-c2-title', h.card_2_title);
+      setText('h-c2-sub', h.card_2_sub);
+      setText('h-c3-title', h.card_3_title);
+      setText('h-c3-sub', h.card_3_sub);
+
+      if (h.bento_left_img) document.getElementById('h-bento-img').src = h.bento_left_img;
+
+      // สไลด์รูปโปรไฟล์ 3 รูป
+      const profImgs = [h.profile_img_1, h.profile_img_2, h.profile_img_3].filter(Boolean);
+      if (profImgs.length > 0) {
+        const slider = document.getElementById('profile-slider');
+        slider.innerHTML = profImgs.map((url, i) => `
+          <img src="${url}" class="prof-slide fade-slide absolute inset-0 w-full h-full object-cover object-top ${i === 0 ? 'opacity-100' : 'opacity-0'}" alt="Profile">
+        `).join('');
+        if (slideTimer) clearInterval(slideTimer);
+        if (profImgs.length > 1) {
+          let cur = 0;
+          const slides = slider.querySelectorAll('.prof-slide');
+          slideTimer = setInterval(() => {
+            slides[cur].classList.replace('opacity-100', 'opacity-0');
+            cur = (cur + 1) % slides.length;
+            slides[cur].classList.replace('opacity-0', 'opacity-100');
+          }, 4500);
+        }
+      }
+
+      // 3. อัปเดตรายการในหน้า CV, Books, Projects
+      renderLists(data);
+    }
 
     function renderLists(data) {
       if (data.cvList && data.cvList.length) {
@@ -517,6 +558,13 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         `).join('');
       }
       lucide.createIcons();
+    }
+
+    function setText(id, val) {
+      if (val !== undefined && val !== '') {
+        const el = document.getElementById(id);
+        if (el) el.textContent = val;
+      }
     }
   </script>
 </body>
