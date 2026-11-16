@@ -1,7 +1,6 @@
-<!--   356
+<!--   257  new v.2 แก้ไขทุกอย่างใน Sheet วางที่ Github
 https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec
 -->
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -43,7 +42,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-zinc-900 selection:text-white">
 
-  <!-- ================= NAVBAR (คลิกสลับหน้าทันทีด้วย switchPage ไม่รีโหลดเว็บ) ================= -->
+  <!-- ================= NAVBAR ================= -->
   <header class="max-w-6xl w-full mx-auto px-6 pt-8 pb-4 flex items-center justify-between relative z-30">
     <button onclick="switchPage('home')" class="flex items-center gap-2.5 text-left group cursor-pointer focus:outline-none">
       <span id="g-logo-mark" class="text-2xl font-extrabold italic tracking-tighter text-zinc-900 group-hover:opacity-75 transition">WW/C</span>
@@ -65,11 +64,11 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
 
   <!-- เมนูสำหรับมือถือ -->
   <div class="flex md:hidden justify-center gap-2 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-600 flex-wrap">
-    <button onclick="switchPage('home')" class="nav-link-m px-3 py-1 rounded-full bg-zinc-900 text-white" data-target="home">HOME</button>
-    <button onclick="switchPage('cv')" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="cv">CV</button>
-    <button onclick="switchPage('books')" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="books">BOOKS</button>
-    <button onclick="switchPage('projects')" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="projects">PROJECTS</button>
-    <button onclick="switchPage('contact')" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="contact">CONTACT</button>
+    <button onclick="switchPage('home')" id="nav-m-home" class="nav-link-m px-3 py-1 rounded-full bg-zinc-900 text-white" data-target="home">HOME</button>
+    <button onclick="switchPage('cv')" id="nav-m-cv" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="cv">CV</button>
+    <button onclick="switchPage('books')" id="nav-m-books" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="books">BOOKS</button>
+    <button onclick="switchPage('projects')" id="nav-m-projects" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="projects">PROJECTS</button>
+    <button onclick="switchPage('contact')" id="nav-m-contact" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="contact">CONTACT</button>
   </div>
 
   <!-- ======================================================================= -->
@@ -226,16 +225,16 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
   </main>
 
   <!-- ======================================================================= -->
-  <!-- 2. หน้าประวัติและผลงานวิชาการ (CV PAGE) -->
+  <!-- 2. หน้าประวัติและผลงานวิชาการ (CV PAGE - ผูกกับ Sheet ครบทุกจุด) -->
   <!-- ======================================================================= -->
   <main id="page-cv" class="page-section hidden w-full flex-1">
     <div class="w-full overflow-hidden py-8 border-y border-zinc-300/80 my-4 bg-white/30">
       <div class="flex items-center justify-center gap-10 whitespace-nowrap text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-800">
-        <span class="opacity-40">curriculum vitae</span>
+        <span id="cv-ban-1a" class="opacity-40">curriculum vitae</span>
         <span class="text-2xl">✺</span>
-        <span>academic profile</span>
+        <span id="cv-ban-2">academic profile</span>
         <span class="text-2xl">✺</span>
-        <span class="opacity-40">curriculum vitae</span>
+        <span id="cv-ban-1b" class="opacity-40">curriculum vitae</span>
       </div>
     </div>
 
@@ -245,17 +244,18 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
   </main>
 
   <!-- ======================================================================= -->
-  <!-- 3. หน้าหนังสือและอีบุ๊กบน MEB (BOOKS PAGE) -->
+  <!-- 3. หน้าหนังสือและอีบุ๊กบน MEB (BOOKS PAGE - ผูกกับ Sheet ครบทุกจุด) -->
   <!-- ======================================================================= -->
   <main id="page-books" class="page-section hidden max-w-6xl w-full mx-auto px-6 py-10 space-y-10 flex-1">
     <div class="grid md:grid-cols-12 gap-6 items-end">
       <div class="md:col-span-7">
         <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 leading-tight">
-          Find Your Next<br>Read <span class="text-zinc-500">on MEB</span>
+          <span id="b-title-1">Find Your Next</span><br>
+          <span id="b-title-2">Read</span> <span id="b-title-3" class="text-zinc-500">on MEB</span>
         </h1>
       </div>
       <div class="md:col-span-5 flex flex-col items-start md:items-end gap-3">
-        <p class="text-xs text-zinc-600 leading-relaxed md:text-right">
+        <p id="b-desc" class="text-xs text-zinc-600 leading-relaxed md:text-right">
           รวบรวมผลงานตำราวิชาการด้าน UX/UI & AI และผลงานอีบุ๊กสร้างสรรค์บนแพลตฟอร์ม MEB E-Books
         </p>
         <a id="meb-store-btn" href="https://www.mebmarket.com" target="_blank" class="px-5 py-2 rounded-full bg-zinc-900 text-white text-[11px] font-bold uppercase tracking-wider">
@@ -268,14 +268,15 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
   </main>
 
   <!-- ======================================================================= -->
-  <!-- 4. หน้าระบบสารสนเทศและ KM (PROJECTS PAGE) -->
+  <!-- 4. หน้าระบบสารสนเทศและ KM (PROJECTS PAGE - ผูกกับ Sheet ครบทุกจุด) -->
   <!-- ======================================================================= -->
   <main id="page-projects" class="page-section hidden max-w-6xl w-full mx-auto px-6 py-10 space-y-10 flex-1">
     <div class="space-y-3">
       <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 leading-tight">
-        Empower learning with<br><span class="text-zinc-500">smart KM systems</span>
+        <span id="p-title-1">Empower learning with</span><br>
+        <span id="p-title-2" class="text-zinc-500">smart KM systems</span>
       </h1>
-      <p class="text-xs sm:text-sm text-zinc-600 max-w-2xl leading-relaxed">
+      <p id="p-desc" class="text-xs sm:text-sm text-zinc-600 max-w-2xl leading-relaxed">
         รวบรวมผลงานการพัฒนาระบบสารสนเทศเพื่อการจัดการเรียนการสอน การประเมินผลนักศึกษา และกรณีศึกษาการจัดการความรู้ (Knowledge Management)
       </p>
     </div>
@@ -284,7 +285,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
   </main>
 
   <!-- ======================================================================= -->
-  <!-- 5. หน้าติดต่อประสานงาน (CONTACT PAGE) -->
+  <!-- 5. หน้าติดต่อประสานงาน (CONTACT PAGE - ผูกกับ Sheet ครบทุกจุด) -->
   <!-- ======================================================================= -->
   <main id="page-contact" class="page-section hidden max-w-4xl w-full mx-auto px-6 py-12 flex-1 flex items-center">
     <div class="bento-card rounded-[36px] p-8 sm:p-12 w-full grid md:grid-cols-12 gap-8 items-center">
@@ -329,7 +330,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
           <i data-lucide="send" class="w-6 h-6"></i>
         </div>
         <h3 id="c-card-name" class="text-base font-extrabold text-zinc-900">Asst.Prof.Dr.Waiwit Chanwimalueng</h3>
-        <p class="text-xs text-zinc-500 leading-relaxed">คลิกปุ่มด้านล่างเพื่อส่งอีเมลติดต่อโดยตรง</p>
+        <p id="c-card-sub" class="text-xs text-zinc-500 leading-relaxed">คลิกปุ่มด้านล่างเพื่อส่งอีเมลติดต่อโดยตรง</p>
         <a id="c-mailto-btn" href="mailto:waiwit.c@rsu.ac.th" class="block w-full py-3.5 rounded-full bg-zinc-900 hover:bg-zinc-700 text-white text-xs font-extrabold uppercase tracking-wider transition">
           SEND EMAIL NOW →
         </a>
@@ -352,11 +353,13 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
 
   <!-- ================= SCRIPT ดึงข้อมูลจาก GOOGLE SHEETS อัตโนมัติ ================= -->
   <script>
-    // 📌 วางลิงก์ Web App URL (ที่ลงท้ายด้วย /exec) จาก Google Apps Script ตรงนี้จุดเดียวครับ:
+    // 📌 วางลิงก์ Web App URL (ที่ลงท้ายด้วย /exec) จาก Google Apps Script ตรงนี้ครับ:
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
 
     lucide.createIcons();
     let slideTimer = null;
+    let bookCardBtnText = 'Buy on MEB →';
+    let projCardBtnText = 'View Case Study →';
 
     // ข้อมูลสำรองเริ่มต้น (แสดงผลทันทีระหว่างดึงข้อมูลสดจาก Google Sheets)
     const defaultData = {
@@ -379,7 +382,6 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       ]
     };
 
-    // ฟังก์ชันสลับหน้าโดยตรง ไม่กระโดดไปลิงก์ภายนอกเด็ดขาด
     function switchPage(pageId) {
       const validPages = ['home', 'cv', 'books', 'projects', 'contact'];
       const target = validPages.includes(pageId) ? pageId : 'home';
@@ -409,7 +411,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       switchPage(initialHash);
       renderLists(defaultData);
 
-      // ดึงข้อมูล JSON สดๆ จาก Google Sheets มาอัปเดตทุกหน้าอัตโนมัติ
+      // ดึงข้อมูล JSON สดจาก Google Sheets
       if (GAS_API_URL && GAS_API_URL.startsWith('http')) {
         fetch(GAS_API_URL + '?t=' + new Date().getTime(), { redirect: 'follow' })
           .then(res => res.json())
@@ -423,7 +425,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       const g = data.global || {};
       const h = data.home || {};
 
-      // 1. อัปเดต Global Settings
+      // 1. อัปเดต Global Settings & เมนูทั้ง Desktop และ Mobile
       setText('g-logo-mark', g.logo_mark);
       setText('g-logo-name', g.logo_name);
       setText('nav-home', g.menu_1);
@@ -431,12 +433,33 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       setText('nav-books', g.menu_3);
       setText('nav-projects', g.menu_4);
       setText('nav-contact', g.menu_5);
+      setText('nav-m-home', g.menu_1);
+      setText('nav-m-cv', g.menu_2);
+      setText('nav-m-books', g.menu_3);
+      setText('nav-m-projects', g.menu_4);
+      setText('nav-m-contact', g.menu_5);
       setText('g-nav-cta', g.nav_cta_btn);
       setText('g-footer-left', g.footer_left);
       setText('g-footer-right', g.footer_right);
       setText('g-footer-giant', g.footer_giant_text);
 
-      // อัปเดตหน้า Contact
+      // 2. อัปเดตหัวข้อหน้า CV, Books, Projects, Contact จากแท็บ 1_Global_Settings
+      setText('cv-ban-1a', g.cv_banner_1);
+      setText('cv-ban-1b', g.cv_banner_1);
+      setText('cv-ban-2', g.cv_banner_2);
+
+      setText('b-title-1', g.books_title_1);
+      setText('b-title-2', g.books_title_2);
+      setText('b-title-3', g.books_title_3);
+      setText('b-desc', g.books_desc);
+      setText('meb-store-btn', g.books_store_btn);
+      if (g.books_card_btn) bookCardBtnText = g.books_card_btn;
+
+      setText('p-title-1', g.proj_title_1);
+      setText('p-title-2', g.proj_title_2);
+      setText('p-desc', g.proj_desc);
+      if (g.proj_card_btn) projCardBtnText = g.proj_card_btn;
+
       setText('c-badge', g.contact_badge);
       setText('c-title-1', g.contact_title_1);
       setText('c-title-2', g.contact_title_2);
@@ -444,10 +467,12 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       setText('c-email', g.contact_email);
       setText('c-affiliation', g.contact_affiliation);
       setText('c-location', g.contact_location);
+      setText('c-card-sub', g.contact_card_sub);
+      setText('c-mailto-btn', g.contact_btn_text);
       if (g.contact_email) document.getElementById('c-mailto-btn').href = 'mailto:' + g.contact_email;
       if (g.meb_store_url) document.getElementById('meb-store-btn').href = g.meb_store_url;
 
-      // 2. อัปเดตหน้าแรก (Home)
+      // 3. อัปเดตหน้าแรก (Home) จากแท็บ 2_Home_Page
       setText('h-title-1', h.hero_title_1);
       setText('h-title-2', h.hero_title_2);
       setText('h-title-3', h.hero_title_3);
@@ -499,7 +524,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         }
       }
 
-      // 3. อัปเดตรายการในหน้า CV, Books, Projects
+      // 4. อัปเดตรายการในหน้า CV, Books, Projects
       renderLists(data);
     }
 
@@ -530,7 +555,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
               <p class="text-[11px] text-zinc-600">${b.desc}</p>
               <div class="pt-1">
                 <a href="${b.link}" target="_blank" class="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white text-zinc-900 text-xs font-bold shadow-sm transition">
-                  Buy on MEB →
+                  ${bookCardBtnText}
                 </a>
               </div>
             </div>
@@ -551,7 +576,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
             </div>
             <div>
               <a href="${p.link}" target="_blank" class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-zinc-900 text-white text-xs font-bold">
-                View Case Study →
+                ${projCardBtnText}
               </a>
             </div>
           </div>
