@@ -1,6 +1,8 @@
-<!--   353  v6
+<!--   354  v7
 https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec
+const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
 -->
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -111,7 +113,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
           </div>
 
           <button onclick="switchPage('schedule')" class="px-4 py-3 rounded-2xl bg-white/85 hover:bg-zinc-900 hover:text-white text-zinc-900 text-xs font-extrabold uppercase tracking-wider border border-white shadow-sm transition flex items-center gap-2">
-            <i data-lucide="calendar" class="w-4 h-4"></i> ตารางสอน & ปฏิทิน
+            <i data-lucide="calendar" class="w-4 h-4"></i> ตารางสอน & แผนการเรียน
           </button>
 
           <button onclick="switchPage('about')" class="px-4 py-3 rounded-2xl bg-zinc-900 hover:bg-zinc-700 text-white text-xs font-extrabold uppercase tracking-wider shadow-sm transition flex items-center gap-2">
@@ -129,7 +131,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
             <span id="today-day-badge" class="px-3 py-0.5 rounded-full text-xs font-extrabold"></span>
           </div>
           <button onclick="switchPage('schedule')" class="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-1 transition">
-            ดูปฏิทินการศึกษาทั้งหมด <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            ดูตารางเรียนทั้ง 15 สัปดาห์ <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
           </button>
         </div>
         <div id="today-classes-list" class="grid md:grid-cols-2 gap-4 pt-4"></div>
@@ -156,23 +158,23 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
     </main>
 
     <!-- ======================================================================= -->
-    <!-- 2. หน้าตารางสอน & ปฏิทินการศึกษา (SCHEDULE PAGE) -->
+    <!-- 2. หน้าตารางสอน & แผนการเรียนรายสัปดาห์ (SCHEDULE PAGE) -->
     <!-- ======================================================================= -->
     <main id="page-schedule" class="page-section hidden max-w-5xl w-full mx-auto px-6 py-8 space-y-8 flex-1">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div class="space-y-2">
           <div class="flex flex-wrap items-center gap-2">
             <span class="inline-block px-3.5 py-1 rounded-full bg-zinc-900 text-white text-[10px] font-extrabold uppercase tracking-widest">
-              ACADEMIC CALENDAR & SCHEDULE
+              COURSE SCHEDULE & WEEKLY PLAN
             </span>
             <span id="live-thai-date-sched" class="px-3.5 py-1 rounded-full bg-white text-zinc-800 text-xs font-extrabold border border-zinc-200 shadow-sm"></span>
           </div>
           <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 leading-tight">
-            ตารางสอน & <span class="text-zinc-500">ปฏิทินการศึกษา</span>
+            ตารางสอน & <span class="text-zinc-500">แผนการเรียนรายสัปดาห์</span>
           </h1>
         </div>
         <p class="text-xs sm:text-sm text-zinc-600 max-w-sm leading-relaxed">
-          คลิกที่รายวิชาเพื่อดู <strong>คำอธิบายรายวิชา</strong>, ลิงก์เข้า <strong>Google Classroom</strong>, <strong>แบบประเมิน VAK</strong>, <strong>แผนการสอน (Syllabus)</strong> และ <strong>วันสอบ Final</strong>
+          คลิกที่รายวิชาเพื่อดู <strong>คำอธิบายรายวิชา</strong>, ลิงก์เข้า <strong>Google Classroom</strong>, <strong>แบบประเมิน VAK</strong>, <strong>แผนการสอน (Syllabus)</strong> และ <strong>ตารางเรียน 15 สัปดาห์</strong>
         </p>
       </div>
 
@@ -352,7 +354,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
     // 📌 วางลิงก์ Web App URL (ที่ลงท้ายด้วย /exec) จาก Google Apps Script ตรงนี้ครับ:
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
 
-    const CACHE_KEY = 'wwc_resource_hub_cache_v5';
+    const CACHE_KEY = 'wwc_resource_hub_cache_v6';
     const HIT_SESSION_KEY = 'wwc_visited_session';
     lucide.createIcons();
 
@@ -368,17 +370,29 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       return `${days[dateObj.getDay()]}ที่ ${dateObj.getDate()} ${months[dateObj.getMonth()]} พ.ศ. ${dateObj.getFullYear() + 543}`;
     }
 
-    function getShortThaiDate(dateObj) {
-      const shortMonths = ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'];
-      const yr = String(dateObj.getFullYear() + 543).slice(-2);
-      return `${dateObj.getDate()} ${shortMonths[dateObj.getMonth()]} ${yr}`;
-    }
-
-    function toISODateStr(d) {
-      const y = d.getFullYear();
-      const m = String(d.getMonth() + 1).padStart(2, '0');
-      const day = String(d.getDate()).padStart(2, '0');
-      return `${y}-${m}-${day}`;
+    // แปลงวันที่รูปแบบไทย/สากล (เช่น 18/11/69, 18/11/2569, 2026-11-18) เป็น Date Object เพื่อเทียบวันอดีต/วันนี้/อนาคต
+    function parseFlexDate(dateStr) {
+      if (!dateStr) return null;
+      const s = String(dateStr).trim();
+      if (s.includes('/')) {
+        const parts = s.split('/');
+        if (parts.length === 3) {
+          const d = parseInt(parts[0], 10);
+          const m = parseInt(parts[1], 10);
+          let y = parseInt(parts[2], 10);
+          if (y < 100) {
+            y = (y >= 40) ? (2500 + y - 543) : (2000 + y);
+          } else if (y > 2400) {
+            y = y - 543;
+          }
+          if (!isNaN(d) && !isNaN(m) && !isNaN(y)) return new Date(y, m - 1, d);
+        }
+      } else if (/^\d{4}-\d{2}-\d{2}$/.test(s)) {
+        const [yy, mm, dd] = s.split('-').map(Number);
+        const y = yy > 2400 ? yy - 543 : yy;
+        return new Date(y, mm - 1, dd);
+      }
+      return null;
     }
 
     const dayThemeMap = [
@@ -401,74 +415,6 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       if (s.includes('sat') || s.includes('เสาร์') || s === 'ส.' || s === 'ส') return 6;
       if (s.includes('sun') || s.includes('อาทิตย์') || s === 'อา.' || s === 'อา') return 0;
       return -1;
-    }
-
-    function buildTermTimeline(startDateStr, endDateStr, holidaysStr) {
-      if (!startDateStr || !/^\d{4}-\d{2}-\d{2}$/.test(startDateStr)) {
-        return { items: [], totalClasses: 0, endShortDate: '' };
-      }
-      const [y, m, d] = startDateStr.split('-').map(Number);
-      let cur = new Date(y, m - 1, d);
-
-      let endLimit = null;
-      let endShortDate = '';
-      if (endDateStr && /^\d{4}-\d{2}-\d{2}$/.test(endDateStr)) {
-        const [ey, em, ed] = endDateStr.split('-').map(Number);
-        endLimit = new Date(ey, em - 1, ed, 23, 59, 59);
-        endShortDate = getShortThaiDate(endLimit);
-      }
-
-      const holidayMap = new Map();
-      if (holidaysStr) {
-        holidaysStr.split(',').forEach(part => {
-          const trimmed = part.trim();
-          if (!trimmed) return;
-          const [hDate, ...labelParts] = trimmed.split(':');
-          const cleanDate = hDate.trim();
-          const label = labelParts.join(':').trim() || 'Midterm Break / งดการสอน';
-          if (/^\d{4}-\d{2}-\d{2}$/.test(cleanDate)) {
-            holidayMap.set(cleanDate, label);
-          }
-        });
-      }
-
-      const items = [];
-      let sessionCount = 0;
-      let guard = 0;
-      const todayIso = toISODateStr(new Date());
-
-      while (sessionCount < 15 && guard < 26) {
-        if (endLimit && cur > endLimit) break;
-
-        const iso = toISODateStr(cur);
-        const isToday = (iso === todayIso);
-        if (holidayMap.has(iso)) {
-          items.push({
-            type: 'break',
-            iso,
-            shortDate: getShortThaiDate(cur),
-            label: holidayMap.get(iso),
-            isToday
-          });
-        } else {
-          sessionCount += 1;
-          items.push({
-            type: 'class',
-            session: sessionCount,
-            iso,
-            shortDate: getShortThaiDate(cur),
-            isToday
-          });
-        }
-        cur.setDate(cur.getDate() + 7);
-        guard++;
-      }
-
-      if (!endShortDate && items.length > 0) {
-        endShortDate = items[items.length - 1].shortDate;
-      }
-
-      return { items, totalClasses: sessionCount, endShortDate };
     }
 
     function toggleScheduleAccordion(idx) {
@@ -707,11 +653,12 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
 
     function renderSchedule(schedule) {
       const todayObj = new Date();
+      const todayStart = new Date(todayObj.getFullYear(), todayObj.getMonth(), todayObj.getDate());
       const todayIdx = todayObj.getDay();
       const todayTheme = dayThemeMap[todayIdx];
       const todayClasses = schedule.filter(item => parseDayIndex(item.day) === todayIdx);
 
-      // 1. แถบ "คาบสอนวันนี้" บนหน้าแรก
+      // 1. แถบ "คาบสอนวันนี้" บนหน้าแรก (ดึงหัวข้อ Lecture ประจำวันนี้มาแสดงด้วย)
       const banner = document.getElementById('today-classes-banner');
       const todayList = document.getElementById('today-classes-list');
       const dayBadge = document.getElementById('today-day-badge');
@@ -722,22 +669,21 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         dayBadge.textContent = getFullThaiDateString(todayObj);
 
         todayList.innerHTML = todayClasses.map(c => {
-          const termData = buildTermTimeline(c.startDate, c.endDate, c.holidays);
-          const todayIso = toISODateStr(todayObj);
-          const todaySlot = termData.items.find(t => t.iso === todayIso);
-          const sessionTag = todaySlot
-            ? (todaySlot.type === 'class' ? `ครั้งที่ ${todaySlot.session}/${termData.totalClasses}` : todaySlot.label)
-            : '';
+          const plan = c.plan || [];
+          const todayRow = plan.find(r => {
+            const dt = parseFlexDate(r.date);
+            return dt && dt.getTime() === todayStart.getTime();
+          });
 
           const hasVak = c.vakUrl && c.vakUrl.startsWith('http');
           const hasSyllabus = c.syllabusUrl && c.syllabusUrl.startsWith('http');
 
           return `
           <div class="bg-zinc-800/90 border border-zinc-700 rounded-2xl p-4 flex flex-col justify-between gap-3">
-            <div class="space-y-1">
+            <div class="space-y-1.5">
               <div class="flex items-center gap-2 flex-wrap">
                 ${c.note ? `<span class="px-2.5 py-0.5 rounded-md bg-white/15 text-white text-xs font-extrabold">${c.note}</span>` : ''}
-                ${sessionTag ? `<span class="px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[11px] font-bold">${sessionTag}</span>` : ''}
+                ${todayRow ? `<span class="px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[11px] font-bold">${todayRow.no ? 'ครั้งที่ ' + todayRow.no + ' : ' : ''}${todayRow.lecture}</span>` : ''}
               </div>
               <h3 class="text-sm font-extrabold text-white leading-snug">${c.course}</h3>
               <p class="text-xs text-zinc-300">${c.timeRoom}</p>
@@ -763,7 +709,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         banner.classList.add('hidden');
       }
 
-      // 2. หน้าตารางสอน & ปฏิทินการศึกษา (แบบ Accordion กะทัดรัด)
+      // 2. หน้าตารางสอน & แผนการเรียนรายสัปดาห์ (Accordion + Slide-style Table)
       const schedBox = document.getElementById('schedule-list-box');
       if (!schedBox) return;
 
@@ -774,49 +720,109 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
 
       schedBox.innerHTML = schedule.map((c, idx) => {
         const dIdx = parseDayIndex(c.day);
-        const isToday = (dIdx === todayIdx);
+        const isTodayCourse = (dIdx === todayIdx);
         const theme = dIdx >= 0 ? dayThemeMap[dIdx] : { name: c.day, pill: 'bg-zinc-800 text-white', border: 'border-l-zinc-800' };
-        const termData = buildTermTimeline(c.startDate, c.endDate, c.holidays);
+        const plan = c.plan || [];
+        const classCount = plan.filter(r => r.type !== 'break' && r.no).length;
         const hasVak = c.vakUrl && c.vakUrl.startsWith('http');
         const hasSyllabus = c.syllabusUrl && c.syllabusUrl.startsWith('http');
 
-        const timelineHtml = termData.items.length > 0 ? `
+        // สร้างตารางแผนการเรียนแบบเดียวกับใน Slide ของอาจารย์
+        const planTableHtml = plan.length > 0 ? `
           <div class="space-y-3 pt-2">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div class="flex items-center justify-between flex-wrap gap-2">
               <p class="text-xs font-extrabold text-zinc-800 flex items-center gap-1.5">
-                <i data-lucide="calendar-days" class="w-4 h-4 text-zinc-500"></i>
-                ปฏิทินการสอน (รวมสอนจริง ${termData.totalClasses} ครั้ง)
+                <i data-lucide="table-2" class="w-4 h-4 text-zinc-600"></i>
+                แผนการเรียนการสอนประจำภาคการศึกษา ${c.note ? '(' + c.note + ')' : ''}
               </p>
-              ${termData.endShortDate ? `
-                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-900/10 text-zinc-800 text-[11px] font-extrabold">
-                  <i data-lucide="calendar-check-2" class="w-3.5 h-3.5 text-zinc-600"></i> วันสิ้นสุดการเรียนการสอน: ${termData.endShortDate}
-                </span>
-              ` : ''}
+              <div class="flex items-center gap-3 text-[10px] font-bold text-zinc-500">
+                <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-zinc-200 inline-block"></span> สอนแล้ว</span>
+                <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-zinc-900 inline-block"></span> สัปดาห์นี้</span>
+                <span class="inline-flex items-center gap-1"><span class="w-2.5 h-2.5 rounded-sm bg-fuchsia-200 inline-block"></span> เบรค/งดสอน</span>
+              </div>
             </div>
-            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2">
-              ${termData.items.map(t => {
-                if (t.type === 'break') {
+
+            <div class="rounded-2xl border border-zinc-200/90 overflow-hidden bg-white shadow-sm">
+              <!-- หัวตาราง (แสดงบนจอแท็บเล็ต/คอมพิวเตอร์) -->
+              <div class="hidden sm:grid sm:grid-cols-12 bg-zinc-900 text-white text-[11px] font-extrabold uppercase tracking-wider px-4 py-3">
+                <div class="col-span-1 text-center">#</div>
+                <div class="col-span-2">วันที่</div>
+                <div class="col-span-5">Lecture (หัวข้อบรรยาย)</div>
+                <div class="col-span-4">Lab / Activity</div>
+              </div>
+
+              <!-- รายการแต่ละสัปดาห์ -->
+              <div class="divide-y divide-zinc-200/70">
+                ${plan.map(row => {
+                  const rowDateObj = parseFlexDate(row.date);
+                  const isRowToday = rowDateObj && (rowDateObj.getTime() === todayStart.getTime());
+                  const isRowPast = rowDateObj && (rowDateObj.getTime() < todayStart.getTime());
+
+                  // กรณีแถว Term Break / งดสอน (แถบสีม่วงเหมือนใน Slide)
+                  if (row.type === 'break') {
+                    return `
+                      <div class="px-4 py-3 bg-fuchsia-100/90 text-fuchsia-950 grid sm:grid-cols-12 gap-1 sm:gap-2 items-center text-xs font-bold">
+                        <div class="sm:col-span-1 text-center text-fuchsia-700">${row.no || '—'}</div>
+                        <div class="sm:col-span-2 text-fuchsia-800 font-extrabold">${row.date}</div>
+                        <div class="sm:col-span-9 flex items-center gap-2">
+                          <span class="px-2 py-0.5 rounded bg-fuchsia-600 text-white text-[10px] font-extrabold uppercase shrink-0">Break / งดสอน</span>
+                          <span>${row.lecture} ${row.lab ? '• ' + row.lab : ''}</span>
+                        </div>
+                      </div>
+                    `;
+                  }
+
+                  // กำหนดสีพื้นหลังและสีตัวอักษรตามสถานะ (วันนี้ / สอบ / โปรเจกต์ / ผ่านมาแล้ว / ปกติ)
+                  let rowStyle = 'bg-white text-zinc-900';
+                  let lectureStyle = 'font-bold text-zinc-900';
+                  let labStyle = 'text-emerald-700 font-semibold';
+
+                  if (isRowToday) {
+                    rowStyle = 'bg-zinc-900 text-white ring-2 ring-inset ring-emerald-400';
+                    lectureStyle = 'font-extrabold text-white';
+                    labStyle = 'text-emerald-300 font-bold';
+                  } else if (row.type === 'project') {
+                    rowStyle = 'bg-lime-200/80 text-zinc-900';
+                    lectureStyle = 'font-extrabold text-rose-700';
+                    labStyle = 'text-zinc-800 font-bold';
+                  } else if (row.type === 'exam') {
+                    rowStyle = 'bg-rose-50/90 text-zinc-900';
+                    lectureStyle = 'font-extrabold text-rose-800';
+                    labStyle = 'text-indigo-700 font-bold';
+                  } else if (isRowPast) {
+                    rowStyle = 'bg-zinc-50/70 text-zinc-400';
+                    lectureStyle = 'font-medium text-zinc-400';
+                    labStyle = 'text-zinc-400 font-normal';
+                  }
+
                   return `
-                    <div class="rounded-xl p-2.5 border border-dashed border-amber-300 bg-amber-50/80 text-amber-900 flex flex-col justify-between">
-                      <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-700">⏸ งดสอน / เบรค</span>
-                      <span class="text-xs font-bold mt-0.5">${t.shortDate}</span>
-                      <span class="text-[10px] text-amber-700 truncate" title="${t.label}">${t.label}</span>
+                    <div class="px-4 py-3 grid sm:grid-cols-12 gap-1 sm:gap-2 items-center text-xs transition ${rowStyle}">
+                      <div class="sm:col-span-1 flex sm:justify-center items-center gap-2">
+                        <span class="font-extrabold ${isRowToday ? 'text-emerald-400' : ''}">${row.no || '•'}</span>
+                        <span class="sm:hidden font-bold">${row.date}</span>
+                        ${isRowToday ? '<span class="sm:hidden px-2 py-0.5 rounded bg-emerald-400 text-zinc-950 text-[10px] font-black">วันนี้</span>' : ''}
+                      </div>
+                      <div class="hidden sm:block sm:col-span-2 font-bold">
+                        ${row.date}
+                        ${isRowToday ? '<span class="ml-1 px-1.5 py-0.5 rounded bg-emerald-400 text-zinc-950 text-[9px] font-black">วันนี้</span>' : ''}
+                      </div>
+                      <div class="sm:col-span-5 leading-snug ${lectureStyle}">
+                        ${row.lecture}
+                      </div>
+                      <div class="sm:col-span-4 leading-snug ${labStyle}">
+                        ${row.lab ? `<span class="inline-block">${row.lab}</span>` : ''}
+                      </div>
                     </div>
                   `;
-                }
-                return `
-                  <div class="rounded-xl p-2.5 border transition ${t.isToday ? 'bg-zinc-900 text-white border-zinc-900 shadow-md ring-2 ring-zinc-900/20' : 'bg-white/90 text-zinc-800 border-zinc-200/80'}">
-                    <div class="flex items-center justify-between">
-                      <span class="text-[10px] font-extrabold ${t.isToday ? 'text-emerald-400' : 'text-zinc-400'}">ครั้งที่ ${t.session}</span>
-                      ${t.isToday ? '<span class="px-1.5 py-0.2 rounded bg-emerald-500 text-zinc-950 text-[9px] font-black">วันนี้</span>' : ''}
-                    </div>
-                    <p class="text-xs font-extrabold mt-0.5">${t.shortDate}</p>
-                  </div>
-                `;
-              }).join('')}
+                }).join('')}
+              </div>
             </div>
           </div>
-        ` : '';
+        ` : `
+          <div class="rounded-2xl border border-dashed border-zinc-300 p-4 text-center text-xs text-zinc-500">
+            ยังไม่ได้เชื่อมต่อแท็บแผนการสอนรายสัปดาห์ (สามารถสร้างแท็บเช่น <strong>Plan_DAI103</strong> แล้วใส่ชื่อแท็บในคอลัมน์ H ของแท็บ 6_Teaching_Schedule)
+          </div>
+        `;
 
         return `
           <div class="bento-card rounded-3xl border-l-8 ${theme.border} overflow-hidden transition">
@@ -825,9 +831,9 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
               <div class="flex items-center justify-between gap-2 flex-wrap">
                 <div class="flex items-center gap-2">
                   <span class="px-3.5 py-1 rounded-full text-xs sm:text-sm font-extrabold tracking-wide shadow-sm ${theme.pill}">
-                    ${theme.name} ${isToday ? '• วันนี้' : ''}
+                    ${theme.name} ${isTodayCourse ? '• วันนี้' : ''}
                   </span>
-                  ${termData.totalClasses > 0 ? `<span class="px-2.5 py-1 rounded-full bg-white/80 border border-zinc-200 text-[11px] font-bold text-zinc-600">สอน ${termData.totalClasses} ครั้ง</span>` : ''}
+                  ${classCount > 0 ? `<span class="px-2.5 py-1 rounded-full bg-white/80 border border-zinc-200 text-[11px] font-bold text-zinc-600">แผนการเรียน ${classCount} ครั้ง</span>` : ''}
                 </div>
                 ${c.note ? `<span class="px-3.5 py-1 rounded-full bg-zinc-900/5 border border-zinc-300/80 text-sm sm:text-base font-extrabold text-zinc-800">${c.note}</span>` : ''}
               </div>
@@ -848,7 +854,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
             </div>
 
             <!-- ส่วนขยายด้านใน -->
-            <div id="sched-panel-${idx}" class="hidden px-5 sm:px-6 pb-6 pt-4 border-t border-zinc-200/80 bg-white/40 space-y-4">
+            <div id="sched-panel-${idx}" class="hidden px-5 sm:px-6 pb-6 pt-4 border-t border-zinc-200/80 bg-white/40 space-y-5">
               
               <!-- คำอธิบายรายวิชา + ปุ่ม Classroom, แบบประเมิน VAK และ แผนการสอน (Syllabus) -->
               <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
@@ -894,8 +900,8 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
                 </div>
               ` : ''}
 
-              <!-- ปฏิทินการศึกษา -->
-              ${timelineHtml}
+              <!-- ตารางแผนการเรียนรายสัปดาห์แบบ Slide -->
+              ${planTableHtml}
             </div>
           </div>
         `;
