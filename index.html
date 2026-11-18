@@ -1,13 +1,12 @@
-<!--   356
+<!--   372
 https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec
 -->
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WW/C | Asst.Prof.Dr.Waiwit Chanwimalueng</title>
+  <title>WW/C | Asst.Prof.Dr.Waiwit Chanwimalueng — Resource Hub</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://unpkg.com/lucide@latest"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -18,20 +17,20 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       color: #18181b;
     }
     .bento-card {
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.65);
       backdrop-filter: blur(16px);
       border: 1.5px solid rgba(255, 255, 255, 0.9);
       box-shadow: 0 20px 45px rgba(0, 0, 0, 0.04);
     }
     .yoga-style-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.8) 100%);
+      background: linear-gradient(180deg, rgba(255,255,255,0.45) 0%, rgba(255,255,255,0.85) 100%);
       backdrop-filter: blur(14px);
       border: 1.5px solid rgba(255, 255, 255, 0.9);
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
     }
     .profile-blend {
-      -webkit-mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
-      mask-image: linear-gradient(to bottom, black 75%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
     }
     .fade-slide { transition: opacity 1.2s ease-in-out; }
     .page-section { animation: fadeInPage 0.25s ease-out; }
@@ -39,15 +38,11 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       from { opacity: 0; transform: translateY(6px); }
       to { opacity: 1; transform: translateY(0); }
     }
-    /* ซ่อนเนื้อหาก่อนข้อมูลจริงจาก Sheet จะมาถึง เพื่อป้องกันภาพเก่ากระพริบ (FOUC) */
-    .app-ready-transition {
-      transition: opacity 0.35s ease-in-out;
-    }
+    .app-ready-transition { transition: opacity 0.35s ease-in-out; }
   </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-zinc-900 selection:text-white">
 
-  <!-- Wrapper หลัก ซ่อนไว้ด้วย opacity-0 จนกว่าข้อมูลจริงจะพร้อมแสดงผล -->
   <div id="app-wrapper" class="opacity-0 app-ready-transition min-h-screen flex flex-col justify-between">
 
     <!-- ================= NAVBAR ================= -->
@@ -57,11 +52,11 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         <span id="g-logo-name" class="text-lg font-bold tracking-tight text-zinc-800">waiwit.chan</span>
       </button>
 
-      <nav class="hidden md:flex items-center space-x-8 text-[11px] font-bold tracking-widest uppercase text-zinc-500">
-        <button onclick="switchPage('home')" id="nav-home" class="nav-link text-zinc-900 border-b-2 border-zinc-900 pb-1 uppercase">HOME</button>
-        <button onclick="switchPage('cv')" id="nav-cv" class="nav-link hover:text-zinc-900 transition uppercase">ABOUT ME & CV</button>
+      <nav class="hidden md:flex items-center space-x-7 text-[11px] font-bold tracking-widest uppercase text-zinc-500">
+        <button onclick="switchPage('home')" id="nav-home" class="nav-link text-zinc-900 border-b-2 border-zinc-900 pb-1 uppercase">HUB HOME</button>
+        <button onclick="switchPage('schedule')" id="nav-schedule" class="nav-link hover:text-zinc-900 transition uppercase">SCHEDULE</button>
         <button onclick="switchPage('books')" id="nav-books" class="nav-link hover:text-zinc-900 transition uppercase">BOOKS (MEB)</button>
-        <button onclick="switchPage('projects')" id="nav-projects" class="nav-link hover:text-zinc-900 transition uppercase">TEACHING & PROJECTS</button>
+        <button onclick="switchPage('about')" id="nav-about" class="nav-link hover:text-zinc-900 transition uppercase">ABOUT & CV</button>
         <button onclick="switchPage('contact')" id="nav-contact" class="nav-link hover:text-zinc-900 transition uppercase">CONTACT</button>
       </nav>
 
@@ -72,52 +67,174 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
 
     <!-- เมนูสำหรับมือถือ -->
     <div class="flex md:hidden justify-center gap-2 px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-zinc-600 flex-wrap">
-      <button onclick="switchPage('home')" id="nav-m-home" class="nav-link-m px-3 py-1 rounded-full bg-zinc-900 text-white" data-target="home">HOME</button>
-      <button onclick="switchPage('cv')" id="nav-m-cv" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="cv">CV</button>
+      <button onclick="switchPage('home')" id="nav-m-home" class="nav-link-m px-3 py-1 rounded-full bg-zinc-900 text-white" data-target="home">HUB</button>
+      <button onclick="switchPage('schedule')" id="nav-m-schedule" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="schedule">SCHEDULE</button>
       <button onclick="switchPage('books')" id="nav-m-books" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="books">BOOKS</button>
-      <button onclick="switchPage('projects')" id="nav-m-projects" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="projects">PROJECTS</button>
+      <button onclick="switchPage('about')" id="nav-m-about" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="about">ABOUT & CV</button>
       <button onclick="switchPage('contact')" id="nav-m-contact" class="nav-link-m px-3 py-1 rounded-full bg-white/70" data-target="contact">CONTACT</button>
     </div>
 
     <!-- ======================================================================= -->
-    <!-- 1. หน้าแรก (HOME PAGE - ล้างรูปผู้หญิงและค่าเก่าออกทั้งหมด) -->
+    <!-- 1. หน้าแรก (RESOURCE HUB HOME) -->
     <!-- ======================================================================= -->
-    <main id="page-home" class="page-section max-w-6xl w-full mx-auto px-6 py-8 space-y-16 relative z-10 flex-1">
-      <section class="grid md:grid-cols-12 gap-8 items-center relative">
-        <div class="md:col-span-6 space-y-6 relative z-20">
-          <div class="relative inline-block">
-            <svg class="w-12 h-12 text-zinc-800 absolute -top-6 -right-14 animate-spin pointer-events-none" style="animation-duration: 25s;" viewBox="0 0 100 100">
-              <g stroke="currentColor" stroke-width="3">
-                <line x1="50" y1="0" x2="50" y2="100"/><line x1="0" y1="50" x2="100" y2="50"/>
-                <line x1="15" y1="15" x2="85" y2="85"/><line x1="85" y1="15" x2="15" y2="85"/>
-                <line x1="31" y1="4" x2="69" y2="96"/><line x1="4" y1="31" x2="96" y2="69"/>
-                <line x1="69" y1="4" x2="31" y2="96"/><line x1="4" y1="69" x2="96" y2="31"/>
-              </g>
-            </svg>
-            <h1 class="text-5xl sm:text-6xl font-extrabold tracking-tight leading-[1.06] text-zinc-900">
-              <span id="h-title-1" class="block">Academic</span>
-              <span id="h-title-2" class="block">Innovation Path</span>
-              <span id="h-title-3" class="block text-zinc-500">With waiwit</span>
-            </h1>
+    <main id="page-home" class="page-section max-w-6xl w-full mx-auto px-6 py-6 space-y-10 relative z-10 flex-1">
+      
+      <!-- Top Compact Header Bar -->
+      <section class="bento-card rounded-[32px] p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+        <div class="space-y-2 max-w-2xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 text-white text-[10px] font-extrabold uppercase tracking-widest">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="h-bento-badge">DIGITAL RESOURCE & KM HUB</span>
           </div>
+          <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-zinc-900 leading-tight">
+            <span id="h-title-1">Academic</span>
+            <span id="h-title-2">Innovation Path</span>
+            <span id="h-title-3" class="text-zinc-500">With waiwit</span>
+          </h1>
+          <p id="h-bio" class="text-xs sm:text-sm text-zinc-600 leading-relaxed"></p>
+        </div>
 
-          <p id="h-bio" class="text-xs sm:text-sm text-zinc-600 max-w-md leading-relaxed min-h-[3.5rem]"></p>
-
-          <div class="flex flex-wrap items-center gap-6 pt-1">
-            <button onclick="switchPage('projects')" id="h-btn-text" class="px-7 py-3.5 rounded-full bg-white hover:bg-zinc-900 text-zinc-900 hover:text-white text-xs font-extrabold uppercase tracking-wider shadow-md border border-zinc-200 transition">
-              EXPLORE WORK
-            </button>
+        <div class="flex flex-wrap items-center gap-3 shrink-0">
+          <!-- Visitor Counter Pill -->
+          <div class="bg-white/80 border border-white rounded-2xl px-4 py-2.5 flex items-center gap-3 shadow-sm">
+            <div class="w-8 h-8 rounded-xl bg-zinc-900 text-white flex items-center justify-center">
+              <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
+            </div>
             <div>
-              <p id="h-channel-lbl" class="text-[10px] font-bold text-zinc-500 mb-1">Academic & Digital Channels</p>
-              <div class="flex items-center gap-2.5 text-zinc-800">
-                <button onclick="switchPage('books')" class="hover:scale-110 transition"><i data-lucide="book-open" class="w-4 h-4"></i></button>
-                <button onclick="switchPage('cv')" class="hover:scale-110 transition"><i data-lucide="graduation-cap" class="w-4 h-4"></i></button>
-                <button onclick="switchPage('projects')" class="hover:scale-110 transition"><i data-lucide="cpu" class="w-4 h-4"></i></button>
-              </div>
+              <p class="text-[9px] font-bold uppercase tracking-wider text-zinc-400">Total Visits</p>
+              <p class="text-sm font-extrabold text-zinc-900">
+                <span id="stat-total-top">...</span>
+                <span class="text-[10px] font-semibold text-emerald-600 ml-1">(+<span id="stat-today-top">1</span> today)</span>
+              </p>
             </div>
           </div>
 
-          <div class="grid grid-cols-2 gap-6 pt-6 max-w-sm">
+          <button onclick="switchPage('schedule')" class="px-4 py-3 rounded-2xl bg-white/80 hover:bg-zinc-900 hover:text-white text-zinc-900 text-xs font-extrabold uppercase tracking-wider border border-white shadow-sm transition flex items-center gap-2">
+            <i data-lucide="calendar" class="w-4 h-4"></i> ตารางสอน
+          </button>
+
+          <button onclick="switchPage('about')" class="px-4 py-3 rounded-2xl bg-zinc-900 hover:bg-zinc-700 text-white text-xs font-extrabold uppercase tracking-wider shadow-sm transition flex items-center gap-2">
+            <i data-lucide="user" class="w-4 h-4"></i> ประวัติอาจารย์
+          </button>
+        </div>
+      </section>
+
+      <!-- แถบแจ้งเตือน "คาบสอนวันนี้ (Today's Classes)" - แสดงเฉพาะวันที่มีสอน -->
+      <section id="today-classes-banner" class="hidden rounded-[28px] bg-zinc-900 text-white p-6 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-zinc-800">
+          <div class="flex items-center gap-2.5">
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+            <h2 class="text-sm font-extrabold uppercase tracking-wider">คาบสอนวันนี้ (Today's Active Classes)</h2>
+            <span id="today-day-badge" class="px-2.5 py-0.5 rounded-full bg-zinc-800 text-zinc-300 text-[10px] font-bold"></span>
+          </div>
+          <button onclick="switchPage('schedule')" class="text-[11px] font-bold text-zinc-400 hover:text-white flex items-center gap-1 transition">
+            ดูตารางสอนทั้งสัปดาห์ <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+          </button>
+        </div>
+        <div id="today-classes-list" class="grid md:grid-cols-2 gap-4 pt-4"></div>
+      </section>
+
+      <!-- โซนที่ 1: ระบบสารสนเทศและเครื่องมือ KM (GAS Systems & Tools) -->
+      <section class="space-y-5">
+        <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-widest text-zinc-500">INTERACTIVE SYSTEMS & TOOLS</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight">ระบบสารสนเทศและเครื่องมือประกอบการสอน</h2>
+          </div>
+
+          <!-- ช่องค้นหา (Live Search) -->
+          <div class="relative w-full md:w-72">
+            <i data-lucide="search" class="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+            <input type="text" id="hub-search" oninput="filterHubProjects()" placeholder="ค้นหาระบบ, รหัสวิชา, เครื่องมือ..." class="w-full pl-10 pr-4 py-2.5 rounded-full bg-white/80 border border-white text-xs font-medium text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 shadow-sm">
+          </div>
+        </div>
+
+        <!-- ปุ่มกรองหมวดหมู่ (Category Filter Pills) -->
+        <div id="hub-cat-filters" class="flex items-center gap-2 flex-wrap"></div>
+
+        <!-- การ์ดแสดงรายการระบบ GAS -->
+        <div id="hub-projects-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      </section>
+
+      <!-- โซนที่ 2: หนังสือและตำราวิชาการบน MEB (Featured Books) -->
+      <section class="space-y-5 pt-4 border-t border-zinc-300/70">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+          <div>
+            <span class="text-[10px] font-extrabold uppercase tracking-widest text-zinc-500">PUBLICATIONS & E-BOOKS</span>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight">ตำราวิชาการและหนังสืออิเล็กทรอนิกส์ (MEB)</h2>
+          </div>
+          <button onclick="switchPage('books')" class="inline-flex items-center gap-1.5 text-xs font-extrabold text-zinc-900 hover:opacity-70 transition">
+            ดูหนังสือทั้งหมด <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div id="hub-books-grid" class="grid md:grid-cols-3 gap-6"></div>
+      </section>
+
+    </main>
+
+    <!-- ======================================================================= -->
+    <!-- 2. หน้าตารางสอนและลิงก์ Google Classroom (SCHEDULE PAGE) -->
+    <!-- ======================================================================= -->
+    <main id="page-schedule" class="page-section hidden max-w-6xl w-full mx-auto px-6 py-8 space-y-8 flex-1">
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div class="space-y-2">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-zinc-300/70 text-[10px] font-extrabold uppercase tracking-widest text-zinc-700">
+            SEMESTER CLASSROOM LINKS
+          </span>
+          <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 leading-tight">
+            Teaching Schedule<br><span class="text-zinc-500">& Google Classroom</span>
+          </h1>
+        </div>
+        <p class="text-xs sm:text-sm text-zinc-600 max-w-md leading-relaxed">
+          ตารางสอนประจำภาคการศึกษาและทางลัดเข้าสู่ห้องเรียนออนไลน์ (Google Classroom) แยกตามรายวิชาและกลุ่มเรียน
+        </p>
+      </div>
+
+      <div id="schedule-list-box" class="grid md:grid-cols-2 gap-5"></div>
+    </main>
+
+    <!-- ======================================================================= -->
+    <!-- 3. หน้าหนังสือและอีบุ๊กบน MEB (BOOKS PAGE) -->
+    <!-- ======================================================================= -->
+    <main id="page-books" class="page-section hidden max-w-6xl w-full mx-auto px-6 py-10 space-y-10 flex-1">
+      <div class="grid md:grid-cols-12 gap-6 items-end">
+        <div class="md:col-span-7">
+          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 leading-tight">
+            <span id="b-title-1">Find Your Next</span><br>
+            <span id="b-title-2">Read</span> <span id="b-title-3" class="text-zinc-500">on MEB</span>
+          </h1>
+        </div>
+        <div class="md:col-span-5 flex flex-col items-start md:items-end gap-3">
+          <p id="b-desc" class="text-xs text-zinc-600 leading-relaxed md:text-right">
+            รวบรวมผลงานตำราวิชาการด้าน UX/UI & AI และผลงานอีบุ๊กสร้างสรรค์บนแพลตฟอร์ม MEB E-Books
+          </p>
+          <a id="meb-store-btn" href="https://www.mebmarket.com" target="_blank" class="px-5 py-2 rounded-full bg-zinc-900 text-white text-[11px] font-bold uppercase tracking-wider">
+            VISIT MEB STORE ↗
+          </a>
+        </div>
+      </div>
+
+      <div id="books-list-box" class="grid md:grid-cols-3 gap-6"></div>
+    </main>
+
+    <!-- ======================================================================= -->
+    <!-- 4. หน้าประวัติ รูปถ่าย และผลงานวิชาการ (ABOUT & CV PAGE) -->
+    <!-- ======================================================================= -->
+    <main id="page-about" class="page-section hidden w-full flex-1 space-y-12">
+      
+      <!-- ส่วนรูปโปรไฟล์ + แนะนำตัว (ย้ายมาจากหน้าแรกเดิม) -->
+      <section class="max-w-6xl w-full mx-auto px-6 pt-6 grid md:grid-cols-12 gap-8 items-center">
+        <div class="md:col-span-6 space-y-6">
+          <span class="inline-block px-4 py-1.5 rounded-full bg-zinc-300/70 text-[10px] font-extrabold uppercase tracking-widest text-zinc-700">
+            ACADEMIC PROFILE & BIOGRAPHY
+          </span>
+          <h1 id="about-name-heading" class="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 leading-tight">
+            Asst.Prof.Dr.Waiwit Chanwimalueng
+          </h1>
+          <p id="about-bio" class="text-xs sm:text-sm text-zinc-600 leading-relaxed"></p>
+
+          <div class="grid grid-cols-2 gap-6 pt-4 max-w-sm">
             <div>
               <p id="h-stat1-num" class="text-3xl sm:text-4xl font-extrabold text-zinc-900 tracking-tight">&nbsp;</p>
               <p id="h-stat1-desc" class="text-[11px] text-zinc-500 mt-1 leading-snug">Years in IT, UX/UI & Higher Education</p>
@@ -129,11 +246,8 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
           </div>
         </div>
 
-        <!-- ฝั่งขวา: กรอบรูปโปรไฟล์ว่างสีเทาอ่อน ไม่มีภาพผู้หญิงฝังอยู่ -->
         <div class="md:col-span-6 relative flex items-center justify-center">
-          <div id="profile-slider" class="relative w-80 sm:w-96 h-[440px] profile-blend z-10 bg-zinc-300/40 rounded-2xl overflow-hidden">
-            <!-- รูปโปรไฟล์จาก Google Sheets จะถูกโหลดมาใส่ตรงนี้โดยตรง -->
-          </div>
+          <div id="profile-slider" class="relative w-80 sm:w-96 h-[430px] profile-blend z-10 bg-zinc-300/40 rounded-2xl overflow-hidden"></div>
 
           <div class="bento-card w-36 h-36 rounded-full flex flex-col items-center justify-center p-4 text-center absolute top-6 right-0 sm:right-2 z-20 shadow-lg">
             <p id="h-circle-top" class="text-[9px] font-bold text-zinc-500 uppercase">Core Focus</p>
@@ -163,76 +277,8 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         </div>
       </section>
 
-      <!-- BENTO HIGHLIGHT SECTION -->
-      <section class="bento-card rounded-[36px] p-6 sm:p-10 grid md:grid-cols-12 gap-8 items-center">
-        <div class="md:col-span-5 h-72 sm:h-80 rounded-[28px] overflow-hidden relative bg-zinc-300/50">
-          <img id="h-bento-img" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" class="w-full h-full object-cover opacity-0 transition-opacity duration-300" alt="Highlight">
-          <div class="absolute bottom-4 left-4 right-4 bento-card rounded-2xl p-3 flex items-center justify-between">
-            <div>
-              <p id="h-bento-lbl" class="text-[10px] font-bold uppercase text-zinc-500">Featured Textbook</p>
-              <p id="h-bento-title" class="text-xs font-extrabold text-zinc-900">UX Design for AI (MEB)</p>
-            </div>
-            <button onclick="switchPage('books')" class="w-8 h-8 rounded-full bg-zinc-900 text-white flex items-center justify-center shrink-0">
-              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
-            </button>
-          </div>
-        </div>
-
-        <div class="md:col-span-7 space-y-6">
-          <span id="h-bento-badge" class="inline-block px-4 py-1.5 rounded-full bg-zinc-300/70 text-[10px] font-extrabold uppercase tracking-widest text-zinc-700">
-            ACADEMIC & INNOVATION HIGHLIGHTS
-          </span>
-          <p id="h-bento-desc" class="text-xs sm:text-sm text-zinc-600 leading-relaxed max-w-xl"></p>
-
-          <div class="grid sm:grid-cols-3 gap-4 pt-2">
-            <div onclick="switchPage('cv')" class="cursor-pointer bg-white/70 hover:bg-white rounded-3xl p-4 border border-white transition flex flex-col justify-between h-44 group">
-              <div class="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center text-zinc-800 group-hover:scale-110 transition">
-                <i data-lucide="graduation-cap" class="w-5 h-5"></i>
-              </div>
-              <div>
-                <p id="h-c1-title" class="text-xs font-extrabold text-zinc-900">Academic CV</p>
-                <p id="h-c1-sub" class="text-[10px] text-zinc-500 mt-0.5">ประวัติและงานสอน ม.รังสิต</p>
-              </div>
-              <div class="flex justify-end">
-                <span class="w-6 h-6 rounded-full bg-zinc-900 text-white flex items-center justify-center"><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></span>
-              </div>
-            </div>
-
-            <div onclick="switchPage('books')" class="cursor-pointer bg-white/95 rounded-3xl p-4 border border-white shadow-md transition flex flex-col justify-between h-44 group">
-              <div class="w-10 h-10 rounded-2xl bg-rose-500/10 flex items-center justify-center text-rose-600 group-hover:scale-110 transition">
-                <i data-lucide="book-open" class="w-5 h-5"></i>
-              </div>
-              <div>
-                <p id="h-c2-title" class="text-xs font-extrabold text-zinc-900">MEB Books</p>
-                <p id="h-c2-sub" class="text-[10px] text-zinc-500 mt-0.5">ตำราวิชาการและอีบุ๊ก</p>
-              </div>
-              <div class="flex justify-end">
-                <span class="w-6 h-6 rounded-full bg-zinc-900 text-white flex items-center justify-center"><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></span>
-              </div>
-            </div>
-
-            <div onclick="switchPage('projects')" class="cursor-pointer bg-white/70 hover:bg-white rounded-3xl p-4 border border-white transition flex flex-col justify-between h-44 group">
-              <div class="w-10 h-10 rounded-2xl bg-zinc-100 flex items-center justify-center text-zinc-800 group-hover:scale-110 transition">
-                <i data-lucide="layers" class="w-5 h-5"></i>
-              </div>
-              <div>
-                <p id="h-c3-title" class="text-xs font-extrabold text-zinc-900">KM Systems</p>
-                <p id="h-c3-sub" class="text-[10px] text-zinc-500 mt-0.5">ระบบจัดการเรียนการสอน</p>
-              </div>
-              <div class="flex justify-end">
-                <span class="w-6 h-6 rounded-full bg-zinc-900 text-white flex items-center justify-center"><i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- ======================================================================= -->
-    <!-- 2. หน้าประวัติและผลงานวิชาการ (CV PAGE) -->
-    <!-- ======================================================================= -->
-    <main id="page-cv" class="page-section hidden w-full flex-1">
-      <div class="w-full overflow-hidden py-8 border-y border-zinc-300/80 my-4 bg-white/30">
+      <!-- แถบคาด Curriculum Vitae -->
+      <div class="w-full overflow-hidden py-8 border-y border-zinc-300/80 bg-white/30">
         <div class="flex items-center justify-center gap-10 whitespace-nowrap text-3xl sm:text-5xl font-extrabold tracking-tight text-zinc-800">
           <span id="cv-ban-1a" class="opacity-40">curriculum vitae</span>
           <span class="text-2xl">✺</span>
@@ -242,46 +288,10 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         </div>
       </div>
 
-      <div class="max-w-5xl w-full mx-auto px-6 py-8">
+      <!-- รายการ CV -->
+      <div class="max-w-5xl w-full mx-auto px-6 pb-8">
         <div id="cv-list-box" class="divide-y divide-zinc-300"></div>
       </div>
-    </main>
-
-    <!-- ======================================================================= -->
-    <!-- 3. หน้าหนังสือและอีบุ๊กบน MEB (BOOKS PAGE) -->
-    <!-- ======================================================================= -->
-    <main id="page-books" class="page-section hidden max-w-6xl w-full mx-auto px-6 py-10 space-y-10 flex-1">
-      <div class="grid md:grid-cols-12 gap-6 items-end">
-        <div class="md:col-span-7">
-          <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 leading-tight">
-            <span id="b-title-1">Find Your Next</span><br>
-            <span id="b-title-2">Read</span> <span id="b-title-3" class="text-zinc-500">on MEB</span>
-          </h1>
-        </div>
-        <div class="md:col-span-5 flex flex-col items-start md:items-end gap-3">
-          <p id="b-desc" class="text-xs text-zinc-600 leading-relaxed md:text-right"></p>
-          <a id="meb-store-btn" href="https://www.mebmarket.com" target="_blank" class="px-5 py-2 rounded-full bg-zinc-900 text-white text-[11px] font-bold uppercase tracking-wider">
-            VISIT MEB STORE ↗
-          </a>
-        </div>
-      </div>
-
-      <div id="books-list-box" class="grid md:grid-cols-3 gap-6"></div>
-    </main>
-
-    <!-- ======================================================================= -->
-    <!-- 4. หน้าระบบสารสนเทศและ KM (PROJECTS PAGE) -->
-    <!-- ======================================================================= -->
-    <main id="page-projects" class="page-section hidden max-w-6xl w-full mx-auto px-6 py-10 space-y-10 flex-1">
-      <div class="space-y-3">
-        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight text-zinc-900 leading-tight">
-          <span id="p-title-1">Empower learning with</span><br>
-          <span id="p-title-2" class="text-zinc-500">smart KM systems</span>
-        </h1>
-        <p id="p-desc" class="text-xs sm:text-sm text-zinc-600 max-w-2xl leading-relaxed"></p>
-      </div>
-
-      <section id="projects-list-box" class="grid md:grid-cols-2 gap-6"></section>
     </main>
 
     <!-- ======================================================================= -->
@@ -336,11 +346,16 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       </div>
     </main>
 
-    <!-- ================= OVERSIZED FOOTER ================= -->
+    <!-- ================= FOOTER & VISITOR STATS ================= -->
     <footer class="max-w-6xl w-full mx-auto px-6 pt-12 pb-6">
-      <div class="flex justify-between items-center text-[11px] font-semibold text-zinc-500 border-t border-zinc-300 pt-4 mb-2">
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-2 text-[11px] font-semibold text-zinc-500 border-t border-zinc-300 pt-4 mb-2">
         <span id="g-footer-left">Rangsit University • Pathum Thani, Thailand</span>
-        <span id="g-footer-right">2026 all rights reserved waiwit.chan</span>
+        <div class="flex items-center gap-4">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/70 text-zinc-700 text-[10px] font-bold">
+            <i data-lucide="eye" class="w-3 h-3"></i> เข้าชมทั้งหมด: <strong id="stat-total-foot">-</strong> ครั้ง (วันนี้ <strong id="stat-today-foot">-</strong>)
+          </span>
+          <span id="g-footer-right">2026 all rights reserved waiwit.chan</span>
+        </div>
       </div>
       <div id="footer-giant-wrap" class="text-center overflow-hidden leading-none select-none">
         <span id="g-footer-giant" class="text-[12vw] sm:text-[115px] font-black tracking-tighter text-zinc-900 inline-block -mb-4">
@@ -351,19 +366,27 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
 
   </div>
 
-  <!-- ================= SCRIPT ดึงข้อมูลจาก GOOGLE SHEETS แบบไร้รอยต่อ ================= -->
+  <!-- ================= SCRIPT เชื่อมต่อ GOOGLE SHEETS & SPA ROUTER ================= -->
   <script>
-    // 📌 วางลิงก์ Web App URL (ที่ลงท้ายด้วย /exec) จาก Google Apps Script ตรงนี้ครับ:
+    // 📌 📌 📌 📌 📌 วางลิงก์ Web App URL (ที่ลงท้ายด้วย /exec) จาก Google Apps Script ตรงนี้ครับ:
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
 
-    const CACHE_KEY = 'wwc_portfolio_live_cache_v1';
+    const CACHE_KEY = 'wwc_resource_hub_cache_v2';
+    const HIT_SESSION_KEY = 'wwc_visited_session';
     lucide.createIcons();
+
     let slideTimer = null;
     let bookCardBtnText = 'Buy on MEB →';
-    let projCardBtnText = 'View Case Study →';
+    let projCardBtnText = 'เปิดใช้งานระบบ →';
+    let allProjects = [];
+    let activeCategory = 'ALL';
 
     function switchPage(pageId) {
-      const validPages = ['home', 'cv', 'books', 'projects', 'contact'];
+      // รองรับลิงก์เก่าเช่น #cv หรือ #projects ให้วิ่งมาถูกหน้า
+      if (pageId === 'cv') pageId = 'about';
+      if (pageId === 'projects') pageId = 'home';
+
+      const validPages = ['home', 'schedule', 'books', 'about', 'contact'];
       const target = validPages.includes(pageId) ? pageId : 'home';
 
       validPages.forEach(p => {
@@ -390,7 +413,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       const initialHash = window.location.hash.replace('#', '') || 'home';
       switchPage(initialHash);
 
-      // 1. เช็กข้อมูลล่าสุดของอาจารย์ที่จำไว้ในเครื่อง (ถ้ามี ให้แสดงทันทีใน 0.0 วินาทีโดยไม่มีภาพเก่า)
+      // 1. แสดงข้อมูลจาก Cache ในเครื่องทันที (0.0 วินาที ไม่ต้องรอโหลด)
       const cached = localStorage.getItem(CACHE_KEY);
       if (cached) {
         try {
@@ -399,11 +422,15 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         } catch (e) {}
       }
 
-      // 2. ดึงข้อมูลสดจาก Google Sheets เสมอเพื่ออัปเดตข้อมูลล่าสุด
+      // 2. ดึงข้อมูลสดจาก Google Sheets + นับสถิติผู้เข้าชม (1 ครั้งต่อ Session)
       if (GAS_API_URL && GAS_API_URL.startsWith('http')) {
-        fetch(GAS_API_URL + '?t=' + new Date().getTime(), { redirect: 'follow' })
+        const isNewVisit = !sessionStorage.getItem(HIT_SESSION_KEY);
+        const query = '?t=' + new Date().getTime() + (isNewVisit ? '&hit=1' : '');
+
+        fetch(GAS_API_URL + query, { redirect: 'follow' })
           .then(res => res.json())
           .then(data => {
+            if (isNewVisit) sessionStorage.setItem(HIT_SESSION_KEY, '1');
             localStorage.setItem(CACHE_KEY, JSON.stringify(data));
             applySheetData(data);
             document.getElementById('app-wrapper').classList.remove('opacity-0');
@@ -422,25 +449,51 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       const g = data.global || {};
       const h = data.home || {};
 
-      // 1. อัปเดต Global Settings & เมนู
+      // อัปเดตสถิติผู้เข้าชม
+      if (data.stats) {
+        const total = Number(data.stats.total || 1).toLocaleString();
+        const today = Number(data.stats.today || 1).toLocaleString();
+        setText('stat-total-top', total);
+        setText('stat-today-top', today);
+        setText('stat-total-foot', total);
+        setText('stat-today-foot', today);
+      }
+
+      // อัปเดตแบรนด์ & ฟุตเตอร์
       setText('g-logo-mark', g.logo_mark);
       setText('g-logo-name', g.logo_name);
-      setText('nav-home', g.menu_1);
-      setText('nav-cv', g.menu_2);
-      setText('nav-books', g.menu_3);
-      setText('nav-projects', g.menu_4);
-      setText('nav-contact', g.menu_5);
-      setText('nav-m-home', g.menu_1);
-      setText('nav-m-cv', g.menu_2);
-      setText('nav-m-books', g.menu_3);
-      setText('nav-m-projects', g.menu_4);
-      setText('nav-m-contact', g.menu_5);
       setText('g-nav-cta', g.nav_cta_btn);
       setText('g-footer-left', g.footer_left);
       setText('g-footer-right', g.footer_right);
       setText('g-footer-giant', g.footer_giant_text);
 
-      // 2. อัปเดตหัวข้อหน้า CV, Books, Projects, Contact
+      if (g.books_card_btn) bookCardBtnText = g.books_card_btn;
+      if (g.proj_card_btn) projCardBtnText = g.proj_card_btn;
+
+      // อัปเดตข้อความหน้าแรกและหน้า About
+      setText('h-title-1', h.hero_title_1);
+      setText('h-title-2', h.hero_title_2);
+      setText('h-title-3', h.hero_title_3);
+      setText('h-bio', h.hero_bio);
+      setText('about-bio', h.hero_bio);
+      setText('h-bento-badge', h.bento_badge);
+
+      setText('h-stat1-num', h.stat_1_num);
+      setText('h-stat1-desc', h.stat_1_desc);
+      setText('h-stat2-num', h.stat_2_num);
+      setText('h-stat2-desc', h.stat_2_desc);
+      setText('h-circle-top', h.circle_top_text);
+      setText('h-circle-mid', h.circle_mid_text);
+      setText('h-circle-bot', h.circle_bot_text);
+      setText('h-tag-1', h.float_tag_1);
+      setText('h-tag-2', h.float_tag_2);
+      setText('h-tag-3', h.float_tag_3);
+      setText('h-float-name', h.float_name);
+      setText('about-name-heading', h.float_name);
+      setText('c-card-name', h.float_name);
+      setText('h-float-role', h.float_role);
+
+      // อัปเดตหัวข้อหน้า CV, Books, Contact
       setText('cv-ban-1a', g.cv_banner_1);
       setText('cv-ban-1b', g.cv_banner_1);
       setText('cv-ban-2', g.cv_banner_2);
@@ -450,12 +503,6 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       setText('b-title-3', g.books_title_3);
       setText('b-desc', g.books_desc);
       setText('meb-store-btn', g.books_store_btn);
-      if (g.books_card_btn) bookCardBtnText = g.books_card_btn;
-
-      setText('p-title-1', g.proj_title_1);
-      setText('p-title-2', g.proj_title_2);
-      setText('p-desc', g.proj_desc);
-      if (g.proj_card_btn) projCardBtnText = g.proj_card_btn;
 
       setText('c-badge', g.contact_badge);
       setText('c-title-1', g.contact_title_1);
@@ -469,44 +516,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       if (g.contact_email) document.getElementById('c-mailto-btn').href = 'mailto:' + g.contact_email;
       if (g.meb_store_url) document.getElementById('meb-store-btn').href = g.meb_store_url;
 
-      // 3. อัปเดตหน้าแรก (Home)
-      setText('h-title-1', h.hero_title_1);
-      setText('h-title-2', h.hero_title_2);
-      setText('h-title-3', h.hero_title_3);
-      setText('h-bio', h.hero_bio);
-      setText('h-btn-text', h.hero_btn_text);
-      setText('h-channel-lbl', h.hero_channel_label);
-      setText('h-stat1-num', h.stat_1_num);
-      setText('h-stat1-desc', h.stat_1_desc);
-      setText('h-stat2-num', h.stat_2_num);
-      setText('h-stat2-desc', h.stat_2_desc);
-      setText('h-circle-top', h.circle_top_text);
-      setText('h-circle-mid', h.circle_mid_text);
-      setText('h-circle-bot', h.circle_bot_text);
-      setText('h-tag-1', h.float_tag_1);
-      setText('h-tag-2', h.float_tag_2);
-      setText('h-tag-3', h.float_tag_3);
-      setText('h-float-name', h.float_name);
-      setText('c-card-name', h.float_name);
-      setText('h-float-role', h.float_role);
-      setText('h-bento-lbl', h.bento_img_label);
-      setText('h-bento-title', h.bento_img_title);
-      setText('h-bento-badge', h.bento_badge);
-      setText('h-bento-desc', h.bento_desc);
-      setText('h-c1-title', h.card_1_title);
-      setText('h-c1-sub', h.card_1_sub);
-      setText('h-c2-title', h.card_2_title);
-      setText('h-c2-sub', h.card_2_sub);
-      setText('h-c3-title', h.card_3_title);
-      setText('h-c3-sub', h.card_3_sub);
-
-      if (h.bento_left_img) {
-        const bentoImg = document.getElementById('h-bento-img');
-        bentoImg.src = h.bento_left_img;
-        bentoImg.classList.remove('opacity-0');
-      }
-
-      // สไลด์รูปโปรไฟล์ 3 รูป
+      // สไลด์รูปโปรไฟล์ในหน้า About
       const profImgs = [h.profile_img_1, h.profile_img_2, h.profile_img_3].filter(Boolean);
       if (profImgs.length > 0) {
         const slider = document.getElementById('profile-slider');
@@ -526,65 +536,205 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         }
       }
 
-      // 4. อัปเดตรายการในหน้า CV, Books, Projects
-      renderLists(data);
+      // เรนเดอร์รายการทั้งหมด
+      allProjects = data.projects || [];
+      buildCategoryFilters(allProjects);
+      filterHubProjects();
+      renderBooks(data.books || []);
+      renderCV(data.cvList || []);
+      renderSchedule(data.schedule || []);
     }
 
-    function renderLists(data) {
-      if (data.cvList && data.cvList.length) {
-        document.getElementById('cv-list-box').innerHTML = data.cvList.map(c => `
-          <div class="py-8 grid md:grid-cols-12 gap-4 items-center">
-            <span class="md:col-span-1 text-xs font-extrabold text-zinc-500">${c.no}</span>
-            <h2 class="md:col-span-5 text-2xl sm:text-3xl font-extrabold text-zinc-900 leading-tight">${c.title}</h2>
-            <p class="md:col-span-4 text-xs text-zinc-600 leading-relaxed">${c.desc}</p>
-            <div class="md:col-span-2 flex md:justify-end">
-              <span class="px-5 py-2 rounded-full border border-zinc-500 text-[11px] font-bold text-zinc-800">${c.tag}</span>
-            </div>
-          </div>
-        `).join('');
+    // สร้างปุ่มกรองหมวดหมู่จากคอลัมน์ Category ในแท็บ 5_Projects_KM_Page อัตโนมัติ
+    function buildCategoryFilters(projects) {
+      const box = document.getElementById('hub-cat-filters');
+      if (!box) return;
+      const cats = new Set(['ALL']);
+      projects.forEach(p => {
+        if (p.cat) {
+          const mainCat = String(p.cat).split('•')[0].trim();
+          if (mainCat) cats.add(mainCat);
+        }
+      });
+
+      box.innerHTML = Array.from(cats).map(cat => {
+        const isAct = (cat === activeCategory);
+        const label = (cat === 'ALL') ? 'ทั้งหมด (' + projects.length + ')' : cat;
+        return `<button onclick="setProjectCategory('${cat.replace(/'/g, "\\'")}')" class="px-4 py-1.5 rounded-full text-[11px] font-extrabold uppercase tracking-wider transition ${isAct ? 'bg-zinc-900 text-white shadow-sm' : 'bg-white/70 hover:bg-white text-zinc-700 border border-white'}">${label}</button>`;
+      }).join('');
+    }
+
+    function setProjectCategory(cat) {
+      activeCategory = cat;
+      buildCategoryFilters(allProjects);
+      filterHubProjects();
+    }
+
+    function filterHubProjects() {
+      const q = (document.getElementById('hub-search')?.value || '').toLowerCase().trim();
+      const filtered = allProjects.filter(p => {
+        const mainCat = String(p.cat || '').split('•')[0].trim();
+        const matchCat = (activeCategory === 'ALL') || (mainCat === activeCategory);
+        const matchText = !q ||
+          String(p.title || '').toLowerCase().includes(q) ||
+          String(p.cat || '').toLowerCase().includes(q) ||
+          String(p.desc || '').toLowerCase().includes(q);
+        return matchCat && matchText;
+      });
+
+      const grid = document.getElementById('hub-projects-grid');
+      if (!grid) return;
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<div class="col-span-full bento-card rounded-3xl p-8 text-center text-xs text-zinc-500">ไม่พบระบบหรือรายการที่ค้นหา</div>`;
+        return;
       }
 
-      if (data.books && data.books.length) {
-        document.getElementById('books-list-box').innerHTML = data.books.map(b => `
-          <div class="yoga-style-card rounded-[32px] p-6 relative overflow-hidden flex flex-col justify-between min-h-[390px] group">
-            <span class="absolute top-6 left-0 right-0 text-center text-6xl font-black tracking-tighter text-white/80 select-none pointer-events-none">${b.bgWord}</span>
-            <div class="relative z-10 h-52 w-40 mx-auto mt-6 rounded-xl overflow-hidden shadow-xl border-2 border-white group-hover:scale-105 transition duration-500">
-              <img src="${b.cover}" class="w-full h-full object-cover" alt="${b.title}">
-            </div>
-            <div class="relative z-10 text-center space-y-2.5 mt-4">
-              <p class="text-[10px] font-bold uppercase tracking-wider text-zinc-500">${b.sub}</p>
-              <h3 class="text-sm font-extrabold text-zinc-900 leading-snug">${b.title}</h3>
-              <p class="text-[11px] text-zinc-600">${b.desc}</p>
-              <div class="pt-1">
-                <a href="${b.link}" target="_blank" class="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white text-zinc-900 text-xs font-bold shadow-sm transition">
-                  ${bookCardBtnText}
-                </a>
+      grid.innerHTML = filtered.map(p => `
+        <div class="bento-card rounded-[28px] p-5 flex flex-col justify-between space-y-4 hover:-translate-y-1 transition duration-300 group">
+          <div class="space-y-3.5">
+            ${p.image ? `
+            <div class="h-44 rounded-2xl overflow-hidden bg-zinc-200 relative">
+              <img src="${p.image}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500" alt="${p.title}">
+            </div>` : ''}
+            <span class="inline-block px-3 py-1 rounded-full bg-zinc-200/80 text-[10px] font-extrabold uppercase tracking-wider text-zinc-700">${p.cat || 'KM System'}</span>
+            <h3 class="text-lg font-extrabold text-zinc-900 leading-snug">${p.title}</h3>
+            <p class="text-xs text-zinc-600 leading-relaxed">${p.desc}</p>
+          </div>
+          <div class="pt-2">
+            <a href="${p.link}" target="_blank" class="inline-flex items-center justify-between w-full px-5 py-2.5 rounded-full bg-zinc-900 hover:bg-zinc-700 text-white text-xs font-bold transition">
+              <span>${projCardBtnText}</span>
+              <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+            </a>
+          </div>
+        </div>
+      `).join('');
+      lucide.createIcons();
+    }
+
+    // ระบบตรวจสอบวันและเรนเดอร์ตารางสอน (ทั้งแถบคาบสอนวันนี้บนหน้าแรก และตารางเต็มในแท็บ Schedule)
+    function parseDayIndex(dayStr) {
+      const s = String(dayStr || '').toLowerCase();
+      if (s.includes('mon') || s.includes('จันทร์') || s === 'จ.' || s === 'จ') return 1;
+      if (s.includes('tue') || s.includes('อังคาร') || s === 'อ.' || s === 'อ') return 2;
+      if (s.includes('wed') || s.includes('พุธ') || s === 'พ.' || s === 'พ') return 3;
+      if (s.includes('thu') || s.includes('พฤหัส') || s === 'พฤ.' || s === 'พฤ') return 4;
+      if (s.includes('fri') || s.includes('ศุกร์') || s === 'ศ.' || s === 'ศ') return 5;
+      if (s.includes('sat') || s.includes('เสาร์') || s === 'ส.' || s === 'ส') return 6;
+      if (s.includes('sun') || s.includes('อาทิตย์') || s === 'อา.' || s === 'อา') return 0;
+      return -1;
+    }
+
+    const dayThaiNames = ['วันอาทิตย์', 'วันจันทร์', 'วันอังคาร', 'วันพุธ', 'วันพฤหัสบดี', 'วันศุกร์', 'วันเสาร์'];
+
+    function renderSchedule(schedule) {
+      const todayIdx = new Date().getDay(); // 0 (Sun) - 6 (Sat)
+      const todayClasses = schedule.filter(item => parseDayIndex(item.day) === todayIdx);
+
+      // 1. แถบ "คาบสอนวันนี้" บนหน้าแรก
+      const banner = document.getElementById('today-classes-banner');
+      const todayList = document.getElementById('today-classes-list');
+      const dayBadge = document.getElementById('today-day-badge');
+
+      if (todayClasses.length > 0) {
+        banner.classList.remove('hidden');
+        dayBadge.textContent = dayThaiNames[todayIdx];
+        todayList.innerHTML = todayClasses.map(c => `
+          <div class="bg-zinc-800/90 border border-zinc-700 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 text-[10px] font-extrabold uppercase">${c.day}</span>
+                ${c.note ? `<span class="text-[10px] text-zinc-400 font-semibold">${c.note}</span>` : ''}
               </div>
+              <h3 class="text-sm font-extrabold text-white">${c.course}</h3>
+              <p class="text-xs text-zinc-300">${c.timeRoom}</p>
             </div>
+            <a href="${c.classroomUrl}" target="_blank" class="px-4 py-2.5 rounded-full bg-white hover:bg-emerald-400 text-zinc-900 text-[11px] font-extrabold uppercase tracking-wider shrink-0 inline-flex items-center gap-1.5 transition">
+              เข้า Classroom <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </a>
           </div>
         `).join('');
+      } else {
+        banner.classList.add('hidden');
       }
 
-      if (data.projects && data.projects.length) {
-        document.getElementById('projects-list-box').innerHTML = data.projects.map(p => `
-          <div class="bento-card rounded-[32px] p-6 flex flex-col justify-between space-y-5">
-            <div class="space-y-4">
-              <div class="h-52 rounded-2xl overflow-hidden bg-zinc-200">
-                <img src="${p.image}" class="w-full h-full object-cover" alt="${p.title}">
+      // 2. หน้าตารางสอนเต็ม (Schedule Tab)
+      const schedBox = document.getElementById('schedule-list-box');
+      if (!schedBox) return;
+
+      if (schedule.length === 0) {
+        schedBox.innerHTML = `<div class="col-span-full bento-card rounded-3xl p-8 text-center text-xs text-zinc-500">ยังไม่มีข้อมูลตารางสอนในแท็บ 6_Teaching_Schedule</div>`;
+        return;
+      }
+
+      schedBox.innerHTML = schedule.map(c => {
+        const dIdx = parseDayIndex(c.day);
+        const isToday = (dIdx === todayIdx);
+        const dayLabel = dIdx >= 0 ? dayThaiNames[dIdx] : c.day;
+        return `
+          <div class="bento-card rounded-[28px] p-6 flex flex-col justify-between gap-4 ${isToday ? 'ring-2 ring-zinc-900 bg-white/90' : ''}">
+            <div class="space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${isToday ? 'bg-zinc-900 text-white' : 'bg-zinc-200 text-zinc-700'}">
+                  ${dayLabel} ${isToday ? '• วันนี้' : ''}
+                </span>
+                ${c.note ? `<span class="text-[11px] font-bold text-zinc-500">${c.note}</span>` : ''}
               </div>
-              <span class="text-[10px] font-extrabold uppercase tracking-widest text-zinc-500">${p.cat}</span>
-              <h3 class="text-xl font-extrabold text-zinc-900">${p.title}</h3>
-              <p class="text-xs text-zinc-600 leading-relaxed">${p.desc}</p>
+              <h3 class="text-lg font-extrabold text-zinc-900 leading-snug">${c.course}</h3>
+              <p class="text-xs text-zinc-600 flex items-center gap-1.5">
+                <i data-lucide="clock" class="w-3.5 h-3.5 text-zinc-400"></i> ${c.timeRoom}
+              </p>
             </div>
-            <div>
-              <a href="${p.link}" target="_blank" class="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full bg-zinc-900 text-white text-xs font-bold">
-                ${projCardBtnText}
+            <div class="pt-2">
+              <a href="${c.classroomUrl}" target="_blank" class="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-full bg-zinc-900 hover:bg-zinc-700 text-white text-xs font-extrabold uppercase tracking-wider transition">
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i> เข้าสู่ Google Classroom ↗
               </a>
             </div>
           </div>
-        `).join('');
-      }
+        `;
+      }).join('');
       lucide.createIcons();
+    }
+
+    function renderBooks(books) {
+      const cardHtml = books.map(b => `
+        <div class="yoga-style-card rounded-[32px] p-6 relative overflow-hidden flex flex-col justify-between min-h-[380px] group">
+          <span class="absolute top-6 left-0 right-0 text-center text-6xl font-black tracking-tighter text-white/80 select-none pointer-events-none">${b.bgWord}</span>
+          <div class="relative z-10 h-52 w-40 mx-auto mt-6 rounded-xl overflow-hidden shadow-xl border-2 border-white group-hover:scale-105 transition duration-500">
+            <img src="${b.cover}" class="w-full h-full object-cover" alt="${b.title}">
+          </div>
+          <div class="relative z-10 text-center space-y-2.5 mt-4">
+            <p class="text-[10px] font-bold uppercase tracking-wider text-zinc-500">${b.sub}</p>
+            <h3 class="text-sm font-extrabold text-zinc-900 leading-snug">${b.title}</h3>
+            <p class="text-[11px] text-zinc-600">${b.desc}</p>
+            <div class="pt-1">
+              <a href="${b.link}" target="_blank" class="inline-flex items-center gap-1.5 px-5 py-2 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white text-zinc-900 text-xs font-bold shadow-sm transition">
+                ${bookCardBtnText}
+              </a>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      const hubBooks = document.getElementById('hub-books-grid');
+      const pageBooks = document.getElementById('books-list-box');
+      if (hubBooks) hubBooks.innerHTML = cardHtml;
+      if (pageBooks) pageBooks.innerHTML = cardHtml;
+    }
+
+    function renderCV(cvList) {
+      const box = document.getElementById('cv-list-box');
+      if (!box || !cvList.length) return;
+      box.innerHTML = cvList.map(c => `
+        <div class="py-8 grid md:grid-cols-12 gap-4 items-center">
+          <span class="md:col-span-1 text-xs font-extrabold text-zinc-500">${c.no}</span>
+          <h2 class="md:col-span-5 text-2xl sm:text-3xl font-extrabold text-zinc-900 leading-tight">${c.title}</h2>
+          <p class="md:col-span-4 text-xs text-zinc-600 leading-relaxed">${c.desc}</p>
+          <div class="md:col-span-2 flex md:justify-end">
+            <span class="px-5 py-2 rounded-full border border-zinc-500 text-[11px] font-bold text-zinc-800">${c.tag}</span>
+          </div>
+        </div>
+      `).join('');
     }
 
     function setText(id, val) {
