@@ -1,9 +1,9 @@
-<!-- URL   L.350
+<!-- URL   L.373
 https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN_TeCW2B_3oW3ZxWQtmQqhxuOm4oRZujqKaXxRvx7Ro9slthkeqDG/exec
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN_TeCW2B_3oW3ZxWQtmQqhxuOm4oRZujqKaXxRvx7Ro9slthkeqDG/exec"; // วาง URL จาก Google Apps Script Deploy
  -->
 
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="th">
 <head>
   <meta charset="UTF-8" />
@@ -42,7 +42,7 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
       -webkit-font-smoothing: antialiased;
     }
     .glass-nav {
-      background: rgba(255, 255, 255, 0.85);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(12px);
       border-bottom: 1px solid #e2e8f0;
     }
@@ -57,10 +57,18 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
       from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    .question-card {
+      transition: all 0.25s ease;
+    }
+    .question-card.answered {
+      border-color: #c7d2fe;
+      background-color: #ffffff;
+    }
     .option-card input:checked + .option-body {
       border-color: #4f46e5;
       background-color: #eef2ff;
-      box-shadow: 0 0 0 1px #4f46e5;
+      box-shadow: 0 2px 8px -2px rgba(79, 70, 229, 0.18), 0 0 0 1px #4f46e5;
+      transform: translateY(-1px);
     }
     .option-card input:checked + .option-body .radio-dot {
       border-color: #4f46e5;
@@ -86,7 +94,7 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
 </head>
 <body class="min-h-screen flex flex-col">
 
-  <!-- Top Navigation -->
+  <!-- Top Navigation & Sticky Live Progress -->
   <header class="glass-nav sticky top-0 z-30 no-print">
     <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
       <div class="flex items-center gap-3">
@@ -103,21 +111,31 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         <span>กลับหน้าหลัก</span>
       </a>
     </div>
+
+    <!-- Real-time Progress Bar (Visible during Steps 1 & 2) -->
+    <div id="liveProgressHeader" class="hidden border-t border-slate-100 bg-white/95 px-4 py-2.5">
+      <div class="max-w-3xl mx-auto">
+        <div class="flex items-center justify-between text-xs mb-1.5">
+          <div class="flex items-center gap-2">
+            <span id="pageIndicator" class="font-bold text-indigo-600 bg-indigo-50 px-2 py-0.5 rounded-md">หน้า 1/2</span>
+            <span id="answeredCounter" class="text-slate-600 font-medium">ตอบแล้ว 0 จาก 10 ข้อ</span>
+          </div>
+          <span id="livePercentText" class="font-display font-bold text-indigo-600 text-sm">0%</span>
+        </div>
+        
+        <!-- Smooth Progress Track -->
+        <div class="w-full bg-slate-100 rounded-full h-2 overflow-hidden mb-2">
+          <div id="liveProgressBar" class="bg-gradient-to-r from-indigo-500 via-indigo-600 to-violet-600 h-2 rounded-full transition-all duration-300 ease-out" style="width: 0%"></div>
+        </div>
+
+        <!-- 10 Question Status Pills -->
+        <div id="questionPills" class="grid grid-cols-10 gap-1.5"></div>
+      </div>
+    </div>
   </header>
 
   <!-- Main Content -->
   <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-8 print-container">
-
-    <!-- Progress Bar (Steps 1 & 2) -->
-    <div id="progressWrapper" class="hidden mb-6 no-print">
-      <div class="flex justify-between text-xs font-semibold text-slate-500 mb-2">
-        <span id="stepLabel">ส่วนที่ 1 จาก 2 (ข้อ 1 - 5)</span>
-        <span id="stepPercent">50%</span>
-      </div>
-      <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-        <div id="progressBar" class="bg-indigo-600 h-2 rounded-full transition-all duration-500" style="width: 50%"></div>
-      </div>
-    </div>
 
     <!-- STEP 0: Intro & Mode Selection -->
     <section id="step0" class="step-view active">
@@ -127,11 +145,11 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
           <div class="relative z-10">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-indigo-200 text-xs font-medium mb-3 border border-white/10">
               <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-              <span>แบบประเมินรูปแบบการเรียนรู้ 10 ข้อ (2-3 นาที)</span>
+              <span>แบบประเมินรูปแบบการเรียนรู้ 10 สถานการณ์ (ใช้เวลา 2-3 นาที)</span>
             </div>
             <h1 class="font-display text-2xl sm:text-3xl font-bold tracking-tight mb-2">ค้นหารูปแบบการเรียนรู้ของคุณ</h1>
             <p class="text-slate-300 text-sm sm:text-base max-w-xl leading-relaxed">
-              วิเคราะห์จุดแข็งการรับรู้ข้อมูล 3 ด้าน (Visual, Auditory, Kinesthetic) เพื่อนำไปปรับใช้ในการเรียน การทำงานกลุ่ม และการเตรียมตัวสอบอย่างมีประสิทธิภาพ
+              สำรวจวิธีที่สมองของคุณเปิดรับและประมวลผลข้อมูลผ่าน 10 สถานการณ์จริง เพื่อค้นหาจุดแข็งด้าน Visual, Auditory และ Kinesthetic
             </p>
           </div>
         </div>
@@ -157,9 +175,7 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1">รายวิชา / เซคชัน <span class="text-rose-500">*</span></label>
-                <select id="courseSelect" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
-                  <!-- ตัวเลือกจะถูกสร้างจาก COURSE_OPTIONS ใน JS -->
-                </select>
+                <select id="courseSelect" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"></select>
               </div>
               <div>
                 <label class="block text-sm font-semibold text-slate-700 mb-1">รหัสนักศึกษา (7 หลัก) <span class="text-rose-500">*</span></label>
@@ -207,10 +223,16 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
 
     <!-- STEP 1: Questions 1-5 -->
     <section id="step1" class="step-view">
+      <div class="mb-4 flex items-center justify-between">
+        <div>
+          <h2 class="font-display text-lg font-bold text-slate-900">ส่วนที่ 1: การรับรู้และแก้ปัญหาเบื้องต้น</h2>
+          <p class="text-xs text-slate-500">เลือกตัวเลือกที่ตรงกับสัญชาตญาณแรกของคุณมากที่สุด (ข้อ 1 - 5)</p>
+        </div>
+      </div>
       <div id="qContainer1" class="space-y-5"></div>
       <div class="mt-6 flex justify-end">
         <button type="button" onclick="goToStep2()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl shadow-sm transition-all flex items-center gap-2">
-          <span>ข้อถัดไป (6 - 10)</span>
+          <span>ไปส่วนที่ 2 (ข้อ 6 - 10)</span>
           <i data-lucide="arrow-right" class="w-4 h-4"></i>
         </button>
       </div>
@@ -218,6 +240,12 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
 
     <!-- STEP 2: Questions 6-10 -->
     <section id="step2" class="step-view">
+      <div class="mb-4 flex items-center justify-between">
+        <div>
+          <h2 class="font-display text-lg font-bold text-slate-900">ส่วนที่ 2: การทำงานร่วมกับผู้อื่นและประยุกต์ใช้</h2>
+          <p class="text-xs text-slate-500">เลือกตัวเลือกที่เป็นตัวคุณมากที่สุด (ข้อ 6 - 10)</p>
+        </div>
+      </div>
       <div id="qContainer2" class="space-y-5"></div>
       <div class="mt-6 flex items-center justify-between gap-4">
         <button type="button" onclick="backToStep1()" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-semibold py-3 px-5 rounded-xl transition-all flex items-center gap-2">
@@ -226,7 +254,7 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         </button>
         <button type="button" id="btnSubmit" onclick="submitAssessment()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-7 rounded-xl shadow-sm transition-all flex items-center gap-2">
           <i data-lucide="check-circle-2" class="w-4 h-4"></i>
-          <span>ดูผลวิเคราะห์ของฉัน</span>
+          <span>ส่งคำตอบและดูผลวิเคราะห์</span>
         </button>
       </div>
     </section>
@@ -235,7 +263,7 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
     <section id="stepResult" class="step-view">
       <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-card">
         
-        <!-- Duplicate Notice Banner (Hidden by default) -->
+        <!-- Duplicate Notice Banner -->
         <div id="duplicateBanner" class="hidden bg-amber-50 border-b border-amber-200 px-6 py-3 text-sm text-amber-900 flex items-center gap-2 no-print">
           <i data-lucide="alert-circle" class="w-4 h-4 text-amber-600 shrink-0"></i>
           <span>พบข้อมูลการทำแบบประเมินวิชานี้ของคุณในระบบแล้ว ระบบแสดงผลวิเคราะห์เดิมของคุณ</span>
@@ -271,18 +299,15 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
 
           <!-- Chart & Breakdown Grid -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-8">
-            <!-- Radar Chart -->
             <div class="bg-slate-50/70 rounded-2xl p-4 border border-slate-100 flex items-center justify-center">
               <div class="w-full max-w-[270px] aspect-square">
                 <canvas id="vakChart"></canvas>
               </div>
             </div>
 
-            <!-- Score Breakdown Bars -->
             <div class="space-y-5">
               <h4 class="font-bold text-slate-800 text-base">สัดส่วนคะแนนทั้ง 3 มิติ (เต็ม 10 คะแนน)</h4>
               
-              <!-- Visual Bar -->
               <div>
                 <div class="flex justify-between text-sm font-semibold mb-1.5">
                   <span class="flex items-center gap-1.5 text-indigo-700"><i data-lucide="eye" class="w-4 h-4"></i> Visual (การมองเห็น)</span>
@@ -293,7 +318,6 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
                 </div>
               </div>
 
-              <!-- Auditory Bar -->
               <div>
                 <div class="flex justify-between text-sm font-semibold mb-1.5">
                   <span class="flex items-center gap-1.5 text-amber-700"><i data-lucide="headphones" class="w-4 h-4"></i> Auditory (การได้ยิน)</span>
@@ -304,7 +328,6 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
                 </div>
               </div>
 
-              <!-- Kinesthetic Bar -->
               <div>
                 <div class="flex justify-between text-sm font-semibold mb-1.5">
                   <span class="flex items-center gap-1.5 text-emerald-700"><i data-lucide="hand" class="w-4 h-4"></i> Kinesthetic (การลงมือทำ)</span>
@@ -345,9 +368,8 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
 
   <script>
     // ==========================================
-    // 1. การตั้งค่าระบบ (อาจารย์แก้ไขข้อมูลตรงนี้ได้)
+    // 1. การตั้งค่าระบบ
     // ==========================================
-
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN_TeCW2B_3oW3ZxWQtmQqhxuOm4oRZujqKaXxRvx7Ro9slthkeqDG/exec"; // วาง URL จาก Google Apps Script Deploy
 
     const COURSE_OPTIONS = [
@@ -358,10 +380,12 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
     ];
 
     // ==========================================
-    // 2. ชุดคำถาม 10 ข้อ ฉบับปรับปรุง
+    // 2. ชุดคำถาม 10 ข้อ พร้อมบริบทและไอคอนสื่อความหมาย
     // ==========================================
     const QUESTIONS = [
       {
+        tag: "การทำความเข้าใจเนื้อหาใหม่",
+        icon: "book-open",
         q: "1. เมื่อต้องเรียนรู้เนื้อหาใหม่ที่ซับซ้อน คุณจะเข้าใจได้เร็วที่สุดเมื่อ...",
         ans: {
           V: "ได้ดูแผนภาพ (Mind Map), ตารางสรุป หรืออินโฟกราฟิก",
@@ -370,6 +394,8 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         }
       },
       {
+        tag: "การแก้ปัญหาเฉพาะหน้า",
+        icon: "wrench",
         q: "2. เมื่อซอฟต์แวร์ แอปพลิเคชัน หรืออุปกรณ์ที่กำลังใช้งานเกิดปัญหาขัดข้อง",
         ans: {
           V: "ค้นหาวิธีแก้จากบทความที่มีภาพแคปหน้าจอประกอบทีละขั้นตอน",
@@ -378,6 +404,8 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         }
       },
       {
+        tag: "กลยุทธ์การจดจำข้อมูล",
+        icon: "bookmark",
         q: "3. วิธีจดจำข้อมูลสำคัญ (เช่น คำศัพท์ สูตร หรือขั้นตอนการทำงาน) ให้แม่นที่สุดคือ...",
         ans: {
           V: "ใช้ปากกาหลายสีไฮไลต์ข้อความสำคัญ หรือจัดหน้าโน้ตให้เป็นระเบียบสวยงาม",
@@ -386,6 +414,8 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         }
       },
       {
+        tag: "การทำตามขั้นตอนและคู่มือ",
+        icon: "package-open",
         q: "4. เวลาซื้อของที่ต้องประกอบเอง (เช่น เฟอร์นิเจอร์ หรือชุดอุปกรณ์)",
         ans: {
           V: "กางคู่มือดูภาพประกอบ แล้วทำตามไปทีละสเตปอย่างละเอียด",
@@ -394,6 +424,8 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         }
       },
       {
+        tag: "การรับรู้ทิศทางและสภาพแวดล้อม",
+        icon: "compass",
         q: "5. เมื่อต้องเดินทางไปยังสถานที่ที่ไม่คุ้นเคยด้วยตัวเอง",
         ans: {
           V: "เปิดดูเส้นทางในแอปฯ แผนที่ หรือคอยสังเกตป้ายบอกทางเป็นหลัก",
@@ -402,6 +434,8 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         }
       },
       {
+        tag: "การทำงานร่วมกับทีม",
+        icon: "users",
         q: "6. เวลาเริ่มโปรเจกต์กลุ่ม สิ่งที่ช่วยให้คุณเห็นภาพงานชัดเจนที่สุดคือ...",
         ans: {
           V: "การเห็นโครงร่างงาน แผนผัง หรือตัวอย่างผลงานที่ชัดเจนบนกระดาน/หน้าจอ",
@@ -410,6 +444,8 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         }
       },
       {
+        tag: "การทบทวนและเตรียมสอบ",
+        icon: "graduation-cap",
         q: "7. เวลาต้องทบทวนบทเรียนเพื่อเตรียมตัวสอบปลายภาค",
         ans: {
           V: "อ่านชอร์ตโน้ตที่จดไว้ ดูสไลด์ประกอบ หรือวาดแผนผังเชื่อมโยงเนื้อหา",
@@ -418,6 +454,8 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         }
       },
       {
+        tag: "การตัดสินใจและประเมินผล",
+        icon: "search-check",
         q: "8. เมื่อต้องประเมินคุณภาพหรือความน่าสนใจของผลงาน/สินค้าชิ้นหนึ่ง",
         ans: {
           V: "พิจารณาจากรูปลักษณ์ ดีไซน์ การจัดวางองค์ประกอบ และความสวยงาม",
@@ -426,6 +464,8 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         }
       },
       {
+        tag: "การวิเคราะห์ระบบและกระบวนการ",
+        icon: "git-branch",
         q: "9. เมื่อต้องทำความเข้าใจกระบวนการทำงานที่มีหลายขั้นตอน",
         ans: {
           V: "ขอดูแผนผังการไหลของงาน (Flowchart) เพื่อให้เห็นภาพรวมตั้งแต่ต้นจนจบ",
@@ -434,6 +474,8 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         }
       },
       {
+        tag: "การเรียนรู้กติกาใหม่ๆ",
+        icon: "gamepad-2",
         q: "10. เวลาเพื่อนชวนเล่นบอร์ดเกม (Board Game) หรือเกมใหม่ๆ ที่ยังไม่เคยเล่น",
         ans: {
           V: "นั่งดูเพื่อนเล่นรอบแรกให้เห็นภาพ หรือขอดูภาพตัวอย่างในคู่มือ",
@@ -444,14 +486,15 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
     ];
 
     let currentMode = 'class';
+    let currentStep = 0;
     let chartInstance = null;
 
-    // Initialize UI
     document.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
       populateCourses();
       renderQuestionBatch(0, 5, 'qContainer1');
       renderQuestionBatch(5, 10, 'qContainer2');
+      renderProgressPills();
+      lucide.createIcons();
     });
 
     function populateCourses() {
@@ -492,14 +535,24 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         const shuffledKeys = ['V', 'A', 'K'].sort(() => Math.random() - 0.5);
         
         html += `
-          <div class="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-sm">
+          <div id="qCard_${i}" class="question-card bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-sm">
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-lg">
+                <i data-lucide="${item.icon}" class="w-3.5 h-3.5"></i>
+                <span>บริบท: ${item.tag}</span>
+              </span>
+              <span id="qBadge_${i}" class="hidden items-center gap-1 text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full">
+                <i data-lucide="check" class="w-3.5 h-3.5"></i>
+                <span>ตอบแล้ว</span>
+              </span>
+            </div>
             <h3 class="font-semibold text-slate-900 text-base sm:text-lg mb-4 leading-snug">${item.q}</h3>
             <div class="space-y-2.5">
         `;
         shuffledKeys.forEach(type => {
           html += `
             <label class="option-card block cursor-pointer">
-              <input type="radio" name="q_${i}" value="${type}" class="sr-only" />
+              <input type="radio" name="q_${i}" value="${type}" onchange="onAnswerSelect(${i})" class="sr-only" />
               <div class="option-body rounded-xl border border-slate-200 p-3.5 flex items-center gap-3.5 hover:border-indigo-300 hover:bg-slate-50/80 transition-all">
                 <span class="radio-dot w-4 h-4 rounded-full border-2 border-slate-300 flex items-center justify-center shrink-0"></span>
                 <span class="text-sm sm:text-base text-slate-700 leading-snug">${item.ans[type]}</span>
@@ -512,10 +565,74 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
       container.innerHTML = html;
     }
 
-    function switchView(hideId, showId) {
+    function renderProgressPills() {
+      const container = document.getElementById('questionPills');
+      let html = '';
+      for (let i = 0; i < 10; i++) {
+        html += `
+          <button type="button" id="pill_${i}" onclick="jumpToQuestion(${i})" title="ข้อที่ ${i + 1}"
+            class="h-6 rounded-md text-[11px] font-display font-bold transition-all bg-slate-100 text-slate-500 hover:bg-slate-200">
+            ${i + 1}
+          </button>
+        `;
+      }
+      container.innerHTML = html;
+    }
+
+    function onAnswerSelect(qIndex) {
+      // Mark card as answered
+      const card = document.getElementById(`qCard_${qIndex}`);
+      const badge = document.getElementById(`qBadge_${qIndex}`);
+      if (card) card.classList.add('answered');
+      if (badge) {
+        badge.classList.remove('hidden');
+        badge.classList.add('inline-flex');
+      }
+      updateLiveProgress();
+    }
+
+    function updateLiveProgress() {
+      let answeredCount = 0;
+      for (let i = 0; i < 10; i++) {
+        const isChecked = !!document.querySelector(`input[name="q_${i}"]:checked`);
+        const pill = document.getElementById(`pill_${i}`);
+        if (isChecked) {
+          answeredCount++;
+          pill.className = "h-6 rounded-md text-[11px] font-display font-bold transition-all bg-indigo-600 text-white shadow-xs";
+        } else {
+          pill.className = "h-6 rounded-md text-[11px] font-display font-bold transition-all bg-slate-100 text-slate-500 hover:bg-slate-200";
+        }
+      }
+
+      const percent = answeredCount * 10;
+      document.getElementById('answeredCounter').textContent = `ตอบแล้ว ${answeredCount} จาก 10 ข้อ`;
+      document.getElementById('livePercentText').textContent = `${percent}%`;
+      document.getElementById('liveProgressBar').style.width = `${percent}%`;
+    }
+
+    function jumpToQuestion(qIndex) {
+      const targetStep = qIndex < 5 ? 1 : 2;
+      if (currentStep !== targetStep) {
+        switchView(`step${currentStep}`, `step${targetStep}`, false);
+        currentStep = targetStep;
+        document.getElementById('pageIndicator').textContent = `หน้า ${targetStep}/2`;
+      }
+      setTimeout(() => {
+        const el = document.getElementById(`qCard_${qIndex}`);
+        if (el) {
+          const yOffset = -130;
+          const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: y, behavior: 'smooth' });
+        }
+      }, 60);
+    }
+
+    function switchView(hideId, showId, autoScrollTop = true) {
       document.getElementById(hideId).classList.remove('active');
       document.getElementById(showId).classList.add('active');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (autoScrollTop) {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
     }
 
     function startAssessment() {
@@ -539,54 +656,45 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         }
       }
 
-      document.getElementById('progressWrapper').classList.remove('hidden');
-      updateProgress(1);
+      currentStep = 1;
+      document.getElementById('liveProgressHeader').classList.remove('hidden');
+      document.getElementById('pageIndicator').textContent = 'หน้า 1/2';
+      updateLiveProgress();
       switchView('step0', 'step1');
-    }
-
-    function updateProgress(step) {
-      const label = document.getElementById('stepLabel');
-      const pct = document.getElementById('stepPercent');
-      const bar = document.getElementById('progressBar');
-      if (step === 1) {
-        label.textContent = 'ส่วนที่ 1 จาก 2 (ข้อ 1 - 5)';
-        pct.textContent = '50%';
-        bar.style.width = '50%';
-      } else {
-        label.textContent = 'ส่วนที่ 2 จาก 2 (ข้อ 6 - 10)';
-        pct.textContent = '100%';
-        bar.style.width = '100%';
-      }
     }
 
     function validateBatch(start, end) {
       for (let i = start; i < end; i++) {
         if (!document.querySelector(`input[name="q_${i}"]:checked`)) {
-          return i + 1;
+          return i;
         }
       }
-      return 0;
+      return -1;
     }
 
     function goToStep2() {
-      const missing = validateBatch(0, 5);
-      if (missing > 0) {
-        alert(`กรุณาตอบคำถามข้อที่ ${missing} ให้เรียบร้อยก่อนไปหน้าถัดไปครับ`);
+      const missingIdx = validateBatch(0, 5);
+      if (missingIdx !== -1) {
+        alert(`กรุณาตอบคำถามข้อที่ ${missingIdx + 1} ให้เรียบร้อยก่อนไปหน้าถัดไปครับ`);
+        jumpToQuestion(missingIdx);
         return;
       }
-      updateProgress(2);
+      currentStep = 2;
+      document.getElementById('pageIndicator').textContent = 'หน้า 2/2';
       switchView('step1', 'step2');
     }
 
     function backToStep1() {
-      updateProgress(1);
+      currentStep = 1;
+      document.getElementById('pageIndicator').textContent = 'หน้า 1/2';
       switchView('step2', 'step1');
     }
 
     async function submitAssessment() {
-      const missing = validateBatch(5, 10);
-      if (missing > 0) {
-        alert(`กรุณาตอบคำถามข้อที่ ${missing} ให้เรียบร้อยก่อนส่งคำตอบครับ`);
+      const missingIdx = validateBatch(5, 10);
+      if (missingIdx !== -1) {
+        alert(`กรุณาตอบคำถามข้อที่ ${missingIdx + 1} ให้เรียบร้อยก่อนส่งคำตอบครับ`);
+        jumpToQuestion(missingIdx);
         return;
       }
 
@@ -616,7 +724,6 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         return;
       }
 
-      // Class Mode -> Send to GAS API
       const courseCode = document.getElementById('courseSelect').value;
       const courseLabel = document.getElementById('courseSelect').selectedOptions[0].text;
       const studentId = document.getElementById('studentId').value.trim();
@@ -632,7 +739,6 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         result: resultLabel
       };
 
-      // กรณีอาจารย์ยังไม่ได้ใส่ URL ของ GAS ให้แสดงผลหน้าเว็บได้โดยไม่ค้าง
       if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.includes("YOUR_GAS_WEB_APP_URL")) {
         renderResultReport({
           displayName: `${fullName} (${nickname})`,
@@ -674,7 +780,6 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         }
       } catch (err) {
         console.error(err);
-        // แม้เครือข่ายมีปัญหา ก็ยังแสดงผลวิเคราะห์ให้นักศึกษาดูได้
         renderResultReport({
           displayName: `${fullName} (${nickname})`,
           metaText: `รหัสนักศึกษา: ${studentId} | วิชา: ${courseLabel}`,
@@ -695,7 +800,7 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
     }
 
     function renderResultReport({ displayName, metaText, v, a, k, result, isDuplicate }) {
-      document.getElementById('progressWrapper').classList.add('hidden');
+      document.getElementById('liveProgressHeader').classList.add('hidden');
       if (isDuplicate) {
         document.getElementById('duplicateBanner').classList.remove('hidden');
       }
@@ -712,7 +817,6 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
       const isK = k === max;
       const winCount = [isV, isA, isK].filter(Boolean).length;
 
-      // Styling Hero Card
       const heroBox = document.getElementById('heroResultBox');
       const heroIcon = document.getElementById('heroIconBox');
       const heroSub = document.getElementById('heroSubtitle');
@@ -737,7 +841,6 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
 
       document.getElementById('heroTitle').textContent = result;
 
-      // Update Bars
       const pctV = v * 10;
       const pctA = a * 10;
       const pctK = k * 10;
@@ -752,10 +855,8 @@ const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN
         document.getElementById('barK').style.width = `${pctK}%`;
       }, 150);
 
-      // Render Radar Chart
       renderRadarChart(v, a, k);
 
-      // Render Study Advice
       let adviceHtml = '';
       if (isV) {
         adviceHtml += `
