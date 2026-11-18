@@ -1,0 +1,848 @@
+<!-- URL   L.350
+https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN_TeCW2B_3oW3ZxWQtmQqhxuOm4oRZujqKaXxRvx7Ro9slthkeqDG/exec
+const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN_TeCW2B_3oW3ZxWQtmQqhxuOm4oRZujqKaXxRvx7Ro9slthkeqDG/exec"; // วาง URL จาก Google Apps Script Deploy
+ -->
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VAK Learning Style Analytics | Dr. Waiwit</title>
+  
+  <!-- Google Fonts: Plus Jakarta Sans & Sarabun -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Sarabun', 'sans-serif'],
+            display: ['Plus Jakarta Sans', 'Sarabun', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #f8fafc;
+      color: #1e293b;
+      -webkit-font-smoothing: antialiased;
+    }
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .step-view {
+      display: none;
+      animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .step-view.active {
+      display: block;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .option-card input:checked + .option-body {
+      border-color: #4f46e5;
+      background-color: #eef2ff;
+      box-shadow: 0 0 0 1px #4f46e5;
+    }
+    .option-card input:checked + .option-body .radio-dot {
+      border-color: #4f46e5;
+      background-color: #4f46e5;
+    }
+    .option-card input:checked + .option-body .radio-dot::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+      background: white;
+      display: block;
+    }
+
+    @media print {
+      body { background: white !important; }
+      .no-print { display: none !important; }
+      .print-container { max-width: 100% !important; padding: 0 !important; margin: 0 !important; }
+      .print-card { box-shadow: none !important; border: 1px solid #cbd5e1 !important; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top Navigation -->
+  <header class="glass-nav sticky top-0 z-30 no-print">
+    <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shadow-sm">
+          <i data-lucide="brain-circuit" class="w-5 h-5"></i>
+        </div>
+        <div>
+          <span class="font-display font-bold text-slate-900 tracking-tight block leading-none">VAK Analytics</span>
+          <span class="text-xs text-slate-500">Learning Style Assessment</span>
+        </div>
+      </div>
+      <a href="../../index.html" class="text-sm font-medium text-slate-600 hover:text-indigo-600 flex items-center gap-1.5 transition-colors">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>กลับหน้าหลัก</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow max-w-3xl w-full mx-auto px-4 py-8 print-container">
+
+    <!-- Progress Bar (Steps 1 & 2) -->
+    <div id="progressWrapper" class="hidden mb-6 no-print">
+      <div class="flex justify-between text-xs font-semibold text-slate-500 mb-2">
+        <span id="stepLabel">ส่วนที่ 1 จาก 2 (ข้อ 1 - 5)</span>
+        <span id="stepPercent">50%</span>
+      </div>
+      <div class="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+        <div id="progressBar" class="bg-indigo-600 h-2 rounded-full transition-all duration-500" style="width: 50%"></div>
+      </div>
+    </div>
+
+    <!-- STEP 0: Intro & Mode Selection -->
+    <section id="step0" class="step-view active">
+      <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
+        <!-- Hero Banner -->
+        <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 px-6 py-8 sm:px-8 text-white relative overflow-hidden">
+          <div class="relative z-10">
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-indigo-200 text-xs font-medium mb-3 border border-white/10">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+              <span>แบบประเมินรูปแบบการเรียนรู้ 10 ข้อ (2-3 นาที)</span>
+            </div>
+            <h1 class="font-display text-2xl sm:text-3xl font-bold tracking-tight mb-2">ค้นหารูปแบบการเรียนรู้ของคุณ</h1>
+            <p class="text-slate-300 text-sm sm:text-base max-w-xl leading-relaxed">
+              วิเคราะห์จุดแข็งการรับรู้ข้อมูล 3 ด้าน (Visual, Auditory, Kinesthetic) เพื่อนำไปปรับใช้ในการเรียน การทำงานกลุ่ม และการเตรียมตัวสอบอย่างมีประสิทธิภาพ
+            </p>
+          </div>
+        </div>
+
+        <div class="p-6 sm:p-8">
+          <!-- Mode Switcher -->
+          <div class="mb-6">
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2.5">เลือกประเภทผู้ใช้งาน</label>
+            <div class="grid grid-cols-2 gap-3 p-1 bg-slate-100 rounded-xl">
+              <button type="button" id="btnModeClass" onclick="setMode('class')" class="py-2.5 px-4 rounded-lg text-sm font-semibold bg-white text-indigo-600 shadow-sm flex items-center justify-center gap-2 transition-all">
+                <i data-lucide="graduation-cap" class="w-4 h-4"></i>
+                <span>นักศึกษาในชั้นเรียน</span>
+              </button>
+              <button type="button" id="btnModeGuest" onclick="setMode('guest')" class="py-2.5 px-4 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center justify-center gap-2 transition-all">
+                <i data-lucide="user" class="w-4 h-4"></i>
+                <span>บุคคลทั่วไป (ทดลองทำ)</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Class Mode Form -->
+          <div id="classFields" class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">รายวิชา / เซคชัน <span class="text-rose-500">*</span></label>
+                <select id="courseSelect" class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500">
+                  <!-- ตัวเลือกจะถูกสร้างจาก COURSE_OPTIONS ใน JS -->
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">รหัสนักศึกษา (7 หลัก) <span class="text-rose-500">*</span></label>
+                <input type="text" id="studentId" inputmode="numeric" maxlength="7" placeholder="เช่น 6712345"
+                  oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                  class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+                <p id="idError" class="hidden text-xs text-rose-600 mt-1">กรุณากรอกรหัสนักศึกษาเป็นตัวเลขให้ครบ 7 หลัก</p>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-semibold text-slate-700 mb-1">ชื่อ - นามสกุล <span class="text-rose-500">*</span></label>
+                <input type="text" id="fullName" placeholder="เช่น นายรักเรียน เพียรศึกษา"
+                  class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1">ชื่อเล่น <span class="text-rose-500">*</span></label>
+                <input type="text" id="nickname" placeholder="เช่น ภูมิ"
+                  class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Guest Mode Form -->
+          <div id="guestFields" class="hidden space-y-4">
+            <div class="p-4 rounded-xl bg-amber-50/70 border border-amber-200/80 text-amber-900 text-sm flex items-start gap-3">
+              <i data-lucide="info" class="w-5 h-5 text-amber-600 shrink-0 mt-0.5"></i>
+              <p>โหมดบุคคลทั่วไปจะแสดงผลวิเคราะห์และกราฟทันทีหลังทำเสร็จ โดย<strong>ไม่บันทึกข้อมูล</strong>ลงในฐานข้อมูลรายวิชา</p>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1">ชื่อเล่นของคุณ (สำหรับแสดงในใบรายงานผล)</label>
+              <input type="text" id="guestName" placeholder="ระบุชื่อเล่น (ไม่บังคับ)"
+                class="w-full rounded-xl border border-slate-300 px-3.5 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500" />
+            </div>
+          </div>
+
+          <button type="button" onclick="startAssessment()" class="mt-7 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-6 rounded-xl shadow-sm transition-all flex items-center justify-center gap-2">
+            <span>เริ่มทำแบบประเมิน (10 ข้อ)</span>
+            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP 1: Questions 1-5 -->
+    <section id="step1" class="step-view">
+      <div id="qContainer1" class="space-y-5"></div>
+      <div class="mt-6 flex justify-end">
+        <button type="button" onclick="goToStep2()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-6 rounded-xl shadow-sm transition-all flex items-center gap-2">
+          <span>ข้อถัดไป (6 - 10)</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- STEP 2: Questions 6-10 -->
+    <section id="step2" class="step-view">
+      <div id="qContainer2" class="space-y-5"></div>
+      <div class="mt-6 flex items-center justify-between gap-4">
+        <button type="button" onclick="backToStep1()" class="bg-white hover:bg-slate-50 text-slate-700 border border-slate-300 font-semibold py-3 px-5 rounded-xl transition-all flex items-center gap-2">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+          <span>ย้อนกลับ</span>
+        </button>
+        <button type="button" id="btnSubmit" onclick="submitAssessment()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 px-7 rounded-xl shadow-sm transition-all flex items-center gap-2">
+          <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+          <span>ดูผลวิเคราะห์ของฉัน</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- STEP 3: Analytics Result Report -->
+    <section id="stepResult" class="step-view">
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden print-card">
+        
+        <!-- Duplicate Notice Banner (Hidden by default) -->
+        <div id="duplicateBanner" class="hidden bg-amber-50 border-b border-amber-200 px-6 py-3 text-sm text-amber-900 flex items-center gap-2 no-print">
+          <i data-lucide="alert-circle" class="w-4 h-4 text-amber-600 shrink-0"></i>
+          <span>พบข้อมูลการทำแบบประเมินวิชานี้ของคุณในระบบแล้ว ระบบแสดงผลวิเคราะห์เดิมของคุณ</span>
+        </div>
+
+        <!-- Report Header -->
+        <div class="px-6 py-6 sm:px-8 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-wider text-indigo-600">VAK Learning Style Report</span>
+            <h2 class="font-display text-xl sm:text-2xl font-bold text-slate-900 mt-0.5" id="repName">-</h2>
+            <p class="text-sm text-slate-500 mt-0.5" id="repMeta">-</p>
+          </div>
+          <div class="text-left sm:text-right">
+            <span class="text-xs text-slate-400 block">วันที่ประเมิน</span>
+            <span class="text-sm font-medium text-slate-700" id="repDate">-</span>
+          </div>
+        </div>
+
+        <!-- Dominant Style Highlight -->
+        <div class="p-6 sm:p-8">
+          <div id="heroResultBox" class="rounded-2xl p-6 text-white mb-8 bg-gradient-to-r from-indigo-600 to-violet-600">
+            <div class="flex flex-col sm:flex-row items-center gap-5 text-center sm:text-left">
+              <div id="heroIconBox" class="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center shrink-0">
+                <i data-lucide="eye" class="w-8 h-8 text-white"></i>
+              </div>
+              <div>
+                <span class="text-xs uppercase tracking-wider font-semibold text-white/80">รูปแบบการเรียนรู้หลักของคุณ</span>
+                <h3 id="heroTitle" class="font-display text-2xl sm:text-3xl font-bold mt-1">-</h3>
+                <p id="heroSubtitle" class="text-sm text-white/90 mt-1">-</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart & Breakdown Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-8">
+            <!-- Radar Chart -->
+            <div class="bg-slate-50/70 rounded-2xl p-4 border border-slate-100 flex items-center justify-center">
+              <div class="w-full max-w-[270px] aspect-square">
+                <canvas id="vakChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Score Breakdown Bars -->
+            <div class="space-y-5">
+              <h4 class="font-bold text-slate-800 text-base">สัดส่วนคะแนนทั้ง 3 มิติ (เต็ม 10 คะแนน)</h4>
+              
+              <!-- Visual Bar -->
+              <div>
+                <div class="flex justify-between text-sm font-semibold mb-1.5">
+                  <span class="flex items-center gap-1.5 text-indigo-700"><i data-lucide="eye" class="w-4 h-4"></i> Visual (การมองเห็น)</span>
+                  <span id="scoreTextV" class="text-slate-700">0/10 (0%)</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                  <div id="barV" class="bg-indigo-600 h-3 rounded-full transition-all duration-700" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <!-- Auditory Bar -->
+              <div>
+                <div class="flex justify-between text-sm font-semibold mb-1.5">
+                  <span class="flex items-center gap-1.5 text-amber-700"><i data-lucide="headphones" class="w-4 h-4"></i> Auditory (การได้ยิน)</span>
+                  <span id="scoreTextA" class="text-slate-700">0/10 (0%)</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                  <div id="barA" class="bg-amber-500 h-3 rounded-full transition-all duration-700" style="width: 0%"></div>
+                </div>
+              </div>
+
+              <!-- Kinesthetic Bar -->
+              <div>
+                <div class="flex justify-between text-sm font-semibold mb-1.5">
+                  <span class="flex items-center gap-1.5 text-emerald-700"><i data-lucide="hand" class="w-4 h-4"></i> Kinesthetic (การลงมือทำ)</span>
+                  <span id="scoreTextK" class="text-slate-700">0/10 (0%)</span>
+                </div>
+                <div class="w-full bg-slate-100 rounded-full h-3 overflow-hidden">
+                  <div id="barK" class="bg-emerald-500 h-3 rounded-full transition-all duration-700" style="width: 0%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Deep Dive Study Advice -->
+          <div class="border-t border-slate-100 pt-6">
+            <h4 class="font-bold text-slate-900 text-lg mb-4 flex items-center gap-2">
+              <i data-lucide="lightbulb" class="w-5 h-5 text-amber-500"></i>
+              <span>แนวทางการเรียนรู้และเทคนิคที่แนะนำสำหรับคุณ</span>
+            </h4>
+            <div id="adviceContainer" class="space-y-4"></div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="mt-8 pt-6 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 no-print">
+            <button type="button" onclick="location.reload()" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 hover:bg-slate-50 text-sm font-semibold flex items-center gap-2 transition-colors">
+              <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+              <span>ทำแบบประเมินใหม่</span>
+            </button>
+            <button type="button" onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-sm font-semibold flex items-center gap-2 shadow-sm transition-colors">
+              <i data-lucide="printer" class="w-4 h-4"></i>
+              <span>บันทึกเป็น PDF / พิมพ์รายงาน</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // ==========================================
+    // 1. การตั้งค่าระบบ (อาจารย์แก้ไขข้อมูลตรงนี้ได้)
+    // ==========================================
+
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbw7rVs2wDOk-mIN_TeCW2B_3oW3ZxWQtmQqhxuOm4oRZujqKaXxRvx7Ro9slthkeqDG/exec"; // วาง URL จาก Google Apps Script Deploy
+
+    const COURSE_OPTIONS = [
+      { code: "RSU164_S02", label: "RSU164 (Sec.02) - DIGITAL LITERACY" },
+      { code: "RSU185_S09", label: "RSU185 (Sec.09) - IT PROFESSONAL" },
+      { code: "SMT103_S01", label: "SMT103 (Sec.01) - UXUI DESIGN" },
+      { code: "DIM611_S01", label: "DIM611 (Sec.01) - IT PROJECT MANAGEMENT" }
+    ];
+
+    // ==========================================
+    // 2. ชุดคำถาม 10 ข้อ ฉบับปรับปรุง
+    // ==========================================
+    const QUESTIONS = [
+      {
+        q: "1. เมื่อต้องเรียนรู้เนื้อหาใหม่ที่ซับซ้อน คุณจะเข้าใจได้เร็วที่สุดเมื่อ...",
+        ans: {
+          V: "ได้ดูแผนภาพ (Mind Map), ตารางสรุป หรืออินโฟกราฟิก",
+          A: "ได้ฟังอาจารย์บรรยายสรุป หรือฟังเพื่อนที่เข้าใจแล้วอธิบายให้ฟัง",
+          K: "ได้ลองทำแบบฝึกหัด หรือลงมือทดลองปฏิบัติจริงด้วยตัวเอง"
+        }
+      },
+      {
+        q: "2. เมื่อซอฟต์แวร์ แอปพลิเคชัน หรืออุปกรณ์ที่กำลังใช้งานเกิดปัญหาขัดข้อง",
+        ans: {
+          V: "ค้นหาวิธีแก้จากบทความที่มีภาพแคปหน้าจอประกอบทีละขั้นตอน",
+          A: "หันไปถามเพื่อนข้างๆ หรือโทรถามคนรู้จักให้ช่วยบอกวิธีแก้",
+          K: "ลองกดเมนูต่างๆ รีสตาร์ท หรือทดลองแก้ปัญหาด้วยตัวเองก่อน"
+        }
+      },
+      {
+        q: "3. วิธีจดจำข้อมูลสำคัญ (เช่น คำศัพท์ สูตร หรือขั้นตอนการทำงาน) ให้แม่นที่สุดคือ...",
+        ans: {
+          V: "ใช้ปากกาหลายสีไฮไลต์ข้อความสำคัญ หรือจัดหน้าโน้ตให้เป็นระเบียบสวยงาม",
+          A: "ท่องออกเสียงซ้ำๆ หรืออธิบายทบทวนเนื้อหานั้นให้คนอื่นฟัง",
+          K: "เขียนหรือพิมพ์สรุปซ้ำๆ หลายรอบ หรือเดินไปมาขณะท่องจำ"
+        }
+      },
+      {
+        q: "4. เวลาซื้อของที่ต้องประกอบเอง (เช่น เฟอร์นิเจอร์ หรือชุดอุปกรณ์)",
+        ans: {
+          V: "กางคู่มือดูภาพประกอบ แล้วทำตามไปทีละสเตปอย่างละเอียด",
+          A: "ให้คนอื่นช่วยอ่านวิธีทำให้ฟัง แล้วคอยบอกว่าต้องหยิบชิ้นไหนต่อ",
+          K: "ดูชิ้นส่วนคร่าวๆ แล้วหยิบมาลองประกอบเข้าด้วยกันเลย"
+        }
+      },
+      {
+        q: "5. เมื่อต้องเดินทางไปยังสถานที่ที่ไม่คุ้นเคยด้วยตัวเอง",
+        ans: {
+          V: "เปิดดูเส้นทางในแอปฯ แผนที่ หรือคอยสังเกตป้ายบอกทางเป็นหลัก",
+          A: "สอบถามเส้นทางจากคนในพื้นที่ หรือใช้ระบบนำทางด้วยเสียง",
+          K: "ลองเดินสำรวจเส้นทางไปเรื่อยๆ เพื่อจับทิศทางด้วยตัวเอง"
+        }
+      },
+      {
+        q: "6. เวลาเริ่มโปรเจกต์กลุ่ม สิ่งที่ช่วยให้คุณเห็นภาพงานชัดเจนที่สุดคือ...",
+        ans: {
+          V: "การเห็นโครงร่างงาน แผนผัง หรือตัวอย่างผลงานที่ชัดเจนบนกระดาน/หน้าจอ",
+          A: "การได้นั่งล้อมวงระดมสมอง พูดคุยแลกเปลี่ยนไอเดียกับสมาชิกในทีม",
+          K: "การได้ลองขึ้นโครงสร้างต้นแบบ (Prototype) หรือทดลองทำส่วนที่รับผิดชอบทันที"
+        }
+      },
+      {
+        q: "7. เวลาต้องทบทวนบทเรียนเพื่อเตรียมตัวสอบปลายภาค",
+        ans: {
+          V: "อ่านชอร์ตโน้ตที่จดไว้ ดูสไลด์ประกอบ หรือวาดแผนผังเชื่อมโยงเนื้อหา",
+          A: "จับกลุ่มติวกับเพื่อน ผลัดกันถาม-ตอบ หรือฟังคลิปบรรยายย้อนหลัง",
+          K: "เน้นฝึกทำข้อสอบเก่า ทำโจทย์จำลอง หรือซ้อมปฏิบัติซ้ำๆ"
+        }
+      },
+      {
+        q: "8. เมื่อต้องประเมินคุณภาพหรือความน่าสนใจของผลงาน/สินค้าชิ้นหนึ่ง",
+        ans: {
+          V: "พิจารณาจากรูปลักษณ์ ดีไซน์ การจัดวางองค์ประกอบ และความสวยงาม",
+          A: "พิจารณาจากคำแนะนำ รีวิวจากผู้ใช้งานจริง หรือคำอธิบายจุดเด่นของชิ้นงาน",
+          K: "ต้องได้ลองหยิบจับ สัมผัส หรือทดลองใช้งานฟังก์ชันจริงด้วยตัวเอง"
+        }
+      },
+      {
+        q: "9. เมื่อต้องทำความเข้าใจกระบวนการทำงานที่มีหลายขั้นตอน",
+        ans: {
+          V: "ขอดูแผนผังการไหลของงาน (Flowchart) เพื่อให้เห็นภาพรวมตั้งแต่ต้นจนจบ",
+          A: "ให้ผู้เชี่ยวชาญหรือคนที่ทำเป็นอธิบายขั้นตอนให้ฟังทีละลำดับ",
+          K: "ขอทดลองกดใช้งานหรือลงมือทำตามขั้นตอนนั้นด้วยตัวเอง"
+        }
+      },
+      {
+        q: "10. เวลาเพื่อนชวนเล่นบอร์ดเกม (Board Game) หรือเกมใหม่ๆ ที่ยังไม่เคยเล่น",
+        ans: {
+          V: "นั่งดูเพื่อนเล่นรอบแรกให้เห็นภาพ หรือขอดูภาพตัวอย่างในคู่มือ",
+          A: "ให้เพื่อนที่เล่นเป็นแล้ว ช่วยสรุปกติกาและวิธีเล่นให้ฟังคร่าวๆ",
+          K: "ขอลงไปเล่นจริงทันที (ตาซ้อม) เพื่อเรียนรู้กติกาไปพร้อมกับการเล่น"
+        }
+      }
+    ];
+
+    let currentMode = 'class';
+    let chartInstance = null;
+
+    // Initialize UI
+    document.addEventListener('DOMContentLoaded', () => {
+      lucide.createIcons();
+      populateCourses();
+      renderQuestionBatch(0, 5, 'qContainer1');
+      renderQuestionBatch(5, 10, 'qContainer2');
+    });
+
+    function populateCourses() {
+      const select = document.getElementById('courseSelect');
+      COURSE_OPTIONS.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c.code;
+        opt.textContent = c.label;
+        select.appendChild(opt);
+      });
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      const btnClass = document.getElementById('btnModeClass');
+      const btnGuest = document.getElementById('btnModeGuest');
+      const classFields = document.getElementById('classFields');
+      const guestFields = document.getElementById('guestFields');
+
+      if (mode === 'class') {
+        btnClass.className = "py-2.5 px-4 rounded-lg text-sm font-semibold bg-white text-indigo-600 shadow-sm flex items-center justify-center gap-2 transition-all";
+        btnGuest.className = "py-2.5 px-4 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center justify-center gap-2 transition-all";
+        classFields.classList.remove('hidden');
+        guestFields.classList.add('hidden');
+      } else {
+        btnGuest.className = "py-2.5 px-4 rounded-lg text-sm font-semibold bg-white text-indigo-600 shadow-sm flex items-center justify-center gap-2 transition-all";
+        btnClass.className = "py-2.5 px-4 rounded-lg text-sm font-semibold text-slate-600 hover:text-slate-900 flex items-center justify-center gap-2 transition-all";
+        guestFields.classList.remove('hidden');
+        classFields.classList.add('hidden');
+      }
+    }
+
+    function renderQuestionBatch(start, end, containerId) {
+      const container = document.getElementById(containerId);
+      let html = '';
+      for (let i = start; i < end; i++) {
+        const item = QUESTIONS[i];
+        const shuffledKeys = ['V', 'A', 'K'].sort(() => Math.random() - 0.5);
+        
+        html += `
+          <div class="bg-white rounded-2xl border border-slate-200/80 p-5 sm:p-6 shadow-sm">
+            <h3 class="font-semibold text-slate-900 text-base sm:text-lg mb-4 leading-snug">${item.q}</h3>
+            <div class="space-y-2.5">
+        `;
+        shuffledKeys.forEach(type => {
+          html += `
+            <label class="option-card block cursor-pointer">
+              <input type="radio" name="q_${i}" value="${type}" class="sr-only" />
+              <div class="option-body rounded-xl border border-slate-200 p-3.5 flex items-center gap-3.5 hover:border-indigo-300 hover:bg-slate-50/80 transition-all">
+                <span class="radio-dot w-4 h-4 rounded-full border-2 border-slate-300 flex items-center justify-center shrink-0"></span>
+                <span class="text-sm sm:text-base text-slate-700 leading-snug">${item.ans[type]}</span>
+              </div>
+            </label>
+          `;
+        });
+        html += `</div></div>`;
+      }
+      container.innerHTML = html;
+    }
+
+    function switchView(hideId, showId) {
+      document.getElementById(hideId).classList.remove('active');
+      document.getElementById(showId).classList.add('active');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startAssessment() {
+      if (currentMode === 'class') {
+        const stuId = document.getElementById('studentId').value.trim();
+        const fullName = document.getElementById('fullName').value.trim();
+        const nickname = document.getElementById('nickname').value.trim();
+        const idError = document.getElementById('idError');
+
+        if (stuId.length !== 7) {
+          idError.classList.remove('hidden');
+          document.getElementById('studentId').focus();
+          return;
+        } else {
+          idError.classList.add('hidden');
+        }
+
+        if (!fullName || !nickname) {
+          alert('กรุณากรอกชื่อ-นามสกุล และชื่อเล่นให้ครบถ้วนครับ');
+          return;
+        }
+      }
+
+      document.getElementById('progressWrapper').classList.remove('hidden');
+      updateProgress(1);
+      switchView('step0', 'step1');
+    }
+
+    function updateProgress(step) {
+      const label = document.getElementById('stepLabel');
+      const pct = document.getElementById('stepPercent');
+      const bar = document.getElementById('progressBar');
+      if (step === 1) {
+        label.textContent = 'ส่วนที่ 1 จาก 2 (ข้อ 1 - 5)';
+        pct.textContent = '50%';
+        bar.style.width = '50%';
+      } else {
+        label.textContent = 'ส่วนที่ 2 จาก 2 (ข้อ 6 - 10)';
+        pct.textContent = '100%';
+        bar.style.width = '100%';
+      }
+    }
+
+    function validateBatch(start, end) {
+      for (let i = start; i < end; i++) {
+        if (!document.querySelector(`input[name="q_${i}"]:checked`)) {
+          return i + 1;
+        }
+      }
+      return 0;
+    }
+
+    function goToStep2() {
+      const missing = validateBatch(0, 5);
+      if (missing > 0) {
+        alert(`กรุณาตอบคำถามข้อที่ ${missing} ให้เรียบร้อยก่อนไปหน้าถัดไปครับ`);
+        return;
+      }
+      updateProgress(2);
+      switchView('step1', 'step2');
+    }
+
+    function backToStep1() {
+      updateProgress(1);
+      switchView('step2', 'step1');
+    }
+
+    async function submitAssessment() {
+      const missing = validateBatch(5, 10);
+      if (missing > 0) {
+        alert(`กรุณาตอบคำถามข้อที่ ${missing} ให้เรียบร้อยก่อนส่งคำตอบครับ`);
+        return;
+      }
+
+      const btn = document.getElementById('btnSubmit');
+      btn.disabled = true;
+      btn.innerHTML = `<span class="animate-spin inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full"></span> <span>กำลังวิเคราะห์ผล...</span>`;
+
+      let v = 0, a = 0, k = 0;
+      for (let i = 0; i < 10; i++) {
+        const val = document.querySelector(`input[name="q_${i}"]:checked`).value;
+        if (val === 'V') v++;
+        else if (val === 'A') a++;
+        else if (val === 'K') k++;
+      }
+
+      const resultLabel = computeDominantLabel(v, a, k);
+
+      if (currentMode === 'guest') {
+        const gName = document.getElementById('guestName').value.trim() || 'ผู้เยี่ยมชมทั่วไป';
+        renderResultReport({
+          displayName: gName,
+          metaText: 'โหมดทดลองประเมิน (บุคคลทั่วไป)',
+          v, a, k,
+          result: resultLabel,
+          isDuplicate: false
+        });
+        return;
+      }
+
+      // Class Mode -> Send to GAS API
+      const courseCode = document.getElementById('courseSelect').value;
+      const courseLabel = document.getElementById('courseSelect').selectedOptions[0].text;
+      const studentId = document.getElementById('studentId').value.trim();
+      const fullName = document.getElementById('fullName').value.trim();
+      const nickname = document.getElementById('nickname').value.trim();
+
+      const payload = {
+        courseCode,
+        studentId,
+        fullName,
+        nickname,
+        v, a, k,
+        result: resultLabel
+      };
+
+      // กรณีอาจารย์ยังไม่ได้ใส่ URL ของ GAS ให้แสดงผลหน้าเว็บได้โดยไม่ค้าง
+      if (!GAS_WEB_APP_URL || GAS_WEB_APP_URL.includes("YOUR_GAS_WEB_APP_URL")) {
+        renderResultReport({
+          displayName: `${fullName} (${nickname})`,
+          metaText: `รหัสนักศึกษา: ${studentId} | วิชา: ${courseLabel}`,
+          v, a, k,
+          result: resultLabel,
+          isDuplicate: false
+        });
+        return;
+      }
+
+      try {
+        const response = await fetch(GAS_WEB_APP_URL, {
+          method: 'POST',
+          redirect: 'follow',
+          body: JSON.stringify(payload)
+        });
+        const resData = await response.json();
+
+        if (resData.status === 'duplicate' && resData.existing) {
+          const ex = resData.existing;
+          renderResultReport({
+            displayName: `${ex.fullName} (${ex.nickname})`,
+            metaText: `รหัสนักศึกษา: ${studentId} | วิชา: ${courseLabel}`,
+            v: ex.v,
+            a: ex.a,
+            k: ex.k,
+            result: ex.result,
+            isDuplicate: true
+          });
+        } else {
+          renderResultReport({
+            displayName: `${fullName} (${nickname})`,
+            metaText: `รหัสนักศึกษา: ${studentId} | วิชา: ${courseLabel}`,
+            v, a, k,
+            result: resultLabel,
+            isDuplicate: false
+          });
+        }
+      } catch (err) {
+        console.error(err);
+        // แม้เครือข่ายมีปัญหา ก็ยังแสดงผลวิเคราะห์ให้นักศึกษาดูได้
+        renderResultReport({
+          displayName: `${fullName} (${nickname})`,
+          metaText: `รหัสนักศึกษา: ${studentId} | วิชา: ${courseLabel}`,
+          v, a, k,
+          result: resultLabel,
+          isDuplicate: false
+        });
+      }
+    }
+
+    function computeDominantLabel(v, a, k) {
+      const max = Math.max(v, a, k);
+      const types = [];
+      if (v === max) types.push('Visual (การมองเห็น)');
+      if (a === max) types.push('Auditory (การได้ยิน)');
+      if (k === max) types.push('Kinesthetic (การลงมือทำ)');
+      return types.join(' & ');
+    }
+
+    function renderResultReport({ displayName, metaText, v, a, k, result, isDuplicate }) {
+      document.getElementById('progressWrapper').classList.add('hidden');
+      if (isDuplicate) {
+        document.getElementById('duplicateBanner').classList.remove('hidden');
+      }
+
+      document.getElementById('repName').textContent = displayName;
+      document.getElementById('repMeta').textContent = metaText;
+      document.getElementById('repDate').textContent = new Date().toLocaleDateString('th-TH', {
+        year: 'numeric', month: 'long', day: 'numeric'
+      });
+
+      const max = Math.max(v, a, k);
+      const isV = v === max;
+      const isA = a === max;
+      const isK = k === max;
+      const winCount = [isV, isA, isK].filter(Boolean).length;
+
+      // Styling Hero Card
+      const heroBox = document.getElementById('heroResultBox');
+      const heroIcon = document.getElementById('heroIconBox');
+      const heroSub = document.getElementById('heroSubtitle');
+
+      if (winCount > 1) {
+        heroBox.className = "rounded-2xl p-6 text-white mb-8 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600";
+        heroIcon.innerHTML = `<i data-lucide="layers" class="w-8 h-8 text-white"></i>`;
+        heroSub.textContent = "Multimodal Learner — คุณมีความยืดหยุ่นสูง สามารถเรียนรู้ได้ดีผ่านหลายช่องทางผสมผสานกัน";
+      } else if (isV) {
+        heroBox.className = "rounded-2xl p-6 text-white mb-8 bg-gradient-to-r from-indigo-600 to-blue-600";
+        heroIcon.innerHTML = `<i data-lucide="eye" class="w-8 h-8 text-white"></i>`;
+        heroSub.textContent = "Visual Learner — ประมวลผลข้อมูลผ่านภาพ โครงสร้าง สีสัน และความเชื่อมโยงเชิงพื้นที่ได้ดีเยี่ยม";
+      } else if (isA) {
+        heroBox.className = "rounded-2xl p-6 text-white mb-8 bg-gradient-to-r from-amber-500 to-orange-600";
+        heroIcon.innerHTML = `<i data-lucide="headphones" class="w-8 h-8 text-white"></i>`;
+        heroSub.textContent = "Auditory Learner — จดจำและทำความเข้าใจได้ดีที่สุดผ่านการฟัง การสนทนา และการอธิบายแลกเปลี่ยน";
+      } else {
+        heroBox.className = "rounded-2xl p-6 text-white mb-8 bg-gradient-to-r from-emerald-600 to-teal-600";
+        heroIcon.innerHTML = `<i data-lucide="hand" class="w-8 h-8 text-white"></i>`;
+        heroSub.textContent = "Kinesthetic Learner — เรียนรู้ผ่านการลงมือปฏิบัติจริง การทดลอง และการเคลื่อนไหว";
+      }
+
+      document.getElementById('heroTitle').textContent = result;
+
+      // Update Bars
+      const pctV = v * 10;
+      const pctA = a * 10;
+      const pctK = k * 10;
+
+      document.getElementById('scoreTextV').textContent = `${v}/10 (${pctV}%)`;
+      document.getElementById('scoreTextA').textContent = `${a}/10 (${pctA}%)`;
+      document.getElementById('scoreTextK').textContent = `${k}/10 (${pctK}%)`;
+
+      setTimeout(() => {
+        document.getElementById('barV').style.width = `${pctV}%`;
+        document.getElementById('barA').style.width = `${pctA}%`;
+        document.getElementById('barK').style.width = `${pctK}%`;
+      }, 150);
+
+      // Render Radar Chart
+      renderRadarChart(v, a, k);
+
+      // Render Study Advice
+      let adviceHtml = '';
+      if (isV) {
+        adviceHtml += `
+          <div class="p-4 rounded-xl bg-indigo-50/60 border border-indigo-100">
+            <h5 class="font-bold text-indigo-900 mb-1.5 flex items-center gap-2">
+              <i data-lucide="eye" class="w-4 h-4 text-indigo-600"></i> กลยุทธ์สำหรับสาย Visual (การมองเห็น)
+            </h5>
+            <ul class="text-sm text-slate-700 space-y-1.5 list-disc list-inside">
+              <li><strong>แปลงเนื้อหาเป็นแผนภาพ:</strong> สรุปเลกเชอร์ด้วย Mind Map, Flowchart หรือตารางเปรียบเทียบเพื่อให้เห็นภาพรวมก่อนลงรายละเอียด</li>
+              <li><strong>ใช้รหัสสี (Color Coding):</strong> ใช้ปากกาไฮไลต์แยกหมวดหมู่หัวข้อหลัก นิยาม และตัวอย่างให้ชัดเจน</li>
+              <li><strong>บทบาทในงานกลุ่ม:</strong> เหมาะกับการออกแบบโครงสร้างระบบ (Wireframe/Architecture), จัดทำสไลด์นำเสนอ และดูแลภาพรวมเอกสาร</li>
+            </ul>
+          </div>`;
+      }
+      if (isA) {
+        adviceHtml += `
+          <div class="p-4 rounded-xl bg-amber-50/60 border border-amber-100">
+            <h5 class="font-bold text-amber-900 mb-1.5 flex items-center gap-2">
+              <i data-lucide="headphones" class="w-4 h-4 text-amber-600"></i> กลยุทธ์สำหรับสาย Auditory (การได้ยิน)
+            </h5>
+            <ul class="text-sm text-slate-700 space-y-1.5 list-disc list-inside">
+              <li><strong>เรียนรู้ด้วยการอธิบาย (Feynman Technique):</strong> ลองสรุปเนื้อหาแล้วพูดออกเสียงหรืออธิบายให้เพื่อนฟัง จะช่วยให้จำแม่นขึ้นมาก</li>
+              <li><strong>ทบทวนผ่านเสียง:</strong> อัดเสียงสรุปประเด็นสำคัญของตัวเองไว้ฟังทบทวน หรือแลกเปลี่ยนคำถาม-ตอบในกลุ่มติว</li>
+              <li><strong>บทบาทในงานกลุ่ม:</strong> เหมาะกับการเป็นผู้นำเสนอผลงาน (Presenter), ผู้ประสานงาน และผู้สรุปประเด็นจากการระดมสมอง</li>
+            </ul>
+          </div>`;
+      }
+      if (isK) {
+        adviceHtml += `
+          <div class="p-4 rounded-xl bg-emerald-50/60 border border-emerald-100">
+            <h5 class="font-bold text-emerald-900 mb-1.5 flex items-center gap-2">
+              <i data-lucide="hand" class="w-4 h-4 text-emerald-600"></i> กลยุทธ์สำหรับสาย Kinesthetic (การลงมือทำ)
+            </h5>
+            <ul class="text-sm text-slate-700 space-y-1.5 list-disc list-inside">
+              <li><strong>เรียนรู้ผ่านการทดลองจริง:</strong> ฝึกทำโจทย์ เขียนโค้ด หรือสร้างชิ้นงานต้นแบบ (Prototype) ควบคู่ไปกับการอ่านทฤษฎี</li>
+              <li><strong>แบ่งรอบการอ่าน (Pomodoro):</strong> อ่านหรือทำงานโฟกัส 25 นาที แล้วลุกพักเปลี่ยนอิริยาบถ 5 นาที เพื่อป้องกันอาการล้า</li>
+              <li><strong>บทบาทในงานกลุ่ม:</strong> เหมาะกับการลงมือพัฒนาตัวต้นแบบ (Implementation), การทดสอบระบบ (Testing) และการสาธิตการใช้งาน</li>
+            </ul>
+          </div>`;
+      }
+
+      document.getElementById('adviceContainer').innerHTML = adviceHtml;
+      switchView('step2', 'stepResult');
+      lucide.createIcons();
+    }
+
+    function renderRadarChart(v, a, k) {
+      const ctx = document.getElementById('vakChart').getContext('2d');
+      if (chartInstance) chartInstance.destroy();
+
+      chartInstance = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['Visual (มองเห็น)', 'Auditory (ได้ยิน)', 'Kinesthetic (ลงมือทำ)'],
+          datasets: [{
+            label: 'คะแนนความถนัด',
+            data: [v, a, k],
+            backgroundColor: 'rgba(79, 70, 229, 0.18)',
+            borderColor: 'rgba(79, 70, 229, 0.9)',
+            pointBackgroundColor: ['#4f46e5', '#f59e0b', '#10b981'],
+            pointBorderColor: '#fff',
+            pointRadius: 5,
+            borderWidth: 2
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: true,
+          scales: {
+            r: {
+              min: 0,
+              max: 10,
+              ticks: { stepSize: 2, display: false },
+              pointLabels: {
+                font: { family: 'Sarabun', size: 12, weight: '600' },
+                color: '#334155'
+              },
+              grid: { color: '#e2e8f0' },
+              angleLines: { color: '#e2e8f0' }
+            }
+          },
+          plugins: {
+            legend: { display: false }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
