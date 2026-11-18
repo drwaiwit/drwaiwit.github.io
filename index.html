@@ -1,8 +1,7 @@
-<!--   354  v7
+<!--   354   v8
 https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec
 const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
 -->
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -354,7 +353,7 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
     // 📌 วางลิงก์ Web App URL (ที่ลงท้ายด้วย /exec) จาก Google Apps Script ตรงนี้ครับ:
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
 
-    const CACHE_KEY = 'wwc_resource_hub_cache_v6';
+    const CACHE_KEY = 'wwc_resource_hub_cache_v7';
     const HIT_SESSION_KEY = 'wwc_visited_session';
     lucide.createIcons();
 
@@ -370,7 +369,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       return `${days[dateObj.getDay()]}ที่ ${dateObj.getDate()} ${months[dateObj.getMonth()]} พ.ศ. ${dateObj.getFullYear() + 543}`;
     }
 
-    // แปลงวันที่รูปแบบไทย/สากล (เช่น 18/11/69, 18/11/2569, 2026-11-18) เป็น Date Object เพื่อเทียบวันอดีต/วันนี้/อนาคต
     function parseFlexDate(dateStr) {
       if (!dateStr) return null;
       const s = String(dateStr).trim();
@@ -658,7 +656,7 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       const todayTheme = dayThemeMap[todayIdx];
       const todayClasses = schedule.filter(item => parseDayIndex(item.day) === todayIdx);
 
-      // 1. แถบ "คาบสอนวันนี้" บนหน้าแรก (ดึงหัวข้อ Lecture ประจำวันนี้มาแสดงด้วย)
+      // 1. แถบ "คาบสอนวันนี้" บนหน้าแรก
       const banner = document.getElementById('today-classes-banner');
       const todayList = document.getElementById('today-classes-list');
       const dayBadge = document.getElementById('today-day-badge');
@@ -709,7 +707,7 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
         banner.classList.add('hidden');
       }
 
-      // 2. หน้าตารางสอน & แผนการเรียนรายสัปดาห์ (Accordion + Slide-style Table)
+      // 2. หน้าตารางสอน & แผนการเรียนรายสัปดาห์ (Accordion + Slide-style Table แบบกระชับ)
       const schedBox = document.getElementById('schedule-list-box');
       if (!schedBox) return;
 
@@ -727,9 +725,8 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
         const hasVak = c.vakUrl && c.vakUrl.startsWith('http');
         const hasSyllabus = c.syllabusUrl && c.syllabusUrl.startsWith('http');
 
-        // สร้างตารางแผนการเรียนแบบเดียวกับใน Slide ของอาจารย์
         const planTableHtml = plan.length > 0 ? `
-          <div class="space-y-3 pt-2">
+          <div class="space-y-2 pt-1">
             <div class="flex items-center justify-between flex-wrap gap-2">
               <p class="text-xs font-extrabold text-zinc-800 flex items-center gap-1.5">
                 <i data-lucide="table-2" class="w-4 h-4 text-zinc-600"></i>
@@ -742,51 +739,49 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
               </div>
             </div>
 
-            <div class="rounded-2xl border border-zinc-200/90 overflow-hidden bg-white shadow-sm">
-              <!-- หัวตาราง (แสดงบนจอแท็บเล็ต/คอมพิวเตอร์) -->
-              <div class="hidden sm:grid sm:grid-cols-12 bg-zinc-900 text-white text-[11px] font-extrabold uppercase tracking-wider px-4 py-3">
+            <div class="rounded-xl border border-zinc-300/90 overflow-hidden bg-white shadow-sm">
+              <!-- หัวตารางแบบกระชับ -->
+              <div class="hidden sm:grid sm:grid-cols-12 bg-zinc-900 text-white text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-2">
                 <div class="col-span-1 text-center">#</div>
                 <div class="col-span-2">วันที่</div>
                 <div class="col-span-5">Lecture (หัวข้อบรรยาย)</div>
                 <div class="col-span-4">Lab / Activity</div>
               </div>
 
-              <!-- รายการแต่ละสัปดาห์ -->
+              <!-- รายการแต่ละสัปดาห์ (ลดระยะบรรทัด py-1.5 ให้พอดีสไลด์) -->
               <div class="divide-y divide-zinc-200/70">
                 ${plan.map(row => {
                   const rowDateObj = parseFlexDate(row.date);
                   const isRowToday = rowDateObj && (rowDateObj.getTime() === todayStart.getTime());
                   const isRowPast = rowDateObj && (rowDateObj.getTime() < todayStart.getTime());
 
-                  // กรณีแถว Term Break / งดสอน (แถบสีม่วงเหมือนใน Slide)
                   if (row.type === 'break') {
                     return `
-                      <div class="px-4 py-3 bg-fuchsia-100/90 text-fuchsia-950 grid sm:grid-cols-12 gap-1 sm:gap-2 items-center text-xs font-bold">
+                      <div class="px-3.5 py-1.5 bg-fuchsia-100/95 text-fuchsia-950 grid sm:grid-cols-12 gap-1 sm:gap-2 items-center text-[11px] sm:text-xs font-bold leading-tight">
                         <div class="sm:col-span-1 text-center text-fuchsia-700">${row.no || '—'}</div>
                         <div class="sm:col-span-2 text-fuchsia-800 font-extrabold">${row.date}</div>
                         <div class="sm:col-span-9 flex items-center gap-2">
-                          <span class="px-2 py-0.5 rounded bg-fuchsia-600 text-white text-[10px] font-extrabold uppercase shrink-0">Break / งดสอน</span>
+                          <span class="px-1.5 py-0.5 rounded bg-fuchsia-600 text-white text-[9px] font-extrabold uppercase shrink-0">Break</span>
                           <span>${row.lecture} ${row.lab ? '• ' + row.lab : ''}</span>
                         </div>
                       </div>
                     `;
                   }
 
-                  // กำหนดสีพื้นหลังและสีตัวอักษรตามสถานะ (วันนี้ / สอบ / โปรเจกต์ / ผ่านมาแล้ว / ปกติ)
                   let rowStyle = 'bg-white text-zinc-900';
                   let lectureStyle = 'font-bold text-zinc-900';
                   let labStyle = 'text-emerald-700 font-semibold';
 
                   if (isRowToday) {
-                    rowStyle = 'bg-zinc-900 text-white ring-2 ring-inset ring-emerald-400';
+                    rowStyle = 'bg-zinc-900 text-white ring-1 ring-inset ring-emerald-400';
                     lectureStyle = 'font-extrabold text-white';
                     labStyle = 'text-emerald-300 font-bold';
                   } else if (row.type === 'project') {
-                    rowStyle = 'bg-lime-200/80 text-zinc-900';
+                    rowStyle = 'bg-lime-200/85 text-zinc-900';
                     lectureStyle = 'font-extrabold text-rose-700';
                     labStyle = 'text-zinc-800 font-bold';
                   } else if (row.type === 'exam') {
-                    rowStyle = 'bg-rose-50/90 text-zinc-900';
+                    rowStyle = 'bg-rose-50/95 text-zinc-900';
                     lectureStyle = 'font-extrabold text-rose-800';
                     labStyle = 'text-indigo-700 font-bold';
                   } else if (isRowPast) {
@@ -796,20 +791,20 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
                   }
 
                   return `
-                    <div class="px-4 py-3 grid sm:grid-cols-12 gap-1 sm:gap-2 items-center text-xs transition ${rowStyle}">
+                    <div class="px-3.5 py-1.5 grid sm:grid-cols-12 gap-1 sm:gap-2 items-center text-[11px] sm:text-xs leading-tight transition ${rowStyle}">
                       <div class="sm:col-span-1 flex sm:justify-center items-center gap-2">
                         <span class="font-extrabold ${isRowToday ? 'text-emerald-400' : ''}">${row.no || '•'}</span>
                         <span class="sm:hidden font-bold">${row.date}</span>
-                        ${isRowToday ? '<span class="sm:hidden px-2 py-0.5 rounded bg-emerald-400 text-zinc-950 text-[10px] font-black">วันนี้</span>' : ''}
+                        ${isRowToday ? '<span class="sm:hidden px-1.5 py-0.2 rounded bg-emerald-400 text-zinc-950 text-[9px] font-black">วันนี้</span>' : ''}
                       </div>
                       <div class="hidden sm:block sm:col-span-2 font-bold">
                         ${row.date}
-                        ${isRowToday ? '<span class="ml-1 px-1.5 py-0.5 rounded bg-emerald-400 text-zinc-950 text-[9px] font-black">วันนี้</span>' : ''}
+                        ${isRowToday ? '<span class="ml-1 px-1.5 py-0.2 rounded bg-emerald-400 text-zinc-950 text-[9px] font-black">วันนี้</span>' : ''}
                       </div>
-                      <div class="sm:col-span-5 leading-snug ${lectureStyle}">
+                      <div class="sm:col-span-5 ${lectureStyle}">
                         ${row.lecture}
                       </div>
-                      <div class="sm:col-span-4 leading-snug ${labStyle}">
+                      <div class="sm:col-span-4 ${labStyle}">
                         ${row.lab ? `<span class="inline-block">${row.lab}</span>` : ''}
                       </div>
                     </div>
