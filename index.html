@@ -1,4 +1,4 @@
-<!--   372
+<!--   353
 https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec
 -->
 <!DOCTYPE html>
@@ -75,11 +75,10 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
     </div>
 
     <!-- ======================================================================= -->
-    <!-- 1. หน้าแรก (RESOURCE HUB HOME - ตัดส่วนหนังสือออก เน้นเครื่องมือ GAS ล้วน) -->
+    <!-- 1. หน้าแรก (RESOURCE HUB HOME) -->
     <!-- ======================================================================= -->
     <main id="page-home" class="page-section max-w-6xl w-full mx-auto px-6 py-6 space-y-8 relative z-10 flex-1">
       
-      <!-- Top Compact Header Bar -->
       <section class="bento-card rounded-[32px] p-6 sm:p-8 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
         <div class="space-y-2 max-w-2xl">
           <div class="flex flex-wrap items-center gap-2">
@@ -98,7 +97,6 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         </div>
 
         <div class="flex flex-wrap items-center gap-3 shrink-0">
-          <!-- Visitor Counter Pill -->
           <div class="bg-white/85 border border-white rounded-2xl px-4 py-2.5 flex items-center gap-3 shadow-sm">
             <div class="w-8 h-8 rounded-xl bg-zinc-900 text-white flex items-center justify-center">
               <i data-lucide="bar-chart-2" class="w-4 h-4"></i>
@@ -122,7 +120,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         </div>
       </section>
 
-      <!-- แถบแจ้งเตือน "คาบสอนวันนี้ (Today's Classes)" - แสดงเฉพาะวันที่มีสอน -->
+      <!-- แถบแจ้งเตือน "คาบสอนวันนี้" -->
       <section id="today-classes-banner" class="hidden rounded-[28px] bg-zinc-900 text-white p-5 sm:p-6 shadow-xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3.5 border-b border-zinc-800">
           <div class="flex items-center gap-2.5 flex-wrap">
@@ -131,13 +129,13 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
             <span id="today-day-badge" class="px-3 py-0.5 rounded-full text-xs font-extrabold"></span>
           </div>
           <button onclick="switchPage('schedule')" class="text-xs font-bold text-zinc-400 hover:text-white flex items-center gap-1 transition">
-            ดูปฏิทิน 15 สัปดาห์ทั้งหมด <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+            ดูปฏิทินการศึกษาทั้งหมด <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
           </button>
         </div>
         <div id="today-classes-list" class="grid md:grid-cols-2 gap-4 pt-4"></div>
       </section>
 
-      <!-- โซนหลัก: ระบบสารสนเทศและเครื่องมือ KM (GAS Systems & Tools) -->
+      <!-- คลังระบบสารสนเทศและเครื่องมือ KM -->
       <section class="space-y-5">
         <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
@@ -145,24 +143,20 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
             <h2 class="text-2xl sm:text-3xl font-extrabold text-zinc-900 tracking-tight">ระบบสารสนเทศและเครื่องมือประกอบการสอน</h2>
           </div>
 
-          <!-- ช่องค้นหา (Live Search) -->
           <div class="relative w-full md:w-72">
             <i data-lucide="search" class="w-4 h-4 text-zinc-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
             <input type="text" id="hub-search" oninput="filterHubProjects()" placeholder="ค้นหาระบบ, รหัสวิชา, เครื่องมือ..." class="w-full pl-10 pr-4 py-2.5 rounded-full bg-white/85 border border-white text-xs font-medium text-zinc-800 placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-900 shadow-sm">
           </div>
         </div>
 
-        <!-- ปุ่มกรองหมวดหมู่ (Category Filter Pills) -->
         <div id="hub-cat-filters" class="flex items-center gap-2 flex-wrap"></div>
-
-        <!-- การ์ดแสดงรายการระบบ GAS -->
         <div id="hub-projects-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
       </section>
 
     </main>
 
     <!-- ======================================================================= -->
-    <!-- 2. หน้าตารางสอน & ปฏิทินการศึกษา 15 สัปดาห์ (SCHEDULE PAGE) -->
+    <!-- 2. หน้าตารางสอน & ปฏิทินการศึกษา (SCHEDULE PAGE) -->
     <!-- ======================================================================= -->
     <main id="page-schedule" class="page-section hidden max-w-5xl w-full mx-auto px-6 py-8 space-y-8 flex-1">
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
@@ -178,11 +172,10 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
           </h1>
         </div>
         <p class="text-xs sm:text-sm text-zinc-600 max-w-sm leading-relaxed">
-          คลิกที่รายวิชาเพื่อดู <strong>คำอธิบายรายวิชา</strong>, ปุ่มเข้า <strong>Google Classroom</strong>, <strong>ปฏิทินเรียน 15 ครั้ง</strong> (รวมสัปดาห์เบรค/วันหยุด) และ <strong>วันสอบ Final</strong>
+          คลิกที่รายวิชาเพื่อดู <strong>คำอธิบายรายวิชา</strong>, ลิงก์เข้า <strong>Google Classroom</strong>, <strong>ผลการเข้าเรียน</strong>, <strong>ปฏิทินเรียนจนถึงวันสิ้นสุดเทอม</strong> และ <strong>วันสอบ Final</strong>
         </p>
       </div>
 
-      <!-- กล่องตารางสอนแบบ Accordion กะทัดรัด -->
       <div id="schedule-list-box" class="space-y-4"></div>
     </main>
 
@@ -356,10 +349,10 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
 
   <!-- ================= SCRIPT เชื่อมต่อ GOOGLE SHEETS & SPA ROUTER ================= -->
   <script>
-    // 📌 📌📌📌วางลิงก์ Web App URL (ที่ลงท้ายด้วย /exec) จาก Google Apps Script ตรงนี้ครับ:
+    // 📌 วางลิงก์ Web App URL (ที่ลงท้ายด้วย /exec) จาก Google Apps Script ตรงนี้ครับ:
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
 
-    const CACHE_KEY = 'wwc_resource_hub_cache_v3';
+    const CACHE_KEY = 'wwc_resource_hub_cache_v4';
     const HIT_SESSION_KEY = 'wwc_visited_session';
     lucide.createIcons();
 
@@ -369,7 +362,6 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
     let allProjects = [];
     let activeCategory = 'ALL';
 
-    // ฟังก์ชันแสดงวันที่ปัจจุบันแบบไทยเต็มรูปแบบ
     function getFullThaiDateString(dateObj = new Date()) {
       const days = ['วันอาทิตย์', 'วันจันทร์', 'วันอังคาร', 'วันพุธ', 'วันพฤหัสบดี', 'วันศุกร์', 'วันเสาร์'];
       const months = ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'];
@@ -389,15 +381,14 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       return `${y}-${m}-${day}`;
     }
 
-    // ระบบสีประจำวันแบบไทย (จันทร์=เหลือง, อังคาร=ชมพู, พุธ=เขียว, พฤหัส=ส้ม, ศุกร์=ฟ้า, เสาร์=ม่วง, อาทิตย์=แดง)
     const dayThemeMap = [
-      { name: 'วันอาทิตย์', pill: 'bg-rose-600 text-white', soft: 'bg-rose-50 text-rose-800 border-rose-200', border: 'border-l-rose-500' },
-      { name: 'วันจันทร์', pill: 'bg-amber-400 text-zinc-900', soft: 'bg-amber-50 text-amber-900 border-amber-200', border: 'border-l-amber-400' },
-      { name: 'วันอังคาร', pill: 'bg-pink-500 text-white', soft: 'bg-pink-50 text-pink-800 border-pink-200', border: 'border-l-pink-500' },
-      { name: 'วันพุธ', pill: 'bg-emerald-600 text-white', soft: 'bg-emerald-50 text-emerald-900 border-emerald-200', border: 'border-l-emerald-600' },
-      { name: 'วันพฤหัสบดี', pill: 'bg-orange-500 text-white', soft: 'bg-orange-50 text-orange-900 border-orange-200', border: 'border-l-orange-500' },
-      { name: 'วันศุกร์', pill: 'bg-sky-500 text-white', soft: 'bg-sky-50 text-sky-900 border-sky-200', border: 'border-l-sky-500' },
-      { name: 'วันเสาร์', pill: 'bg-purple-600 text-white', soft: 'bg-purple-50 text-purple-900 border-purple-200', border: 'border-l-purple-600' }
+      { name: 'วันอาทิตย์', pill: 'bg-rose-600 text-white', border: 'border-l-rose-500' },
+      { name: 'วันจันทร์', pill: 'bg-amber-400 text-zinc-900', border: 'border-l-amber-400' },
+      { name: 'วันอังคาร', pill: 'bg-pink-500 text-white', border: 'border-l-pink-500' },
+      { name: 'วันพุธ', pill: 'bg-emerald-600 text-white', border: 'border-l-emerald-600' },
+      { name: 'วันพฤหัสบดี', pill: 'bg-orange-500 text-white', border: 'border-l-orange-500' },
+      { name: 'วันศุกร์', pill: 'bg-sky-500 text-white', border: 'border-l-sky-500' },
+      { name: 'วันเสาร์', pill: 'bg-purple-600 text-white', border: 'border-l-purple-600' }
     ];
 
     function parseDayIndex(dayStr) {
@@ -412,13 +403,22 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       return -1;
     }
 
-    // คำนวณปฏิทินการศึกษา 15 สัปดาห์ + ข้ามวันเบรค/วันหยุดแทรก
-    function build15WeekTimeline(startDateStr, holidaysStr) {
-      if (!startDateStr || !/^\d{4}-\d{2}-\d{2}$/.test(startDateStr)) return [];
+    // คำนวณปฏิทินการศึกษา (หยุดนับเมื่อถึงวันสิ้นสุดเทอม หรือครบ 15 ครั้ง)
+    function buildTermTimeline(startDateStr, endDateStr, holidaysStr) {
+      if (!startDateStr || !/^\d{4}-\d{2}-\d{2}$/.test(startDateStr)) {
+        return { items: [], totalClasses: 0, endShortDate: '' };
+      }
       const [y, m, d] = startDateStr.split('-').map(Number);
       let cur = new Date(y, m - 1, d);
 
-      // แปลงรายการวันหยุด/เบรคเป็น Map (รองรับรูปแบบ YYYY-MM-DD:ชื่อวันหยุด คั่นด้วยลูกน้ำ)
+      let endLimit = null;
+      let endShortDate = '';
+      if (endDateStr && /^\d{4}-\d{2}-\d{2}$/.test(endDateStr)) {
+        const [ey, em, ed] = endDateStr.split('-').map(Number);
+        endLimit = new Date(ey, em - 1, ed, 23, 59, 59);
+        endShortDate = getShortThaiDate(endLimit);
+      }
+
       const holidayMap = new Map();
       if (holidaysStr) {
         holidaysStr.split(',').forEach(part => {
@@ -433,16 +433,18 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         });
       }
 
-      const timeline = [];
+      const items = [];
       let sessionCount = 0;
       let guard = 0;
       const todayIso = toISODateStr(new Date());
 
       while (sessionCount < 15 && guard < 26) {
+        if (endLimit && cur > endLimit) break; // หยุดเมื่อเลยวันสุดท้ายของเทอม
+
         const iso = toISODateStr(cur);
         const isToday = (iso === todayIso);
         if (holidayMap.has(iso)) {
-          timeline.push({
+          items.push({
             type: 'break',
             iso,
             shortDate: getShortThaiDate(cur),
@@ -451,7 +453,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
           });
         } else {
           sessionCount += 1;
-          timeline.push({
+          items.push({
             type: 'class',
             session: sessionCount,
             iso,
@@ -462,7 +464,13 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         cur.setDate(cur.getDate() + 7);
         guard++;
       }
-      return timeline;
+
+      // ถ้าไม่ได้กรอกวันสิ้นสุดเทอม ให้ใช้วันเรียนครั้งสุดท้ายเป็นวันปิดคอร์ส
+      if (!endShortDate && items.length > 0) {
+        endShortDate = items[items.length - 1].shortDate;
+      }
+
+      return { items, totalClasses: sessionCount, endShortDate };
     }
 
     function toggleScheduleAccordion(idx) {
@@ -705,7 +713,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       const todayTheme = dayThemeMap[todayIdx];
       const todayClasses = schedule.filter(item => parseDayIndex(item.day) === todayIdx);
 
-      // 1. แถบ "คาบสอนวันนี้" บนหน้าแรก (ใช้สีประจำวัน + วันที่จริง)
+      // 1. แถบ "คาบสอนวันนี้" บนหน้าแรก
       const banner = document.getElementById('today-classes-banner');
       const todayList = document.getElementById('today-classes-list');
       const dayBadge = document.getElementById('today-day-badge');
@@ -716,15 +724,17 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         dayBadge.textContent = getFullThaiDateString(todayObj);
 
         todayList.innerHTML = todayClasses.map(c => {
-          const timeline = build15WeekTimeline(c.startDate, c.holidays);
+          const termData = buildTermTimeline(c.startDate, c.endDate, c.holidays);
           const todayIso = toISODateStr(todayObj);
-          const todaySlot = timeline.find(t => t.iso === todayIso);
+          const todaySlot = termData.items.find(t => t.iso === todayIso);
           const sessionTag = todaySlot
-            ? (todaySlot.type === 'class' ? `ครั้งที่ ${todaySlot.session}/15` : todaySlot.label)
+            ? (todaySlot.type === 'class' ? `ครั้งที่ ${todaySlot.session}/${termData.totalClasses}` : todaySlot.label)
             : '';
 
+          const hasAttendance = c.attendanceUrl && c.attendanceUrl.startsWith('http');
+
           return `
-          <div class="bg-zinc-800/90 border border-zinc-700 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="bg-zinc-800/90 border border-zinc-700 rounded-2xl p-4 flex flex-col justify-between gap-3">
             <div class="space-y-1">
               <div class="flex items-center gap-2 flex-wrap">
                 ${c.note ? `<span class="px-2.5 py-0.5 rounded-md bg-white/15 text-white text-xs font-extrabold">${c.note}</span>` : ''}
@@ -733,16 +743,23 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
               <h3 class="text-sm font-extrabold text-white leading-snug">${c.course}</h3>
               <p class="text-xs text-zinc-300">${c.timeRoom}</p>
             </div>
-            <a href="${c.classroomUrl}" target="_blank" class="px-4 py-2 rounded-full bg-white hover:bg-emerald-400 text-zinc-900 text-xs font-extrabold shrink-0 inline-flex items-center gap-1.5 transition">
-              Classroom <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
-            </a>
+            <div class="flex items-center gap-2 flex-wrap pt-1">
+              <a href="${c.classroomUrl}" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white hover:bg-emerald-400 text-zinc-900 text-xs font-extrabold inline-flex items-center gap-1 transition">
+                Classroom <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+              </a>
+              ${hasAttendance ? `
+                <a href="${c.attendanceUrl}" target="_blank" class="px-3.5 py-1.5 rounded-full bg-zinc-700 hover:bg-zinc-600 text-white text-xs font-bold inline-flex items-center gap-1 transition">
+                  <i data-lucide="user-check" class="w-3.5 h-3.5 text-emerald-400"></i> ผลการเข้าเรียน ↗
+                </a>
+              ` : ''}
+            </div>
           </div>
         `}).join('');
       } else {
         banner.classList.add('hidden');
       }
 
-      // 2. หน้าตารางสอน & ปฏิทิน 15 สัปดาห์ (แบบ Accordion กะทัดรัด)
+      // 2. หน้าตารางสอน & ปฏิทินการศึกษา (แบบ Accordion กะทัดรัด)
       const schedBox = document.getElementById('schedule-list-box');
       if (!schedBox) return;
 
@@ -754,20 +771,25 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       schedBox.innerHTML = schedule.map((c, idx) => {
         const dIdx = parseDayIndex(c.day);
         const isToday = (dIdx === todayIdx);
-        const theme = dIdx >= 0 ? dayThemeMap[dIdx] : { name: c.day, pill: 'bg-zinc-800 text-white', soft: 'bg-zinc-100 text-zinc-800 border-zinc-200', border: 'border-l-zinc-800' };
-        const timeline = build15WeekTimeline(c.startDate, c.holidays);
+        const theme = dIdx >= 0 ? dayThemeMap[dIdx] : { name: c.day, pill: 'bg-zinc-800 text-white', border: 'border-l-zinc-800' };
+        const termData = buildTermTimeline(c.startDate, c.endDate, c.holidays);
+        const hasAttendance = c.attendanceUrl && c.attendanceUrl.startsWith('http');
 
-        // สร้างกริดปฏิทิน 15 สัปดาห์ + ช่วงเบรค/วันหยุด
-        const timelineHtml = timeline.length > 0 ? `
-          <div class="space-y-2.5 pt-2">
-            <div class="flex items-center justify-between">
+        const timelineHtml = termData.items.length > 0 ? `
+          <div class="space-y-3 pt-2">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <p class="text-xs font-extrabold text-zinc-800 flex items-center gap-1.5">
-                <i data-lucide="calendar-days" class="w-4 h-4 text-zinc-500"></i> ปฏิทินการสอน 15 ครั้ง (รวมวันหยุด/เบรค)
+                <i data-lucide="calendar-days" class="w-4 h-4 text-zinc-500"></i>
+                ปฏิทินการสอน (รวมสอนจริง ${termData.totalClasses} ครั้ง)
               </p>
-              <span class="text-[10px] font-semibold text-zinc-400">คำนวณอัตโนมัติจากวันเปิดเทอม</span>
+              ${termData.endShortDate ? `
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-900/10 text-zinc-800 text-[11px] font-extrabold">
+                  <i data-lucide="calendar-check-2" class="w-3.5 h-3.5 text-zinc-600"></i> วันสิ้นสุดการเรียนการสอน: ${termData.endShortDate}
+                </span>
+              ` : ''}
             </div>
             <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-2">
-              ${timeline.map(t => {
+              ${termData.items.map(t => {
                 if (t.type === 'break') {
                   return `
                     <div class="rounded-xl p-2.5 border border-dashed border-amber-300 bg-amber-50/80 text-amber-900 flex flex-col justify-between">
@@ -793,13 +815,14 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
 
         return `
           <div class="bento-card rounded-3xl border-l-8 ${theme.border} overflow-hidden transition">
-            <!-- ส่วนหัวการ์ดกะทัดรัด (คลิกเพื่อกาง/พับ) -->
+            <!-- ส่วนหัวการ์ดกะทัดรัด -->
             <div onclick="toggleScheduleAccordion(${idx})" class="p-5 sm:p-6 cursor-pointer hover:bg-white/50 transition flex flex-col gap-3">
               <div class="flex items-center justify-between gap-2 flex-wrap">
                 <div class="flex items-center gap-2">
                   <span class="px-3.5 py-1 rounded-full text-xs sm:text-sm font-extrabold tracking-wide shadow-sm ${theme.pill}">
                     ${theme.name} ${isToday ? '• วันนี้' : ''}
                   </span>
+                  ${termData.totalClasses > 0 ? `<span class="px-2.5 py-1 rounded-full bg-white/80 border border-zinc-200 text-[11px] font-bold text-zinc-600">สอน ${termData.totalClasses} ครั้ง</span>` : ''}
                 </div>
                 ${c.note ? `<span class="px-3.5 py-1 rounded-full bg-zinc-900/5 border border-zinc-300/80 text-sm sm:text-base font-extrabold text-zinc-800">${c.note}</span>` : ''}
               </div>
@@ -819,11 +842,11 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
               </div>
             </div>
 
-            <!-- ส่วนขยายด้านใน (ซ่อนไว้ก่อน กดแล้วกางออก) -->
+            <!-- ส่วนขยายด้านใน -->
             <div id="sched-panel-${idx}" class="hidden px-5 sm:px-6 pb-6 pt-4 border-t border-zinc-200/80 bg-white/40 space-y-4">
               
-              <!-- คำอธิบายรายวิชา + ปุ่มเล็กเข้า Google Classroom -->
-              <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+              <!-- คำอธิบายรายวิชา + ปุ่มเข้า Classroom & ผลการเข้าเรียน -->
+              <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
                 <div class="space-y-1 max-w-2xl">
                   <p class="text-[11px] font-extrabold uppercase tracking-wider text-zinc-400">คำอธิบายรายวิชา (Course Description)</p>
                   <p class="text-xs sm:text-sm text-zinc-700 leading-relaxed">
@@ -831,9 +854,17 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
                   </p>
                 </div>
 
-                <a href="${c.classroomUrl}" target="_blank" onclick="event.stopPropagation()" class="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-zinc-900 hover:bg-zinc-700 text-white text-xs font-bold shadow-sm transition">
-                  <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> เข้า Google Classroom ↗
-                </a>
+                <div class="flex flex-wrap items-center gap-2 shrink-0">
+                  <a href="${c.classroomUrl}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-zinc-900 hover:bg-zinc-700 text-white text-xs font-bold shadow-sm transition">
+                    <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> Google Classroom ↗
+                  </a>
+
+                  ${hasAttendance ? `
+                    <a href="${c.attendanceUrl}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition">
+                      <i data-lucide="user-check" class="w-3.5 h-3.5"></i> ผลการเข้าเรียน ↗
+                    </a>
+                  ` : ''}
+                </div>
               </div>
 
               <!-- กล่องวันสอบ FINAL เด่นพิเศษ -->
@@ -852,7 +883,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
                 </div>
               ` : ''}
 
-              <!-- ปฏิทินการศึกษา 15 สัปดาห์ -->
+              <!-- ปฏิทินการศึกษา -->
               ${timelineHtml}
             </div>
           </div>
