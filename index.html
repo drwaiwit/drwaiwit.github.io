@@ -1,4 +1,4 @@
-<!--   353
+<!--   353  v6
 https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec
 -->
 <!DOCTYPE html>
@@ -172,7 +172,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
           </h1>
         </div>
         <p class="text-xs sm:text-sm text-zinc-600 max-w-sm leading-relaxed">
-          คลิกที่รายวิชาเพื่อดู <strong>คำอธิบายรายวิชา</strong>, ลิงก์เข้า <strong>Google Classroom</strong>, <strong>ผลการเข้าเรียน</strong>, <strong>ปฏิทินเรียนจนถึงวันสิ้นสุดเทอม</strong> และ <strong>วันสอบ Final</strong>
+          คลิกที่รายวิชาเพื่อดู <strong>คำอธิบายรายวิชา</strong>, ลิงก์เข้า <strong>Google Classroom</strong>, <strong>แบบประเมิน VAK</strong>, <strong>แผนการสอน (Syllabus)</strong> และ <strong>วันสอบ Final</strong>
         </p>
       </div>
 
@@ -352,7 +352,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
     // 📌 วางลิงก์ Web App URL (ที่ลงท้ายด้วย /exec) จาก Google Apps Script ตรงนี้ครับ:
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
 
-    const CACHE_KEY = 'wwc_resource_hub_cache_v4';
+    const CACHE_KEY = 'wwc_resource_hub_cache_v5';
     const HIT_SESSION_KEY = 'wwc_visited_session';
     lucide.createIcons();
 
@@ -403,7 +403,6 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       return -1;
     }
 
-    // คำนวณปฏิทินการศึกษา (หยุดนับเมื่อถึงวันสิ้นสุดเทอม หรือครบ 15 ครั้ง)
     function buildTermTimeline(startDateStr, endDateStr, holidaysStr) {
       if (!startDateStr || !/^\d{4}-\d{2}-\d{2}$/.test(startDateStr)) {
         return { items: [], totalClasses: 0, endShortDate: '' };
@@ -439,7 +438,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
       const todayIso = toISODateStr(new Date());
 
       while (sessionCount < 15 && guard < 26) {
-        if (endLimit && cur > endLimit) break; // หยุดเมื่อเลยวันสุดท้ายของเทอม
+        if (endLimit && cur > endLimit) break;
 
         const iso = toISODateStr(cur);
         const isToday = (iso === todayIso);
@@ -465,7 +464,6 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         guard++;
       }
 
-      // ถ้าไม่ได้กรอกวันสิ้นสุดเทอม ให้ใช้วันเรียนครั้งสุดท้ายเป็นวันปิดคอร์ส
       if (!endShortDate && items.length > 0) {
         endShortDate = items[items.length - 1].shortDate;
       }
@@ -731,7 +729,8 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
             ? (todaySlot.type === 'class' ? `ครั้งที่ ${todaySlot.session}/${termData.totalClasses}` : todaySlot.label)
             : '';
 
-          const hasAttendance = c.attendanceUrl && c.attendanceUrl.startsWith('http');
+          const hasVak = c.vakUrl && c.vakUrl.startsWith('http');
+          const hasSyllabus = c.syllabusUrl && c.syllabusUrl.startsWith('http');
 
           return `
           <div class="bg-zinc-800/90 border border-zinc-700 rounded-2xl p-4 flex flex-col justify-between gap-3">
@@ -747,9 +746,14 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
               <a href="${c.classroomUrl}" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white hover:bg-emerald-400 text-zinc-900 text-xs font-extrabold inline-flex items-center gap-1 transition">
                 Classroom <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
               </a>
-              ${hasAttendance ? `
-                <a href="${c.attendanceUrl}" target="_blank" class="px-3.5 py-1.5 rounded-full bg-zinc-700 hover:bg-zinc-600 text-white text-xs font-bold inline-flex items-center gap-1 transition">
-                  <i data-lucide="user-check" class="w-3.5 h-3.5 text-emerald-400"></i> ผลการเข้าเรียน ↗
+              ${hasVak ? `
+                <a href="${c.vakUrl}" target="_blank" class="px-3.5 py-1.5 rounded-full bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold inline-flex items-center gap-1 transition">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> แบบประเมิน VAK ↗
+                </a>
+              ` : ''}
+              ${hasSyllabus ? `
+                <a href="${c.syllabusUrl}" target="_blank" class="px-3.5 py-1.5 rounded-full bg-zinc-700 hover:bg-zinc-600 text-white text-xs font-bold inline-flex items-center gap-1 transition">
+                  <i data-lucide="file-text" class="w-3.5 h-3.5 text-amber-300"></i> Syllabus ↗
                 </a>
               ` : ''}
             </div>
@@ -773,7 +777,8 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
         const isToday = (dIdx === todayIdx);
         const theme = dIdx >= 0 ? dayThemeMap[dIdx] : { name: c.day, pill: 'bg-zinc-800 text-white', border: 'border-l-zinc-800' };
         const termData = buildTermTimeline(c.startDate, c.endDate, c.holidays);
-        const hasAttendance = c.attendanceUrl && c.attendanceUrl.startsWith('http');
+        const hasVak = c.vakUrl && c.vakUrl.startsWith('http');
+        const hasSyllabus = c.syllabusUrl && c.syllabusUrl.startsWith('http');
 
         const timelineHtml = termData.items.length > 0 ? `
           <div class="space-y-3 pt-2">
@@ -845,7 +850,7 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
             <!-- ส่วนขยายด้านใน -->
             <div id="sched-panel-${idx}" class="hidden px-5 sm:px-6 pb-6 pt-4 border-t border-zinc-200/80 bg-white/40 space-y-4">
               
-              <!-- คำอธิบายรายวิชา + ปุ่มเข้า Classroom & ผลการเข้าเรียน -->
+              <!-- คำอธิบายรายวิชา + ปุ่ม Classroom, แบบประเมิน VAK และ แผนการสอน (Syllabus) -->
               <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
                 <div class="space-y-1 max-w-2xl">
                   <p class="text-[11px] font-extrabold uppercase tracking-wider text-zinc-400">คำอธิบายรายวิชา (Course Description)</p>
@@ -859,9 +864,15 @@ https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAaf
                     <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> Google Classroom ↗
                   </a>
 
-                  ${hasAttendance ? `
-                    <a href="${c.attendanceUrl}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition">
-                      <i data-lucide="user-check" class="w-3.5 h-3.5"></i> ผลการเข้าเรียน ↗
+                  ${hasVak ? `
+                    <a href="${c.vakUrl}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-sm transition">
+                      <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> แบบประเมิน VAK ↗
+                    </a>
+                  ` : ''}
+
+                  ${hasSyllabus ? `
+                    <a href="${c.syllabusUrl}" target="_blank" onclick="event.stopPropagation()" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-sm transition">
+                      <i data-lucide="file-text" class="w-3.5 h-3.5"></i> แผนการสอน (Syllabus) ↗
                     </a>
                   ` : ''}
                 </div>
