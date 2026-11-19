@@ -1,0 +1,223 @@
+    // 👇 นำลิงก์ Web App (/exec) ของ Google Apps Script มาวางใส่ในเครื่องหมายคำพูดด้านล่างนี้
+    // const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbziEaGs0kMjqE6wvNJgqo8r93A8R3RZi70ZiijOYL9Ae3MxFXHUYrLhb4l94x9VaT4o/exec";
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Smart Attendance OS — ระบบเช็คชื่อเข้าเรียนอัจฉริยะ</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Sarabun:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-obsidian: #09090b;
+      --bg-card: #18181b;
+      --border-zinc: #27272a;
+      --indigo: #4f46e5;
+      --indigo-hover: #4338ca;
+      --cyan: #06b6d4;
+      --emerald: #10b981;
+      --text-main: #fafafa;
+      --text-muted: #a1a1aa;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', 'Sarabun', sans-serif;
+      background-color: var(--bg-obsidian);
+      background-image:
+        radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.25) 0%, transparent 55%),
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 36px 36px, 36px 36px;
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    .container {
+      max-width: 880px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .pill-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(79, 70, 229, 0.16);
+      border: 1px solid rgba(129, 140, 248, 0.4);
+      color: #c7d2fe;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 16px;
+      border-radius: 999px;
+      margin-bottom: 20px;
+      letter-spacing: 0.4px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 10px var(--emerald);
+    }
+
+    h1 {
+      font-size: clamp(28px, 4.5vw, 44px);
+      font-weight: 800;
+      letter-spacing: -0.6px;
+      line-height: 1.2;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #ffffff 30%, #a5b4fc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      font-size: 17px;
+      color: var(--text-muted);
+      max-width: 640px;
+      margin: 0 auto 32px;
+      line-height: 1.6;
+    }
+
+    .cta-group {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 44px;
+    }
+
+    .btn-launch {
+      background: linear-gradient(135deg, var(--indigo) 0%, #6366f1 100%);
+      color: #ffffff;
+      text-decoration: none;
+      font-size: 17px;
+      font-weight: 700;
+      padding: 15px 32px;
+      border-radius: 14px;
+      box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.5);
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-launch:hover {
+      background: linear-gradient(135deg, var(--indigo-hover) 0%, var(--indigo) 100%);
+      transform: translateY(-2px);
+    }
+
+    .btn-home {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-zinc);
+      color: #e4e4e7;
+      text-decoration: none;
+      font-size: 15.5px;
+      font-weight: 600;
+      padding: 15px 24px;
+      border-radius: 14px;
+      transition: all 0.2s ease;
+    }
+    .btn-home:hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      text-align: left;
+    }
+    @media (max-width: 768px) {
+      .features-grid { grid-template-columns: 1fr; }
+    }
+
+    .feature-card {
+      background: rgba(24, 24, 27, 0.85);
+      border: 1px solid var(--border-zinc);
+      border-radius: 16px;
+      padding: 20px;
+      backdrop-filter: blur(8px);
+    }
+    .f-icon {
+      font-size: 24px;
+      margin-bottom: 10px;
+      display: inline-block;
+    }
+    .feature-card h3 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 6px;
+      color: #f4f4f5;
+    }
+    .feature-card p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .footer-note {
+      margin-top: 36px;
+      font-size: 13px;
+      color: #71717a;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="pill-badge"><span class="dot"></span> Multi-Instructor Cloud Platform</div>
+    <h1>Smart Attendance System</h1>
+    <p class="subtitle">
+      ระบบบริหารจัดการและประเมินผลการเข้าเรียนอัจฉริยะผ่าน QR Code แบบเรียลไทม์ 
+      แยกฐานข้อมูลส่วนตัวสำหรับคณาจารย์ พร้อมระบบวิเคราะห์แจ้งเตือนกลุ่มเสี่ยงและรายงานตามมาตรฐาน PDPA
+    </p>
+
+    <div class="cta-group">
+      <a id="launchAppBtn" href="#" target="_blank" rel="noopener" class="btn-launch">
+        🚀 เข้าสู่ระบบสำหรับอาจารย์ (Login / ลงทะเบียน)
+      </a>
+      <a href="../../index.html" class="btn-home">
+        ← กลับหน้า Resource Hub
+      </a>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-card">
+        <span class="f-icon">⚡</span>
+        <h3>Dynamic QR & Real-time</h3>
+        <p>สร้าง QR Code นับถอยหลัง 60 วินาที ล็อกกลุ่มเรียนอัตโนมัติ ป้องกันการส่งลิงก์เช็คชื่อข้ามห้องเรียน</p>
+      </div>
+      <div class="feature-card">
+        <span class="f-icon">📊</span>
+        <h3>Risk Analytics & Alerts</h3>
+        <p>สรุปสถิติรายสัปดาห์และแจ้งเตือนนักศึกษากลุ่มเสี่ยงที่ขาดเรียนหรือมาสายสะสมเกินเกณฑ์ทันที</p>
+      </div>
+      <div class="feature-card">
+        <span class="f-icon">🛡️</span>
+        <h3>PDPA & Multi-Tenant</h3>
+        <p>แยกไฟล์ฐานข้อมูลอิสระรายอาจารย์ รองรับการนำเข้า Excel/CSV และส่งออกรายงานฉบับซ่อนชื่อตามหลัก PDPA</p>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      Developed by Asst. Prof. Dr. Waiwit Chanwimalueng • Information Technology
+    </div>
+  </div>
+
+  <script>
+    // 👇 นำลิงก์ Web App (/exec) ของ Google Apps Script มาวางใส่ในเครื่องหมายคำพูดด้านล่างนี้
+    const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbziEaGs0kMjqE6wvNJgqo8r93A8R3RZi70ZiijOYL9Ae3MxFXHUYrLhb4l94x9VaT4o/exec";
+
+    document.getElementById('launchAppBtn').href = GAS_WEB_APP_URL;
+  </script>
+</body>
+</html>
