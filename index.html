@@ -1,8 +1,6 @@
-<!--   394   v9
+<!--   354   v10
 https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec
-const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
 -->
-
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -30,10 +28,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       border: 1.5px solid rgba(255, 255, 255, 0.9);
       box-shadow: 0 18px 40px rgba(0, 0, 0, 0.05);
     }
-    .profile-blend {
-      -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
-      mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
-    }
     .fade-slide { transition: opacity 1.2s ease-in-out; }
     .page-section { animation: fadeInPage 0.25s ease-out; }
     @keyframes fadeInPage {
@@ -41,8 +35,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       to { opacity: 1; transform: translateY(0); }
     }
     .app-ready-transition { transition: opacity 0.35s ease-in-out; }
-
-    /* CV Page Specific Styles */
     .cv-hidden-item { display: none !important; }
   </style>
 </head>
@@ -216,11 +208,11 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
         
         <!-- คอลัมน์ซ้าย: Sticky Profile Card -->
         <aside class="lg:col-span-4 lg:sticky lg:top-8 bento-card rounded-[32px] p-6 sm:p-7 space-y-5">
-          <div class="w-full aspect-[4/5] rounded-2xl overflow-hidden bg-zinc-200/80 relative">
-            <img id="cv-profile-img" src="" class="w-full h-full object-cover object-top hidden" alt="ผศ.ดร.ไววิทย์ จันทร์วิเมลือง">
+          <!-- กรอบสไลด์โชว์รูปโปรไฟล์ (รองรับหลายภาพสลับอัตโนมัติ) -->
+          <div id="cv-profile-slider" class="w-full aspect-[3/4] rounded-2xl overflow-hidden bg-zinc-200/80 relative">
             <div id="cv-profile-placeholder" class="w-full h-full flex flex-col items-center justify-center text-zinc-400 p-6 text-center">
               <i data-lucide="user-check" class="w-12 h-12 mb-2 opacity-50"></i>
-              <span class="text-[11px] font-semibold">วางลิงก์รูปภาพในแถว PROFILE_IMG ของแท็บ CV</span>
+              <span class="text-[11px] font-semibold">วางลิงก์รูปภาพในแท็บ 2_Home_Page หรือแถว PROFILE_IMG ของแท็บ CV</span>
             </div>
           </div>
 
@@ -246,18 +238,8 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
             </div>
           </div>
 
-          <!-- ลิงก์ฐานข้อมูลวิชาการ -->
-          <div class="pt-3 border-t border-zinc-200/80 flex flex-wrap gap-2">
-            <a href="https://scholar.google.com" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white border border-zinc-200 text-[11px] font-bold text-zinc-700 transition">
-              Google Scholar ↗
-            </a>
-            <a href="https://orcid.org" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white border border-zinc-200 text-[11px] font-bold text-zinc-700 transition">
-              ORCID ↗
-            </a>
-            <a id="cv-meb-link" href="https://www.mebmarket.com" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white border border-zinc-200 text-[11px] font-bold text-zinc-700 transition">
-              MEB Author ↗
-            </a>
-          </div>
+          <!-- ลิงก์ฐานข้อมูลวิชาการ (จัดการเพิ่ม/ลบเองได้จากแถว LINK ในแท็บ CV) -->
+          <div id="cv-external-links" class="pt-3 border-t border-zinc-200/80 flex flex-wrap gap-2"></div>
 
           <!-- ปุ่มดาวน์โหลด Executive Bio PDF (ซ่อนอัตโนมัติหากไม่มีลิงก์) -->
           <a id="cv-download-btn" href="#" target="_blank" class="hidden w-full py-3 rounded-full bg-zinc-900 hover:bg-zinc-700 text-white text-xs font-extrabold uppercase tracking-wider text-center shadow-sm transition flex items-center justify-center gap-2">
@@ -393,10 +375,11 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
   <script>
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
 
-    const CACHE_KEY = 'wwc_resource_hub_cache_v9';
+    const CACHE_KEY = 'wwc_resource_hub_cache_v10';
     const HIT_SESSION_KEY = 'wwc_visited_session';
     lucide.createIcons();
 
+    let slideTimer = null;
     let bookCardBtnText = 'Buy on MEB →';
     let projCardBtnText = 'เปิดใช้งานระบบ →';
     let allProjects = [];
@@ -585,8 +568,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       if (g.meb_store_url) {
         const storeBtn = document.getElementById('meb-store-btn');
         if (storeBtn) storeBtn.href = g.meb_store_url;
-        const cvMeb = document.getElementById('cv-meb-link');
-        if (cvMeb) cvMeb.href = g.meb_store_url;
       }
 
       allProjects = data.projects || [];
@@ -594,31 +575,71 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       filterHubProjects();
       renderBooks(data.books || []);
       renderSchedule(data.schedule || []);
-      renderCvDetails(data.cvDetails || [], h);
+      renderCvDetails(data.cvDetails || [], h, g);
       lucide.createIcons();
     }
 
-    function renderCvDetails(cvDetails, homeData) {
-      // 1. รูปโปรไฟล์หน้า CV (ดึงจาก PROFILE_IMG ในแท็บ CV ก่อน ถ้าไม่มีให้สำรองจาก profile_img_1 ในแท็บ 2_Home_Page)
-      const imgRow = cvDetails.find(d => d.section === 'PROFILE_IMG');
-      const finalImgUrl = (imgRow && imgRow.link) ? imgRow.link : (homeData.profile_img_1 || '');
-      const cvImg = document.getElementById('cv-profile-img');
-      const cvPlaceholder = document.getElementById('cv-profile-placeholder');
-      if (finalImgUrl && cvImg) {
-        cvImg.src = finalImgUrl;
-        cvImg.classList.remove('hidden');
-        if (cvPlaceholder) cvPlaceholder.classList.add('hidden');
+    function renderCvDetails(cvDetails, homeData, globalData) {
+      // 1. รวมรูปภาพทั้งหมดสำหรับ Slideshow (จากแถว PROFILE_IMG ในแท็บ CV + profile_img_1,2,3 ในแท็บ 2_Home_Page)
+      const cvSheetImgs = cvDetails
+        .filter(d => d.section === 'PROFILE_IMG' && d.link)
+        .map(d => d.link);
+      const homeImgs = [homeData.profile_img_1, homeData.profile_img_2, homeData.profile_img_3].filter(Boolean);
+      const allProfImgs = Array.from(new Set([...cvSheetImgs, ...homeImgs]));
+
+      const slider = document.getElementById('cv-profile-slider');
+      if (allProfImgs.length > 0 && slider) {
+        slider.innerHTML = allProfImgs.map((url, i) => `
+          <img src="${url}" class="cv-prof-slide fade-slide absolute inset-0 w-full h-full object-cover object-top ${i === 0 ? 'opacity-100' : 'opacity-0'}" alt="ผศ.ดร.ไววิทย์ จันทร์วิเมลือง">
+        `).join('');
+
+        if (slideTimer) clearInterval(slideTimer);
+        if (allProfImgs.length > 1) {
+          let cur = 0;
+          const slides = slider.querySelectorAll('.cv-prof-slide');
+          slideTimer = setInterval(() => {
+            slides[cur].classList.replace('opacity-100', 'opacity-0');
+            cur = (cur + 1) % slides.length;
+            slides[cur].classList.replace('opacity-0', 'opacity-100');
+          }, 4500);
+        }
       }
 
-      // 2. ปุ่มดาวน์โหลด Executive Bio PDF (แสดงเฉพาะเมื่อใส่ลิงก์ในแถว BIO_PDF)
+      // 2. ปุ่มลิงก์ด้านล่างรูป (ดึงจากแถว Section = LINK ในแท็บ CV สามารถเพิ่ม/ลบเองได้จาก Sheets)
+      const extLinkRows = cvDetails.filter(d => d.section === 'LINK' && d.title && d.link);
+      const linkBox = document.getElementById('cv-external-links');
+      if (linkBox) {
+        if (extLinkRows.length > 0) {
+          linkBox.classList.remove('hidden');
+          linkBox.innerHTML = extLinkRows.map(item => `
+            <a href="${item.link}" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white border border-zinc-200 text-[11px] font-bold text-zinc-700 transition">
+              ${item.title} ↗
+            </a>
+          `).join('');
+        } else {
+          // ค่าเริ่มต้นกรณีผู้ใช้ยังไม่ได้สร้างแถว LINK ในแท็บ CV (สามารถลบออกได้ทันทีเมื่อเพิ่มแถว LINK ใน Sheets)
+          linkBox.classList.remove('hidden');
+          const mebUrl = globalData.meb_store_url || 'https://www.mebmarket.com';
+          linkBox.innerHTML = `
+            <a href="https://scholar.google.com" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white border border-zinc-200 text-[11px] font-bold text-zinc-700 transition">Google Scholar ↗</a>
+            <a href="${mebUrl}" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white border border-zinc-200 text-[11px] font-bold text-zinc-700 transition">MEB Author ↗</a>
+          `;
+        }
+      }
+
+      // 3. ปุ่มดาวน์โหลด Executive Bio PDF (แสดงเฉพาะเมื่อใส่ลิงก์ในแถว BIO_PDF)
       const bioRow = cvDetails.find(d => d.section === 'BIO_PDF');
       const dlBtn = document.getElementById('cv-download-btn');
-      if (bioRow && bioRow.link && dlBtn) {
-        dlBtn.href = bioRow.link;
-        dlBtn.classList.remove('hidden');
+      if (dlBtn) {
+        if (bioRow && bioRow.link) {
+          dlBtn.href = bioRow.link;
+          dlBtn.classList.remove('hidden');
+        } else {
+          dlBtn.classList.add('hidden');
+        }
       }
 
-      // 3. แยกข้อมูลแต่ละหมวด (เรียงรายการล่าสุดขึ้นก่อนด้วย .reverse())
+      // 4. แยกข้อมูลแต่ละหมวด (เรียงรายการล่าสุดขึ้นก่อนด้วย .reverse())
       const roleAdmin = cvDetails.filter(d => d.section === 'ROLE_ADMIN').reverse();
       const roleReviewer = cvDetails.filter(d => d.section === 'ROLE_REVIEWER').reverse();
       const pubs = cvDetails.filter(d => d.section === 'PUB_BOOK' || d.section === 'PUB_RESEARCH').reverse();
@@ -636,7 +657,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       const container = document.getElementById(containerId);
       if (!container) return;
 
-      // ลบปุ่ม "ดูทั้งหมด" เดิมออกก่อนถ้ามี
       const oldBtn = container.parentElement.querySelector('.cv-btn-more');
       if (oldBtn) oldBtn.remove();
 
