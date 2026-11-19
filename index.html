@@ -1,7 +1,8 @@
-<!--   354   v8
+<!--   394   v9
 https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec
 const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
 -->
+
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -40,162 +41,10 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       to { opacity: 1; transform: translateY(0); }
     }
     .app-ready-transition { transition: opacity 0.35s ease-in-out; }
+
+    /* CV Page Specific Styles */
+    .cv-hidden-item { display: none !important; }
   </style>
-
-<!-- START: CV PAGE STYLES -->
-<style>
-  .cv-wrapper {
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem 4rem;
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 2.5rem;
-    align-items: start;
-    color: #1f2937;
-  }
-  @media (max-width: 860px) {
-    .cv-wrapper { grid-template-columns: 1fr; gap: 2rem; }
-  }
-  .cv-sidebar {
-    position: sticky;
-    top: 2rem;
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 20px;
-    padding: 1.75rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-  }
-  .cv-avatar {
-    width: 100%;
-    aspect-ratio: 4/5;
-    object-fit: cover;
-    border-radius: 14px;
-    background: #f3f4f6;
-    margin-bottom: 1.25rem;
-  }
-  .cv-name-th { font-size: 1.15rem; font-weight: 700; color: #111827; margin: 0 0 0.25rem; }
-  .cv-name-en { font-size: 0.85rem; color: #6b7280; margin: 0 0 1rem; }
-  .cv-pills { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
-  .cv-pill {
-    font-size: 0.72rem;
-    font-weight: 500;
-    background: #f3f4f6;
-    color: #374151;
-    padding: 0.3rem 0.65rem;
-    border-radius: 999px;
-  }
-  .cv-academic-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    padding-top: 1rem;
-    border-top: 1px solid #f3f4f6;
-  }
-  .cv-ext-link {
-    font-size: 0.78rem;
-    color: #374151;
-    text-decoration: none;
-    border: 1px solid #e5e7eb;
-    padding: 0.35rem 0.75rem;
-    border-radius: 999px;
-    transition: all 0.2s;
-  }
-  .cv-ext-link:hover { background: #111827; color: #ffffff; border-color: #111827; }
-  .cv-btn-download {
-    display: none;
-    width: 100%;
-    text-align: center;
-    margin-top: 1.25rem;
-    padding: 0.7rem 1rem;
-    background: #111827;
-    color: #ffffff;
-    font-size: 0.85rem;
-    font-weight: 600;
-    border-radius: 999px;
-    text-decoration: none;
-    box-sizing: border-box;
-  }
-  .cv-section {
-    background: #ffffff;
-    border: 1px solid #e5e7eb;
-    border-radius: 20px;
-    padding: 1.75rem 2rem;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-  }
-  .cv-sec-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    border-bottom: 1px solid #f3f4f6;
-    padding-bottom: 0.75rem;
-    margin-bottom: 1.25rem;
-  }
-  .cv-sec-title { font-size: 1.1rem; font-weight: 700; color: #111827; margin: 0; }
-  .cv-sec-sub { font-size: 0.8rem; color: #9ca3af; }
-  .cv-list { list-style: none; padding: 0; margin: 0; }
-  .cv-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 0.85rem 0;
-    border-bottom: 1px dashed #f3f4f6;
-  }
-  .cv-item:last-child { border-bottom: none; padding-bottom: 0; }
-  .cv-item-title { font-size: 0.95rem; font-weight: 600; color: #1f2937; margin: 0 0 0.2rem; line-height: 1.45; }
-  .cv-item-org { font-size: 0.84rem; color: #6b7280; margin: 0; }
-  .cv-badge-year {
-    flex-shrink: 0;
-    font-size: 0.75rem;
-    font-weight: 600;
-    background: #f3f4f6;
-    color: #374151;
-    padding: 0.25rem 0.65rem;
-    border-radius: 999px;
-  }
-  .cv-grid-cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1rem;
-  }
-  .cv-pub-card {
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    border-radius: 14px;
-    padding: 1.15rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-  }
-  .cv-pub-tag { font-size: 0.7rem; font-weight: 700; color: #4b5563; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 0.4rem; }
-  .cv-pub-link {
-    display: inline-block;
-    margin-top: 0.85rem;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: #111827;
-    text-decoration: none;
-  }
-  .cv-hidden-item { display: none !important; }
-  .cv-btn-more {
-    margin-top: 1rem;
-    background: #f9fafb;
-    border: 1px solid #e5e7eb;
-    color: #374151;
-    font-size: 0.82rem;
-    font-weight: 600;
-    padding: 0.5rem 1rem;
-    border-radius: 999px;
-    cursor: pointer;
-    width: 100%;
-  }
-  .cv-btn-more:hover { background: #f3f4f6; }
-</style>
-<!-- END: CV PAGE STYLES -->
-
-
 </head>
 <body class="min-h-screen flex flex-col justify-between overflow-x-hidden selection:bg-zinc-900 selection:text-white">
 
@@ -360,83 +209,113 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
     </main>
 
     <!-- ======================================================================= -->
-    <!-- 4. หน้าประวัติ รูปถ่าย และผลงานวิชาการ (ABOUT & CV PAGE) : แก้ไขทั้งหมด จาก Main ถึง /Main -->
+    <!-- 4. หน้าประวัติ รูปถ่าย และผลงานวิชาการ (ABOUT & CV PAGE - CURATED) -->
     <!-- ======================================================================= -->
-
-
-    <main id="page-about" class="page-section hidden w-full flex-1">
-      <div class="cv-wrapper">
-        <!-- คอลัมน์ซ้าย: ข้อมูลหลัก -->
-        <aside class="cv-sidebar">
-          <img id="cv-profile-img" class="cv-avatar" src="" alt="ผศ.ดร.ไววิทย์ จันทร์วิเมลือง">
-          <h2 class="cv-name-th">ผศ.ดร.ไววิทย์ จันทร์วิเมลือง</h2>
-          <p class="cv-name-en">Asst. Prof. Dr. Waiwit Chanwimalueng</p>
-
-          <div class="cv-pills">
-            <span class="cv-pill">UX/UI Design</span>
-            <span class="cv-pill">HCI</span>
-            <span class="cv-pill">AI for UX</span>
-            <span class="cv-pill">Information Systems</span>
-            <span class="cv-pill">Computer Networks</span>
+    <main id="page-about" class="page-section hidden max-w-6xl w-full mx-auto px-6 py-8 flex-1">
+      <div class="grid lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- คอลัมน์ซ้าย: Sticky Profile Card -->
+        <aside class="lg:col-span-4 lg:sticky lg:top-8 bento-card rounded-[32px] p-6 sm:p-7 space-y-5">
+          <div class="w-full aspect-[4/5] rounded-2xl overflow-hidden bg-zinc-200/80 relative">
+            <img id="cv-profile-img" src="" class="w-full h-full object-cover object-top hidden" alt="ผศ.ดร.ไววิทย์ จันทร์วิเมลือง">
+            <div id="cv-profile-placeholder" class="w-full h-full flex flex-col items-center justify-center text-zinc-400 p-6 text-center">
+              <i data-lucide="user-check" class="w-12 h-12 mb-2 opacity-50"></i>
+              <span class="text-[11px] font-semibold">วางลิงก์รูปภาพในแถว PROFILE_IMG ของแท็บ CV</span>
+            </div>
           </div>
 
-          <div class="cv-academic-links">
-            <a href="https://scholar.google.com" target="_blank" class="cv-ext-link">Google Scholar</a>
-            <a href="https://orcid.org" target="_blank" class="cv-ext-link">ORCID</a>
-            <a href="https://www.mebmarket.com" target="_blank" class="cv-ext-link">MEB Author</a>
+          <div class="space-y-1">
+            <span class="inline-block px-3 py-1 rounded-full bg-zinc-900 text-white text-[9px] font-extrabold uppercase tracking-widest mb-1">
+              ACADEMIC PROFILE
+            </span>
+            <h2 class="text-xl font-extrabold text-zinc-900 leading-snug">ผศ.ดร.ไววิทย์ จันทร์วิเมลือง</h2>
+            <p id="about-name-heading" class="text-xs font-semibold text-zinc-500">Asst. Prof. Dr. Waiwit Chanwimalueng</p>
           </div>
 
-          <a id="cv-download-btn" href="#" target="_blank" class="cv-btn-download">
-            Download Executive Bio (PDF)
+          <p id="about-bio" class="text-xs text-zinc-600 leading-relaxed"></p>
+
+          <!-- ป้ายความเชี่ยวชาญ -->
+          <div class="space-y-2 pt-1">
+            <p class="text-[10px] font-extrabold uppercase tracking-wider text-zinc-400">Areas of Expertise</p>
+            <div class="flex flex-wrap gap-1.5">
+              <span class="px-3 py-1 rounded-full bg-white/90 border border-zinc-200/80 text-[11px] font-bold text-zinc-700">UX/UI Design</span>
+              <span class="px-3 py-1 rounded-full bg-white/90 border border-zinc-200/80 text-[11px] font-bold text-zinc-700">HCI</span>
+              <span class="px-3 py-1 rounded-full bg-white/90 border border-zinc-200/80 text-[11px] font-bold text-zinc-700">AI for UX</span>
+              <span class="px-3 py-1 rounded-full bg-white/90 border border-zinc-200/80 text-[11px] font-bold text-zinc-700">Information Systems</span>
+              <span class="px-3 py-1 rounded-full bg-white/90 border border-zinc-200/80 text-[11px] font-bold text-zinc-700">Computer Networks</span>
+            </div>
+          </div>
+
+          <!-- ลิงก์ฐานข้อมูลวิชาการ -->
+          <div class="pt-3 border-t border-zinc-200/80 flex flex-wrap gap-2">
+            <a href="https://scholar.google.com" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white border border-zinc-200 text-[11px] font-bold text-zinc-700 transition">
+              Google Scholar ↗
+            </a>
+            <a href="https://orcid.org" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white border border-zinc-200 text-[11px] font-bold text-zinc-700 transition">
+              ORCID ↗
+            </a>
+            <a id="cv-meb-link" href="https://www.mebmarket.com" target="_blank" class="px-3.5 py-1.5 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white border border-zinc-200 text-[11px] font-bold text-zinc-700 transition">
+              MEB Author ↗
+            </a>
+          </div>
+
+          <!-- ปุ่มดาวน์โหลด Executive Bio PDF (ซ่อนอัตโนมัติหากไม่มีลิงก์) -->
+          <a id="cv-download-btn" href="#" target="_blank" class="hidden w-full py-3 rounded-full bg-zinc-900 hover:bg-zinc-700 text-white text-xs font-extrabold uppercase tracking-wider text-center shadow-sm transition flex items-center justify-center gap-2">
+            <i data-lucide="file-down" class="w-4 h-4"></i> Download Executive Bio (PDF)
           </a>
         </aside>
 
-        <!-- คอลัมน์ขวา: รายละเอียดวิชาการ -->
-        <div class="cv-main">
-          <section class="cv-section">
-            <div class="cv-sec-header">
-              <h3 class="cv-sec-title">Academic Roles & Appointments</h3>
-              <span class="cv-sec-sub">ตำแหน่งและคณะกรรมการ</span>
+        <!-- คอลัมน์ขวา: รายละเอียดทางวิชาการ 5 หมวด -->
+        <div class="lg:col-span-8 space-y-6">
+          
+          <!-- 1. ตำแหน่งและคณะกรรมการบริหาร -->
+          <section class="bento-card rounded-[30px] p-6 sm:p-7">
+            <div class="flex items-baseline justify-between border-b border-zinc-200/80 pb-3.5 mb-4">
+              <h3 class="text-base sm:text-lg font-extrabold text-zinc-900">Academic Roles & Appointments</h3>
+              <span class="text-xs font-semibold text-zinc-400">ตำแหน่งและคณะกรรมการ</span>
             </div>
-            <ul id="list-role-admin" class="cv-list"></ul>
+            <ul id="list-role-admin" class="divide-y divide-zinc-200/60"></ul>
           </section>
 
-          <section class="cv-section">
-            <div class="cv-sec-header">
-              <h3 class="cv-sec-title">Peer Reviewer & Invited Speaker</h3>
-              <span class="cv-sec-sub">ผู้ทรงคุณวุฒิและวิทยากรรับเชิญ</span>
+          <!-- 2. ผู้ทรงคุณวุฒิและวิทยากรรับเชิญ -->
+          <section class="bento-card rounded-[30px] p-6 sm:p-7">
+            <div class="flex items-baseline justify-between border-b border-zinc-200/80 pb-3.5 mb-4">
+              <h3 class="text-base sm:text-lg font-extrabold text-zinc-900">Peer Reviewer & Invited Speaker</h3>
+              <span class="text-xs font-semibold text-zinc-400">ผู้ทรงคุณวุฒิและวิทยากร</span>
             </div>
-            <ul id="list-role-reviewer" class="cv-list"></ul>
+            <ul id="list-role-reviewer" class="divide-y divide-zinc-200/60"></ul>
           </section>
 
-          <section class="cv-section">
-            <div class="cv-sec-header">
-              <h3 class="cv-sec-title">Selected Books & Publications</h3>
-              <span class="cv-sec-sub">ตำราและผลงานวิจัย</span>
+          <!-- 3. ตำราและผลงานวิจัยคัดสรร -->
+          <section class="bento-card rounded-[30px] p-6 sm:p-7">
+            <div class="flex items-baseline justify-between border-b border-zinc-200/80 pb-3.5 mb-4">
+              <h3 class="text-base sm:text-lg font-extrabold text-zinc-900">Selected Books & Publications</h3>
+              <span class="text-xs font-semibold text-zinc-400">ตำราและผลงานวิจัย</span>
             </div>
-            <div id="grid-publications" class="cv-grid-cards"></div>
+            <div id="grid-publications" class="grid sm:grid-cols-2 gap-4"></div>
           </section>
 
-          <section class="cv-section">
-            <div class="cv-sec-header">
-              <h3 class="cv-sec-title">Education</h3>
-              <span class="cv-sec-sub">ประวัติการศึกษา</span>
+          <!-- 4. ประวัติการศึกษา -->
+          <section class="bento-card rounded-[30px] p-6 sm:p-7">
+            <div class="flex items-baseline justify-between border-b border-zinc-200/80 pb-3.5 mb-4">
+              <h3 class="text-base sm:text-lg font-extrabold text-zinc-900">Education</h3>
+              <span class="text-xs font-semibold text-zinc-400">ประวัติการศึกษา</span>
             </div>
-            <ul id="list-edu" class="cv-list"></ul>
+            <ul id="list-edu" class="divide-y divide-zinc-200/60"></ul>
           </section>
 
-          <section class="cv-section">
-            <div class="cv-sec-header">
-              <h3 class="cv-sec-title">Honors & Certifications</h3>
-              <span class="cv-sec-sub">ประกาศนียบัตรและรางวัล</span>
+          <!-- 5. รางวัลและประกาศนียบัตรสำคัญ -->
+          <section class="bento-card rounded-[30px] p-6 sm:p-7">
+            <div class="flex items-baseline justify-between border-b border-zinc-200/80 pb-3.5 mb-4">
+              <h3 class="text-base sm:text-lg font-extrabold text-zinc-900">Honors & Certifications</h3>
+              <span class="text-xs font-semibold text-zinc-400">ประกาศนียบัตรและรางวัล</span>
             </div>
-            <ul id="list-cert" class="cv-list"></ul>
+            <ul id="list-cert" class="divide-y divide-zinc-200/60"></ul>
           </section>
+
         </div>
       </div>
     </main>
-
-
 
     <!-- ======================================================================= -->
     <!-- 5. หน้าติดต่อประสานงาน (CONTACT PAGE) -->
@@ -512,14 +391,12 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
 
   <!-- ================= SCRIPT เชื่อมต่อ GOOGLE SHEETS & SPA ROUTER ================= -->
   <script>
-    // 📌 วางลิงก์ Web App URL (ที่ลงท้ายด้วย /exec) จาก Google Apps Script ตรงนี้ครับ:
     const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHBg-pkmDW76TvHvkPSxxAafbwqI1ZV-PJEPdWLhWTdTaxPeojAhg/exec';
 
-    const CACHE_KEY = 'wwc_resource_hub_cache_v7';
+    const CACHE_KEY = 'wwc_resource_hub_cache_v9';
     const HIT_SESSION_KEY = 'wwc_visited_session';
     lucide.createIcons();
 
-    let slideTimer = null;
     let bookCardBtnText = 'Buy on MEB →';
     let projCardBtnText = 'เปิดใช้งานระบบ →';
     let allProjects = [];
@@ -594,7 +471,8 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       const target = validPages.includes(pageId) ? pageId : 'home';
 
       validPages.forEach(p => {
-        document.getElementById('page-' + p).classList.toggle('hidden', p !== target);
+        const pageEl = document.getElementById('page-' + p);
+        if (pageEl) pageEl.classList.toggle('hidden', p !== target);
         const navEl = document.getElementById('nav-' + p);
         if (navEl) {
           navEl.className = (p === target)
@@ -608,7 +486,8 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
         btn.className = isAct ? 'nav-link-m px-3 py-1 rounded-full bg-zinc-900 text-white' : 'nav-link-m px-3 py-1 rounded-full bg-white/70';
       });
 
-      document.getElementById('footer-giant-wrap').classList.toggle('hidden', target !== 'home');
+      const giantWrap = document.getElementById('footer-giant-wrap');
+      if (giantWrap) giantWrap.classList.toggle('hidden', target !== 'home');
       try { history.replaceState(null, null, '#' + target); } catch (e) {}
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -681,24 +560,8 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       setText('about-bio', h.hero_bio);
       setText('h-bento-badge', h.bento_badge);
 
-      setText('h-stat1-num', h.stat_1_num);
-      setText('h-stat1-desc', h.stat_1_desc);
-      setText('h-stat2-num', h.stat_2_num);
-      setText('h-stat2-desc', h.stat_2_desc);
-      setText('h-circle-top', h.circle_top_text);
-      setText('h-circle-mid', h.circle_mid_text);
-      setText('h-circle-bot', h.circle_bot_text);
-      setText('h-tag-1', h.float_tag_1);
-      setText('h-tag-2', h.float_tag_2);
-      setText('h-tag-3', h.float_tag_3);
-      setText('h-float-name', h.float_name);
       setText('about-name-heading', h.float_name);
       setText('c-card-name', h.float_name);
-      setText('h-float-role', h.float_role);
-
-      setText('cv-ban-1a', g.cv_banner_1);
-      setText('cv-ban-1b', g.cv_banner_1);
-      setText('cv-ban-2', g.cv_banner_2);
 
       setText('b-title-1', g.books_title_1);
       setText('b-title-2', g.books_title_2);
@@ -715,34 +578,142 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       setText('c-location', g.contact_location);
       setText('c-card-sub', g.contact_card_sub);
       setText('c-mailto-btn', g.contact_btn_text);
-      if (g.contact_email) document.getElementById('c-mailto-btn').href = 'mailto:' + g.contact_email;
-      if (g.meb_store_url) document.getElementById('meb-store-btn').href = g.meb_store_url;
-
-      const profImgs = [h.profile_img_1, h.profile_img_2, h.profile_img_3].filter(Boolean);
-      if (profImgs.length > 0) {
-        const slider = document.getElementById('profile-slider');
-        slider.classList.remove('bg-zinc-300/40');
-        slider.innerHTML = profImgs.map((url, i) => `
-          <img src="${url}" class="prof-slide fade-slide absolute inset-0 w-full h-full object-cover object-top ${i === 0 ? 'opacity-100' : 'opacity-0'}" alt="Profile">
-        `).join('');
-        if (slideTimer) clearInterval(slideTimer);
-        if (profImgs.length > 1) {
-          let cur = 0;
-          const slides = slider.querySelectorAll('.prof-slide');
-          slideTimer = setInterval(() => {
-            slides[cur].classList.replace('opacity-100', 'opacity-0');
-            cur = (cur + 1) % slides.length;
-            slides[cur].classList.replace('opacity-0', 'opacity-100');
-          }, 4500);
-        }
+      if (g.contact_email) {
+        const mailBtn = document.getElementById('c-mailto-btn');
+        if (mailBtn) mailBtn.href = 'mailto:' + g.contact_email;
+      }
+      if (g.meb_store_url) {
+        const storeBtn = document.getElementById('meb-store-btn');
+        if (storeBtn) storeBtn.href = g.meb_store_url;
+        const cvMeb = document.getElementById('cv-meb-link');
+        if (cvMeb) cvMeb.href = g.meb_store_url;
       }
 
       allProjects = data.projects || [];
       buildCategoryFilters(allProjects);
       filterHubProjects();
       renderBooks(data.books || []);
-      renderCV(data.cvList || []);
       renderSchedule(data.schedule || []);
+      renderCvDetails(data.cvDetails || [], h);
+      lucide.createIcons();
+    }
+
+    function renderCvDetails(cvDetails, homeData) {
+      // 1. รูปโปรไฟล์หน้า CV (ดึงจาก PROFILE_IMG ในแท็บ CV ก่อน ถ้าไม่มีให้สำรองจาก profile_img_1 ในแท็บ 2_Home_Page)
+      const imgRow = cvDetails.find(d => d.section === 'PROFILE_IMG');
+      const finalImgUrl = (imgRow && imgRow.link) ? imgRow.link : (homeData.profile_img_1 || '');
+      const cvImg = document.getElementById('cv-profile-img');
+      const cvPlaceholder = document.getElementById('cv-profile-placeholder');
+      if (finalImgUrl && cvImg) {
+        cvImg.src = finalImgUrl;
+        cvImg.classList.remove('hidden');
+        if (cvPlaceholder) cvPlaceholder.classList.add('hidden');
+      }
+
+      // 2. ปุ่มดาวน์โหลด Executive Bio PDF (แสดงเฉพาะเมื่อใส่ลิงก์ในแถว BIO_PDF)
+      const bioRow = cvDetails.find(d => d.section === 'BIO_PDF');
+      const dlBtn = document.getElementById('cv-download-btn');
+      if (bioRow && bioRow.link && dlBtn) {
+        dlBtn.href = bioRow.link;
+        dlBtn.classList.remove('hidden');
+      }
+
+      // 3. แยกข้อมูลแต่ละหมวด (เรียงรายการล่าสุดขึ้นก่อนด้วย .reverse())
+      const roleAdmin = cvDetails.filter(d => d.section === 'ROLE_ADMIN').reverse();
+      const roleReviewer = cvDetails.filter(d => d.section === 'ROLE_REVIEWER').reverse();
+      const pubs = cvDetails.filter(d => d.section === 'PUB_BOOK' || d.section === 'PUB_RESEARCH').reverse();
+      const edu = cvDetails.filter(d => d.section === 'EDU');
+      const certs = cvDetails.filter(d => d.section === 'CERT').reverse();
+
+      renderCvList('list-role-admin', roleAdmin, 5);
+      renderCvList('list-role-reviewer', roleReviewer, 5);
+      renderCvList('list-edu', edu, 10);
+      renderCvList('list-cert', certs, 5);
+      renderCvPubGrid('grid-publications', pubs, 6);
+    }
+
+    function renderCvList(containerId, items, limit) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      // ลบปุ่ม "ดูทั้งหมด" เดิมออกก่อนถ้ามี
+      const oldBtn = container.parentElement.querySelector('.cv-btn-more');
+      if (oldBtn) oldBtn.remove();
+
+      if (items.length === 0) {
+        container.innerHTML = `<li class="py-4 text-xs text-zinc-400">ยังไม่มีข้อมูลในหมวดนี้ (เพิ่มได้ในแท็บ CV ของ Google Sheets)</li>`;
+        return;
+      }
+
+      container.innerHTML = items.map((item, index) => `
+        <li class="py-3.5 flex items-start justify-between gap-4 ${index >= limit ? 'cv-hidden-item' : ''}">
+          <div class="space-y-0.5">
+            <p class="text-sm font-bold text-zinc-900 leading-snug">${item.title}</p>
+            ${item.subtitle ? `<p class="text-xs text-zinc-500">${item.subtitle}</p>` : ''}
+          </div>
+          ${item.year ? `<span class="shrink-0 px-3 py-1 rounded-full bg-white/90 border border-zinc-200/80 text-[11px] font-bold text-zinc-700">${item.year}</span>` : ''}
+        </li>
+      `).join('');
+
+      if (items.length > limit) {
+        appendCvToggleButton(container.parentElement, container, items.length - limit);
+      }
+    }
+
+    function renderCvPubGrid(containerId, items, limit) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+
+      const oldBtn = container.parentElement.querySelector('.cv-btn-more');
+      if (oldBtn) oldBtn.remove();
+
+      if (items.length === 0) {
+        container.innerHTML = `<div class="col-span-full py-4 text-xs text-zinc-400">ยังไม่มีข้อมูลตำราหรือผลงานวิจัย (เพิ่มได้ในแท็บ CV ของ Google Sheets)</div>`;
+        return;
+      }
+
+      container.innerHTML = items.map((item, index) => {
+        const typeLabel = item.section === 'PUB_BOOK' ? 'Book / Textbook' : 'Research Article';
+        return `
+          <div class="bg-white/75 border border-white rounded-2xl p-4 flex flex-col justify-between gap-3 shadow-sm ${index >= limit ? 'cv-hidden-item' : ''}">
+            <div class="space-y-1">
+              <span class="inline-block text-[10px] font-extrabold uppercase tracking-wider text-zinc-500">
+                ${typeLabel} ${item.year ? `• ${item.year}` : ''}
+              </span>
+              <p class="text-sm font-bold text-zinc-900 leading-snug">${item.title}</p>
+              ${item.subtitle ? `<p class="text-xs text-zinc-500">${item.subtitle}</p>` : ''}
+            </div>
+            ${item.link ? `
+              <div>
+                <a href="${item.link}" target="_blank" class="inline-flex items-center gap-1 text-xs font-extrabold text-zinc-900 hover:underline">
+                  ดูรายละเอียด / DOI ↗
+                </a>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }).join('');
+
+      if (items.length > limit) {
+        appendCvToggleButton(container.parentElement, container, items.length - limit);
+      }
+    }
+
+    function appendCvToggleButton(sectionEl, scopeEl, hiddenCount) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'cv-btn-more mt-4 w-full py-2.5 rounded-full bg-white/80 hover:bg-zinc-900 hover:text-white border border-zinc-200 text-xs font-bold text-zinc-700 transition';
+      btn.textContent = `ดูทั้งหมด (+${hiddenCount} รายการ)`;
+      let expanded = false;
+
+      btn.onclick = function() {
+        expanded = !expanded;
+        scopeEl.querySelectorAll('.cv-hidden-item').forEach(el => {
+          el.classList.toggle('cv-hidden-item', !expanded);
+        });
+        btn.textContent = expanded ? 'ย่อรายการ' : `ดูทั้งหมด (+${hiddenCount} รายการ)`;
+      };
+      sectionEl.appendChild(btn);
     }
 
     function buildCategoryFilters(projects) {
@@ -818,7 +789,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       const todayTheme = dayThemeMap[todayIdx];
       const todayClasses = schedule.filter(item => parseDayIndex(item.day) === todayIdx);
 
-      // 1. แถบ "คาบสอนวันนี้" บนหน้าแรก
       const banner = document.getElementById('today-classes-banner');
       const todayList = document.getElementById('today-classes-list');
       const dayBadge = document.getElementById('today-day-badge');
@@ -869,7 +839,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
         banner.classList.add('hidden');
       }
 
-      // 2. หน้าตารางสอน & แผนการเรียนรายสัปดาห์ (Accordion + Slide-style Table แบบกระชับ)
       const schedBox = document.getElementById('schedule-list-box');
       if (!schedBox) return;
 
@@ -902,7 +871,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
             </div>
 
             <div class="rounded-xl border border-zinc-300/90 overflow-hidden bg-white shadow-sm">
-              <!-- หัวตารางแบบกระชับ -->
               <div class="hidden sm:grid sm:grid-cols-12 bg-zinc-900 text-white text-[11px] font-extrabold uppercase tracking-wider px-3.5 py-2">
                 <div class="col-span-1 text-center">#</div>
                 <div class="col-span-2">วันที่</div>
@@ -910,7 +878,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
                 <div class="col-span-4">Lab / Activity</div>
               </div>
 
-              <!-- รายการแต่ละสัปดาห์ (ลดระยะบรรทัด py-1.5 ให้พอดีสไลด์) -->
               <div class="divide-y divide-zinc-200/70">
                 ${plan.map(row => {
                   const rowDateObj = parseFlexDate(row.date);
@@ -983,7 +950,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
 
         return `
           <div class="bento-card rounded-3xl border-l-8 ${theme.border} overflow-hidden transition">
-            <!-- ส่วนหัวการ์ดกะทัดรัด -->
             <div onclick="toggleScheduleAccordion(${idx})" class="p-5 sm:p-6 cursor-pointer hover:bg-white/50 transition flex flex-col gap-3">
               <div class="flex items-center justify-between gap-2 flex-wrap">
                 <div class="flex items-center gap-2">
@@ -1010,10 +976,7 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
               </div>
             </div>
 
-            <!-- ส่วนขยายด้านใน -->
             <div id="sched-panel-${idx}" class="hidden px-5 sm:px-6 pb-6 pt-4 border-t border-zinc-200/80 bg-white/40 space-y-5">
-              
-              <!-- คำอธิบายรายวิชา + ปุ่ม Classroom, แบบประเมิน VAK และ แผนการสอน (Syllabus) -->
               <div class="flex flex-col lg:flex-row lg:items-start justify-between gap-4">
                 <div class="space-y-1 max-w-2xl">
                   <p class="text-[11px] font-extrabold uppercase tracking-wider text-zinc-400">คำอธิบายรายวิชา (Course Description)</p>
@@ -1041,7 +1004,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
                 </div>
               </div>
 
-              <!-- กล่องวันสอบ FINAL เด่นพิเศษ -->
               ${c.finalExam ? `
                 <div class="rounded-2xl bg-gradient-to-r from-rose-600 to-orange-500 text-white p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-md">
                   <div class="flex items-center gap-2.5">
@@ -1057,7 +1019,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
                 </div>
               ` : ''}
 
-              <!-- ตารางแผนการเรียนรายสัปดาห์แบบ Slide -->
               ${planTableHtml}
             </div>
           </div>
@@ -1089,21 +1050,6 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       `).join('');
     }
 
-    function renderCV(cvList) {
-      const box = document.getElementById('cv-list-box');
-      if (!box || !cvList.length) return;
-      box.innerHTML = cvList.map(c => `
-        <div class="py-8 grid md:grid-cols-12 gap-4 items-center">
-          <span class="md:col-span-1 text-xs font-extrabold text-zinc-500">${c.no}</span>
-          <h2 class="md:col-span-5 text-2xl sm:text-3xl font-extrabold text-zinc-900 leading-tight">${c.title}</h2>
-          <p class="md:col-span-4 text-xs text-zinc-600 leading-relaxed">${c.desc}</p>
-          <div class="md:col-span-2 flex md:justify-end">
-            <span class="px-5 py-2 rounded-full border border-zinc-500 text-[11px] font-bold text-zinc-800">${c.tag}</span>
-          </div>
-        </div>
-      `).join('');
-    }
-
     function setText(id, val) {
       if (val !== undefined && val !== '') {
         const el = document.getElementById(id);
@@ -1111,112 +1057,5 @@ const GAS_API_URL = 'https://script.google.com/macros/s/AKfycbyG8KRsWwV7GhLgMQHB
       }
     }
   </script>
-
-<!-- START: CV PAGE SCRIPT -->
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    google.script.run.withSuccessHandler(renderCvSection).getCvData();
-  });
-
-  function renderCvSection(data) {
-    if (!data || !data.length) return;
-
-    // 1. ตั้งค่ารูปโปรไฟล์จากแถว PROFILE_IMG ในชีต CV
-    const imgRow = data.find(d => d.section === 'PROFILE_IMG');
-    const cvImg = document.getElementById('cv-profile-img');
-    if (imgRow && imgRow.link && cvImg) {
-      cvImg.src = imgRow.link;
-    }
-
-    // 2. ตั้งค่าปุ่มดาวน์โหลด PDF (แสดงเฉพาะเมื่อมีลิงก์ในแถว BIO_PDF)
-    const bioRow = data.find(d => d.section === 'BIO_PDF');
-    const dlBtn = document.getElementById('cv-download-btn');
-    if (bioRow && bioRow.link && dlBtn) {
-      dlBtn.href = bioRow.link;
-      dlBtn.style.display = 'block';
-    }
-
-    // 3. จัดกลุ่มข้อมูล (เรียงรายการล่าสุดขึ้นก่อนด้วย .reverse())
-    const roleAdmin = data.filter(d => d.section === 'ROLE_ADMIN').reverse();
-    const roleReviewer = data.filter(d => d.section === 'ROLE_REVIEWER').reverse();
-    const pubs = data.filter(d => d.section === 'PUB_BOOK' || d.section === 'PUB_RESEARCH').reverse();
-    const edu = data.filter(d => d.section === 'EDU');
-    const certs = data.filter(d => d.section === 'CERT').reverse();
-
-    renderCvList('list-role-admin', roleAdmin, 5);
-    renderCvList('list-role-reviewer', roleReviewer, 5);
-    renderCvList('list-edu', edu, 10);
-    renderCvList('list-cert', certs, 5);
-    renderCvPubGrid('grid-publications', pubs, 6);
-  }
-
-  function renderCvList(containerId, items, limit) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    container.innerHTML = '';
-
-    items.forEach((item, index) => {
-      const li = document.createElement('li');
-      li.className = 'cv-item' + (index >= limit ? ' cv-hidden-item' : '');
-      li.innerHTML = `
-        <div>
-          <p class="cv-item-title">${item.title}</p>
-          ${item.subtitle ? `<p class="cv-item-org">${item.subtitle}</p>` : ''}
-        </div>
-        ${item.year ? `<span class="cv-badge-year">${item.year}</span>` : ''}
-      `;
-      container.appendChild(li);
-    });
-
-    if (items.length > limit) {
-      appendCvToggleButton(container, items.length - limit);
-    }
-  }
-
-  function renderCvPubGrid(containerId, items, limit) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    container.innerHTML = '';
-
-    items.forEach((item, index) => {
-      const card = document.createElement('div');
-      card.className = 'cv-pub-card' + (index >= limit ? ' cv-hidden-item' : '');
-      const typeLabel = item.section === 'PUB_BOOK' ? 'Book / Textbook' : 'Research Article';
-      card.innerHTML = `
-        <div>
-          <div class="cv-pub-tag">${typeLabel} ${item.year ? `• ${item.year}` : ''}</div>
-          <p class="cv-item-title">${item.title}</p>
-          ${item.subtitle ? `<p class="cv-item-org">${item.subtitle}</p>` : ''}
-        </div>
-        ${item.link ? `<a href="${item.link}" target="_blank" class="cv-pub-link">ดูรายละเอียด / DOI →</a>` : ''}
-      `;
-      container.appendChild(card);
-    });
-
-    if (items.length > limit) {
-      appendCvToggleButton(container.parentElement, items.length - limit, containerId);
-    }
-  }
-
-  function appendCvToggleButton(parentEl, hiddenCount, targetGridId) {
-    const btn = document.createElement('button');
-    btn.className = 'cv-btn-more';
-    btn.innerText = `ดูทั้งหมด (+${hiddenCount} รายการ)`;
-    let expanded = false;
-
-    btn.onclick = function() {
-      expanded = !expanded;
-      const scope = targetGridId ? document.getElementById(targetGridId) : parentEl;
-      const hiddenEls = scope.querySelectorAll('.cv-hidden-item');
-      hiddenEls.forEach(el => {
-        el.style.setProperty('display', expanded ? 'flex' : 'none', 'important');
-      });
-      btn.innerText = expanded ? 'ย่อรายการ' : `ดูทั้งหมด (+${hiddenCount} รายการ)`;
-    };
-    parentEl.appendChild(btn);
-  }
-</script>
-<!-- END: CV PAGE SCRIPT -->
-
 </body>
 </html>
